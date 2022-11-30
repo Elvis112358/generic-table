@@ -1,0 +1,20 @@
+<app-data-grid [data]="inventory">
+    <ng-template [appTableHeader]="inventory" let-header>
+      <th>Item</th>
+      <th>Price</th>
+      <th></th>
+      <th></th>
+    </ng-template>
+    <ng-template [appTableRow]="inventory" let-row>
+      <td>{{ row.name }}</td>
+      <td>{{ row.price | currency: row.currency }}</td>
+      <td>
+        <button *ngIf="row.inStock > 0" (click)="purchaseItem(row.plu)">
+          Buy now
+        </button>
+      </td>
+      <td>
+        <button>Delete</button>
+      </td>
+    </ng-template>
+  </app-data-grid>
