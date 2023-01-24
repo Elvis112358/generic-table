@@ -1,0 +1,23 @@
+<div class="table-wrapper">
+  <div class="header">
+    <div *ngFor="let column of cols" class="header-cell">
+      {{column?.header}}
+    </div>
+
+  </div>
+  <div class="body">
+    <div *ngFor="let column of cols" class="column">
+      <div *ngFor="let rowData of data; let i = index" class="body-cell">
+        {{ $any(rowData)[(column.field)]}}
+      </div>
+    </div>
+  </div>
+  <!-- <div class="body">
+    <ng-template [ngTemplateOutlet]="outlet" [ngOutletContext]="context"></ng-template>
+    <ng-container *ngFor="let column of cols" class="column">
+      <ng-template *ngFor="let rowData of data; let i = index" class="body-cell">
+        {{ $any(rowData)[(column.field)]}}
+      </ng-template>
+    </ng-container>
+  </div> -->
+</div>

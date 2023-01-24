@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Inventory } from '../interfaces/inventory.interface';
+import { User } from '../interfaces/user.interface';
 
 @Component({
   selector: 'app-test-table-example',
   templateUrl: './test-table-example.component.html',
-  styleUrls: ['./test-table-example.component.scss']
+  styleUrls: ['./test-table-example.component.scss'],
 })
 export class TestTableExampleComponent implements OnInit {
   inventory: Inventory[] = [
@@ -34,13 +35,46 @@ export class TestTableExampleComponent implements OnInit {
     },
   ];
 
-  constructor() { }
+  users: User[] = [
+    {
+      name: 'elvis',
+      surname: 'sehic',
+      department: 'dev',
+      age: 29,
+      salary: 500,
+      position: 'junior upper',
+    },
+    {
+      name: 'andi',
+      surname: 'gvozdjar',
+      department: 'dev',
+      age: 26,
+      salary: 500,
+      position: 'medior upper',
+    },
+    {
+      name: 'ilma',
+      surname: 'kazazic',
+      department: 'dev',
+      age: 24,
+      salary: 500,
+      position: 'junior upper',
+    },
+    {
+      name: 'Dzanis',
+      surname: 'brkan',
+      department: 'dev',
+      age: 26,
+      salary: 500,
+      position: 'junior upper',
+    },
+  ];
 
-  ngOnInit(): void {
-  }
-  
+  constructor() {}
+
+  ngOnInit(): void {}
+
   purchaseItem(plu: number) {
     console.log('handle purchase for', plu);
   }
-
 }
