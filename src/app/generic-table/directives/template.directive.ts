@@ -3,14 +3,14 @@ import {
   Input,
   TemplateRef
 } from '@angular/core';
-import { GridTemplates } from '../generic-table.const';
+import { ColumnTemplate, GridTemplates } from '../generic-table.const';
 
 @Directive({
-  selector: '[cpTemplate]'
+  selector: '[template]'
 })
+// directive that turn any element into template (still confused)
 export class TemplateDirective {
-
-  @Input('cpTemplate') type: GridTemplates = GridTemplates.HEADER;
+  @Input('template') type: ColumnTemplate = ColumnTemplate.BODY;
 
   constructor(public templateRef: TemplateRef<any>) { }
 

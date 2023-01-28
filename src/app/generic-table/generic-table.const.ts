@@ -4,21 +4,19 @@ export enum GridTemplates {
   NO_RESULT
 }
 
-export enum ColumnTemplates {
-  BODY_CELL,
-  HEAD_CELL,
+export enum ColumnTemplate {
+  BODY ,
+  HEAD,
 }
 
 export class GridData<Entity> {
-  // dgIndex: number;
-  // isExpandable: boolean;
+  dgIndex: number;
+  isExpandable: boolean;
   data: Entity;
 
-  //, i: number, expandable: boolean
-
-  constructor(data: Entity) {
+  constructor(data: Entity,i: number, expandable: boolean) {
     this.data = data;
-    // this.isExpandable = expandable;
-    // this.dgIndex = i;
+    this.isExpandable = expandable;
+    this.dgIndex = i;
   }
 }

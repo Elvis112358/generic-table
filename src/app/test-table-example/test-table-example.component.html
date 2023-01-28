@@ -3,4 +3,26 @@
   <app-dg-column [field]="'surname'" header="{{ 'Last Name'}}"></app-dg-column>
   <app-dg-column [field]="'age'" header="{{ 'Age'}}"></app-dg-column>
   <app-dg-column [field]="'salary'" header="{{ 'Salary'}}"></app-dg-column>
+  <app-dg-column header="{{ 'Information'}}">
+    <ng-template [template]="ColumnTemplate.BODY" let-rowData="rowData">
+      <div class="info">
+        <p>Employe Age {{rowData.age}}</p>
+        <div>
+
+          <img *ngIf="rowData.name ==='andi'; else other_content"
+            src="https://scontent-sof1-1.xx.fbcdn.net/v/t31.18172-8/15000793_10209473155018640_3707538421257357061_o.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ymAejn4EWXMAX9_RAd1&_nc_ht=scontent-sof1-1.xx&oh=00_AfBQntbw8oaTcFdusCx2S7kVJFr3fD2QbP3k6lOC1SaWpA&oe=63FBB4FE">
+          <ng-template #other_content><img src="https://yt3.ggpht.com/ytc/AMLnZu8yAo2jQ2x5PZodn9sZPLBZnB_QbuOOeP5uwOwxJA=s900-c-k-c0x00ffffff-no-rj"></ng-template>
+        </div>
+      </div>
+    </ng-template>
+  </app-dg-column>
+  <app-dg-column header="{{ 'Action'}}">
+    <ng-template [template]="ColumnTemplate.BODY" let-rowData="rowData">
+      <div class="btn-continer">
+        <button class="test" (click)="seePosition(rowData.position)">
+          See Position
+        </button>
+      </div>
+    </ng-template>
+  </app-dg-column>
 </app-generic-table>

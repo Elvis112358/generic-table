@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ColumnTemplate } from '../generic-table/generic-table.const';
 import { Inventory } from '../interfaces/inventory.interface';
 import { User } from '../interfaces/user.interface';
 
@@ -8,6 +9,7 @@ import { User } from '../interfaces/user.interface';
   styleUrls: ['./test-table-example.component.scss'],
 })
 export class TestTableExampleComponent implements OnInit {
+  ColumnTemplate = ColumnTemplate;
   inventory: Inventory[] = [
     {
       plu: 110,
@@ -74,7 +76,7 @@ export class TestTableExampleComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  purchaseItem(plu: number) {
-    console.log('handle purchase for', plu);
+  seePosition(position:string) {
+    console.log('Position of employee is', position);
   }
 }

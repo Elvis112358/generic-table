@@ -1,23 +1,35 @@
 <div class="table-wrapper">
   <div class="header">
     <div *ngFor="let column of cols" class="header-cell">
-      {{column?.header}}
+      <div class="cell-content-container">
+        <span>
+          {{column?.header}}
+        </span>
+      </div>
     </div>
 
   </div>
   <div class="body">
-    <div *ngFor="let column of cols" class="column">
-      <div *ngFor="let rowData of data; let i = index" class="body-cell">
-        {{ $any(rowData)[(column.field)]}}
+      <div *ngFor="let col of cols let colIndex = index" class="column">
+        <div *ngFor="let rowData of gridData;
+        let i = index;
+        let rowIndex = index;
+        let firstRow = first; let lastRow = last;" class="body-cell">
+          <ng-container *ngIf="col.templateRefs[ColumnTemplate.BODY]">
+            <ng-container *ngTemplateOutlet="
+                        col.templateRefs[ColumnTemplate.BODY];
+                          context: { 'rowData': rowData, 'rowIndex': rowIndex, 'column': col, 'columnIndex': colIndex, 'columns': cols}
+                        "></ng-container>
+
+          </ng-container>
+          <ng-container *ngIf="!col.templateRefs[ColumnTemplate.BODY]">
+            <div class="cell-content-container">
+              <span>
+                {{ $any(rowData)[(col.field)] }}
+              </span>
+            </div>
+          </ng-container>
+        </div>
       </div>
-    </div>
   </div>
-  <!-- <div class="body">
-    <ng-template [ngTemplateOutlet]="outlet" [ngOutletContext]="context"></ng-template>
-    <ng-container *ngFor="let column of cols" class="column">
-      <ng-template *ngFor="let rowData of data; let i = index" class="body-cell">
-        {{ $any(rowData)[(column.field)]}}
-      </ng-template>
-    </ng-container>
-  </div> -->
 </div>

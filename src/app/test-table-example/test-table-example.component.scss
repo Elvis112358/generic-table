@@ -1,0 +1,22 @@
+.btn-continer {
+  height: 100%;
+  flex-direction: column;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    letter-spacing: 1px;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  padding-right: 10px;
+  img {
+    width: 100px;
+    height: 100px;
+  }
+}
