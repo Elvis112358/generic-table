@@ -39,6 +39,7 @@ export class GenericTableComponent <Entity extends object> implements OnInit, Af
   initCols(): void {
     this.cols = this.columnList.toArray();
 
+
     //TODO:
     // Potentialy add console.error if users types wrong field name when implementing table
     //  <app-dg-column [field]="'nameSSSS'" header="{{ 'First Name'}}"></app-dg-column>

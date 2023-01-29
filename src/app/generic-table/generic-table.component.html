@@ -1,35 +1,36 @@
 <div class="table-wrapper">
   <div class="header">
-    <div *ngFor="let column of cols" class="header-cell">
+    <div *ngFor="let col of cols" class="header-cell" [style.width.px]="col.width" [style.min-width.px]="col.minWidth">
       <div class="cell-content-container">
         <span>
-          {{column?.header}}
+          {{col?.header}}
         </span>
       </div>
     </div>
 
   </div>
   <div class="body">
-      <div *ngFor="let col of cols let colIndex = index" class="column">
-        <div *ngFor="let rowData of gridData;
-        let i = index;
-        let rowIndex = index;
-        let firstRow = first; let lastRow = last;" class="body-cell">
-          <ng-container *ngIf="col.templateRefs[ColumnTemplate.BODY]">
-            <ng-container *ngTemplateOutlet="
-                        col.templateRefs[ColumnTemplate.BODY];
-                          context: { $implicit: rowData, 'rowIndex': rowIndex, 'column': col, 'columnIndex': colIndex, 'columns': cols}
-                        "></ng-container>
+    <div *ngFor="let rowData of gridData;
+          let i = index;
+          let rowIndex = index;
+          let firstRow = first; let lastRow = last;" class="row">
+      <div *ngFor="let col of cols let colIndex = index" class="body-cell" [style.width.px]="col.width" [style.min-width.px]="col.minWidth">
+        <ng-container *ngIf="col.templateRefs[ColumnTemplate.BODY]">
 
-          </ng-container>
-          <ng-container *ngIf="!col.templateRefs[ColumnTemplate.BODY]">
-            <div class="cell-content-container">
-              <span>
-                {{ $any(rowData)[(col.field)] }}
-              </span>
-            </div>
-          </ng-container>
-        </div>
+          <ng-container *ngTemplateOutlet="
+                          col.templateRefs[ColumnTemplate.BODY];
+                            context: { $implicit: rowData, 'rowIndex': rowIndex, 'column': col, 'columnIndex': colIndex, 'columns': cols}
+                          "></ng-container>
+
+        </ng-container>
+        <ng-container *ngIf="!col.templateRefs[ColumnTemplate.BODY]">
+          <div class="cell-content-container">
+            <span>
+              {{ $any(rowData)[(col.field)] }}
+            </span>
+          </div>
+        </ng-container>
       </div>
+    </div>
   </div>
-</div>
+  </div>

@@ -15,8 +15,32 @@
   flex-direction: column;
   padding-left: 10px;
   padding-right: 10px;
+
   img {
     width: 100px;
     height: 100px;
+  }
+}
+
+app-generic-table {
+  display: flex;
+  width: 50vw;
+}
+
+$columns: 6;
+
+app-generic-table {
+  ::ng-deep .table-wrapper {
+    @for $i from 1 through $columns {
+      .header-cell:nth-child(#{$i}) {
+        background: mix(#d9d8d7, #d9d8d7, 20% * ($i - 1));
+      }
+    }
+
+    @for $i from 1 through $columns {
+      .body-cell:nth-child(#{$i}) {
+        background: mix(#eaebeb, #ffffff, 20% * ($i - 1));
+      }
+    }
   }
 }

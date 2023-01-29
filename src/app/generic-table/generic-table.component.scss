@@ -1,75 +1,110 @@
 .table-wrapper {
   margin: 20px 10px;
-  .header {
-    min-height: 18px;
-    font-weight: bold;
-    min-width: fit-content;
-    display: flex;
-    border: 3px solid black;
-    height: 45px;
-    font-size: 18px;
-    .header-cell {
-        flex: 1;
-        text-align: center;
-        min-width: 105px;
-        .cell-content-container {
-          height: 100%;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          max-width: calc(100% - 40px);
-          letter-spacing: 1px;
-          cursor: default;
+  width: 100%;
+  display: table;
 
-          >span {
-            opacity: 0.7;
-            text-overflow: ellipsis;
-          }
+  .header {
+    // min-height: 18px;
+    // font-weight: bold;
+    // min-width: fit-content;
+    // display: flex;
+    // border: 3px solid black;
+    // height: 45px;
+    // font-size: 18px;
+    display: table-header-group;
+    background-color: gray;
+    font-weight: bold;
+font-size: 25px;
+
+    .header-cell {
+        // flex: 1;
+        // text-align: center;
+        // min-width: 105px;
+        display: table-cell;
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid black;
+
+      .cell-content-container {
+        // height: 100%;
+        // display: inline-flex;
+        // align-items: center;
+        // justify-content: center;
+        // max-width: calc(100% - 40px);
+        // letter-spacing: 1px;
+        // cursor: default;
+
+        >span {
+          // opacity: 0.7;
+          // text-overflow: ellipsis;
         }
       }
+    }
 
     :not(:last-child) {
-      border-right: 3px solid black;
+      // border-right: 3px solid black;
     }
   }
 
   .body {
-    display: flex;
-    border-bottom: 3px solid black;
-    border-left: 3px solid black;
-    min-width: fit-content;
+    // display: flex;
+    // border-bottom: 3px solid black;
+    // border-left: 3px solid black;
+    // min-width: fit-content;
+    display: table-row-group;
 
-    .column {
-      display: flex;
-      flex-direction: column;
-      flex:1;
+    .row {
+      // display: flex;
+      // flex-direction: column;
+      // flex: 1;
 
-      :not(:last-child) {
-        border-bottom: 3px solid black;
-      }
+      // :not(:last-child) {
+      //   border-bottom: 3px solid black;
+      // }
+      display: table-row;
 
       .body-cell {
-        flex: 1;
+        // flex: 1;
+        // text-align: center;
+        // border-right: 3px solid black;
+        // min-width: 105px;
+        display: table-cell;
         text-align: center;
-        border-right: 3px solid black;
-        min-width: 105px;
-        .cell-content-container {
-          height: 100%;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          max-width: calc(100% - 40px);
-          letter-spacing: 1px;
-          cursor: default;
+        vertical-align: middle;
+        border-bottom: 1px solid black;
 
-          >span {
-            opacity: 0.7;
-            text-overflow: ellipsis;
-          }
+
+        .cell-content-container {
+          // height: 100%;
+          // display: inline-flex;
+          // align-items: center;
+          // justify-content: center;
+          // max-width: calc(100% - 40px);
+          // letter-spacing: 1px;
+          // cursor: default;
+
+          // >span {
+          //   opacity: 0.7;
+          //   text-overflow: ellipsis;
+          // }
         }
       }
 
     }
 
   }
+    // $columns: 6;
+
+    // @for $i from 1 through $columns {
+    //   .body-cell:nth-child(#{$i}) {
+    //     background: mix(#e74c3c, #f1c40f, 20% * ($i - 1));
+    //   }
+    // }
+
+    // @for $i from 1 through $columns {
+    //   .header-cell:nth-child(#{$i}) {
+    //     background: mix(#e74c3c, #e74c3c, 20% * ($i - 1));
+    //   }
+    // }
 }
+

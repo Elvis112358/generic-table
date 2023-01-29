@@ -9,6 +9,8 @@ import { ColumnTemplate } from '../generic-table.const';
 export class ColumnComponent implements AfterContentInit {
   @Input() field: string = '';
   @Input() header: string = '';
+  @Input() width: number = 100;
+  @Input() minWidth: number = 70;
   // add min-with input
   templateRefs: any = {};
   @ContentChildren(TemplateDirective) templates!: QueryList<TemplateDirective>;
