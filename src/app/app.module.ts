@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ColumnComponent } from './generic-table/dg-column/dg-column.component';
+import { TableRowTemplateDirective } from './generic-table/directives/tableRowtemplate.directive';
 import { TemplateDirective } from './generic-table/directives/template.directive';
 import { GenericTableComponent } from './generic-table/generic-table.component';
 import { TestTableExampleComponent } from './test-table-example/test-table-example.component';
@@ -13,7 +14,8 @@ import { TestTableExampleComponent } from './test-table-example/test-table-examp
     TestTableExampleComponent,
     GenericTableComponent,
     ColumnComponent,
-    TemplateDirective
+    TemplateDirective,
+    TableRowTemplateDirective
   ],
   imports: [
     BrowserModule,

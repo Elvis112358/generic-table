@@ -38,7 +38,10 @@ export class GenericTableComponent <Entity extends object> implements OnInit, Af
 
   initCols(): void {
     this.cols = this.columnList.toArray();
-    console.log('this.cols', this.cols);
+
+    //TODO:
+    // Potentialy add console.error if users types wrong field name when implementing table
+    //  <app-dg-column [field]="'nameSSSS'" header="{{ 'First Name'}}"></app-dg-column>
   }
 
   onInputDataChanges(): void {
@@ -49,26 +52,12 @@ export class GenericTableComponent <Entity extends object> implements OnInit, Af
 
       return rowData;
     });
-    console.log('test grid-data',this.gridData);
   }
 
   collectTemplateRefs(): void {
     this.templateList?.toArray().forEach((t: TemplateDirective) => {
-      if (!(this.GridTemplates as any)[t.type]) {
-        console.warn(
-          `Unknown template type: ${t.type}. Possible value/s: ${this.mapToIterable(
-            this.GridTemplates
-          ).join(', ')}.`
-        );
-        return;
-      }
-
       this.templateRefs[t.type] = t.templateRef;
     });
   }
-
-  mapToIterable(o: {[key: string]: any}): Array<any> {
-    return Object.keys(o).map(key => o[key]);
-}
 
 }

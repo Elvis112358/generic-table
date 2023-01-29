@@ -18,7 +18,7 @@
           <ng-container *ngIf="col.templateRefs[ColumnTemplate.BODY]">
             <ng-container *ngTemplateOutlet="
                         col.templateRefs[ColumnTemplate.BODY];
-                          context: { 'rowData': rowData, 'rowIndex': rowIndex, 'column': col, 'columnIndex': colIndex, 'columns': cols}
+                          context: { $implicit: rowData, 'rowIndex': rowIndex, 'column': col, 'columnIndex': colIndex, 'columns': cols}
                         "></ng-container>
 
           </ng-container>

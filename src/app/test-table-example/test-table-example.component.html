@@ -3,8 +3,8 @@
   <app-dg-column [field]="'surname'" header="{{ 'Last Name'}}"></app-dg-column>
   <app-dg-column [field]="'age'" header="{{ 'Age'}}"></app-dg-column>
   <app-dg-column [field]="'salary'" header="{{ 'Salary'}}"></app-dg-column>
-  <app-dg-column header="{{ 'Information'}}">
-    <ng-template [template]="ColumnTemplate.BODY" let-rowData="rowData">
+  <app-dg-column [header]="'Information'">
+    <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData>
       <div class="info">
         <p>Employe Age {{rowData.age}}</p>
         <div>
@@ -16,8 +16,8 @@
       </div>
     </ng-template>
   </app-dg-column>
-  <app-dg-column header="{{ 'Action'}}">
-    <ng-template [template]="ColumnTemplate.BODY" let-rowData="rowData">
+  <app-dg-column [header]="'Action'">
+    <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData>
       <div class="btn-continer">
         <button class="test" (click)="seePosition(rowData.position)">
           See Position
