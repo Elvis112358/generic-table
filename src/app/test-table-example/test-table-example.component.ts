@@ -79,4 +79,8 @@ export class TestTableExampleComponent implements OnInit {
   seePosition(position:string) {
     console.log('Position of employee is', position);
   }
+
+  log(a: any) {
+    console.log("a", a)
+  }
 }

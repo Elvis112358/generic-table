@@ -1,7 +1,5 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChildren, Input, OnInit, QueryList } from '@angular/core';
-import { User } from '../interfaces/user.interface';
+import { AfterContentInit, Component, ContentChildren, Input, OnInit, QueryList } from '@angular/core';
 import { ColumnComponent } from './dg-column/dg-column.component';
-import { TemplateDirective } from './directives/template.directive';
 import { ColumnTemplate, GridTemplates } from './generic-table.const';
 
 @Component({
@@ -9,17 +7,13 @@ import { ColumnTemplate, GridTemplates } from './generic-table.const';
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.scss']
 })
-export class GenericTableComponent <Entity extends object> implements OnInit, AfterContentInit, AfterViewInit{
-
-
+export class GenericTableComponent <Entity extends object> implements OnInit, AfterContentInit {
   @Input() data: Array<Entity> = [];
-  @Input() templateRefs: any = {};
+  @Input() templateRefs: any = {};// type
   cols!: Array<ColumnComponent>;
-  gridData?: Array<any>;
-  @ContentChildren(ColumnComponent)
-  columnList!: QueryList<ColumnComponent>;
-  @ContentChildren(TemplateDirective)
-  templateList!: QueryList<TemplateDirective>;
+  gridData?: Array<any>; // TODO type ovoga?
+  @ContentChildren(ColumnComponent) columnList!: QueryList<ColumnComponent>;
+  // @ContentChildren(TemplateDirective) templateList!: QueryList<TemplateDirective>;
 
   // constants
   readonly GridTemplates = GridTemplates;
@@ -28,21 +22,15 @@ export class GenericTableComponent <Entity extends object> implements OnInit, Af
   ngOnInit(): void {
     this.onInputDataChanges();
   }
+
   ngAfterContentInit() {
     this.initCols();
-    this.collectTemplateRefs();
-  }
-  ngAfterViewInit(): void {
-    this.onInputDataChanges();
+    // this.collectTemplateRefs();
   }
 
   initCols(): void {
     this.cols = this.columnList.toArray();
-
-
-    //TODO:
-    // Potentialy add console.error if users types wrong field name when implementing table
-    //  <app-dg-column [field]="'nameSSSS'" header="{{ 'First Name'}}"></app-dg-column>
+    console.log("cols", this.cols)
   }
 
   onInputDataChanges(): void {
@@ -55,10 +43,11 @@ export class GenericTableComponent <Entity extends object> implements OnInit, Af
     });
   }
 
-  collectTemplateRefs(): void {
-    this.templateList?.toArray().forEach((t: TemplateDirective) => {
-      this.templateRefs[t.type] = t.templateRef;
-    });
-  }
+  // collectTemplateRefs(): void {
+  //   this.templateList?.toArray().forEach((t: TemplateDirective) => {
+  //     console.log("t", t)
+  //     this.templateRefs[t.type] = t.templateRef;
+  //   });
+  // }
 
 }

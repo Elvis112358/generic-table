@@ -9,8 +9,8 @@ import { ColumnTemplate } from '../generic-table.const';
 export class ColumnComponent implements AfterContentInit {
   @Input() field: string = '';
   @Input() header: string = '';
-  @Input() width: number = 100;
-  @Input() minWidth: number = 70;
+  @Input() width?: number;
+  @Input() minWidth?: number;
   // add min-with input
   templateRefs: any = {};
   @ContentChildren(TemplateDirective) templates!: QueryList<TemplateDirective>;
@@ -23,6 +23,5 @@ export class ColumnComponent implements AfterContentInit {
     this.templates.toArray().forEach((t: TemplateDirective) => {
       this.templateRefs[t.type] = t.templateRef ?? ColumnTemplate.BODY;
     });
-    console.log('this.templateRefs', this.templateRefs);
   }
 }
