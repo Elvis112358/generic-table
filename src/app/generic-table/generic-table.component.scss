@@ -1,29 +1,47 @@
+@import 'src/colors.scss';
+// hocemol dodavat font da bude dependency ove tabele??
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+
+// NOTE ostavio sam FLEXaru zakomentarisanu jer sam vidio da i druge custome tabele koriste flex (vjerovatno ima razlog)
 .table-wrapper {
+  background-color: $table-background-color;
+  font-family: 'Roboto';
   margin: 20px 10px;
   width: 100%;
   display: table;
+
+  // DISABLE ALL BORDERS
+  // border-top: 1px solid $border-color;
+  // border-left: 1px solid $border-color;
+  // border-right: 1px solid $border-color;
+
+  font-size: 12px;
 
   .header {
     // min-height: 18px;
     // font-weight: bold;
     // min-width: fit-content;
     // display: flex;
-    // border: 3px solid black;
+    // border: 3px solid $border-color;
     // height: 45px;
     // font-size: 18px;
     display: table-header-group;
-    background-color: gray;
-    font-weight: bold;
-font-size: 25px;
+    font-weight: 600;
 
     .header-cell {
-        // flex: 1;
-        // text-align: center;
-        // min-width: 105px;
-        display: table-cell;
-        padding: 10px;
-        text-align: center;
-        border-bottom: 1px solid black;
+      // flex: 1;
+      // text-align: center;
+      // min-width: 105px;
+      display: table-cell;
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid $border-color;
+
+      &:hover {
+        background-color: $table-cell-hover;
+        font-weight: 900;
+      }
 
       .cell-content-container {
         // height: 100%;
@@ -41,15 +59,16 @@ font-size: 25px;
       }
     }
 
-    :not(:last-child) {
-      // border-right: 3px solid black;
+    .header-cell:not(:last-child) {
+      //DISABLE ALL BORDERS
+      // border-right: 1px solid $border-color;
     }
   }
 
   .body {
     // display: flex;
-    // border-bottom: 3px solid black;
-    // border-left: 3px solid black;
+    // border-bottom: 3px solid $border-color;
+    // border-left: 3px solid $border-color;
     // min-width: fit-content;
     display: table-row-group;
 
@@ -59,19 +78,24 @@ font-size: 25px;
       // flex: 1;
 
       // :not(:last-child) {
-      //   border-bottom: 3px solid black;
+      //   border-bottom: 3px solid $border-color;
       // }
       display: table-row;
 
       .body-cell {
         // flex: 1;
         // text-align: center;
-        // border-right: 3px solid black;
+        // border-right: 3px solid $border-color;
         // min-width: 105px;
         display: table-cell;
         text-align: center;
         vertical-align: middle;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid $border-color;
+        &:hover {
+          background-color: $table-cell-hover;
+          font-weight: 900;
+        }
+
 
 
         .cell-content-container {
@@ -90,21 +114,10 @@ font-size: 25px;
         }
       }
 
+      .body-cell:not(:last-child) {
+        //DISABLE ALL BORDERS
+        // border-right: 1px solid $border-color;
+      }
     }
-
   }
-    // $columns: 6;
-
-    // @for $i from 1 through $columns {
-    //   .body-cell:nth-child(#{$i}) {
-    //     background: mix(#e74c3c, #f1c40f, 20% * ($i - 1));
-    //   }
-    // }
-
-    // @for $i from 1 through $columns {
-    //   .header-cell:nth-child(#{$i}) {
-    //     background: mix(#e74c3c, #e74c3c, 20% * ($i - 1));
-    //   }
-    // }
 }
-

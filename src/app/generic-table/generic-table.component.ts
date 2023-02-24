@@ -14,6 +14,8 @@ export class GenericTableComponent <Entity extends object> implements OnInit, Af
 
   @Input() data: Array<Entity> = [];
   @Input() templateRefs: any = {};
+  // add option to show table borders
+  //  @Input() borders: boolean = false;
   cols!: Array<ColumnComponent>;
   gridData?: Array<any>;
   @ContentChildren(ColumnComponent)
