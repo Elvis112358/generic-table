@@ -1,7 +1,7 @@
 <app-generic-table [data]='users'>
   <app-dg-column [field]="'name'" header="{{ 'First Name'}}" [width]="70" ></app-dg-column>
   <app-dg-column [field]="'surname'" header="{{ 'Last Name'}}" [width]="120"></app-dg-column>
-  <app-dg-column [field]="'age'" header="{{ 'Age'}}" [width]="40" [minWidth]="25"></app-dg-column>
+  <app-dg-column [field]="'age'" header="{{ 'Age'}}" [minWidth]="25"></app-dg-column>
   <app-dg-column [field]="'salary'" header="{{ 'Salary'}}" [width]="40"></app-dg-column>
   <app-dg-column [header]="'Information'" [width]="200">
     <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData>
