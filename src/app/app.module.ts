@@ -7,6 +7,10 @@ import { TableRowTemplateDirective } from './generic-table/directives/tableRowte
 import { TemplateDirective } from './generic-table/directives/template.directive';
 import { GenericTableComponent } from './generic-table/generic-table.component';
 import { TestTableExampleComponent } from './test-table-example/test-table-example.component';
+import { PagingComponent } from './generic-table/paging/paging.component';
+import { UsersService } from './services/users.service';
+import { ApiService } from './services/api.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,13 +19,15 @@ import { TestTableExampleComponent } from './test-table-example/test-table-examp
     GenericTableComponent,
     ColumnComponent,
     TemplateDirective,
-    TableRowTemplateDirective
+    TableRowTemplateDirective,
+    PagingComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [UsersService, ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

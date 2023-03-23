@@ -9,6 +9,19 @@ export enum ColumnTemplate {
   HEAD,
 }
 
+export enum PagingType {
+  SERVER_SIDE,
+  CLIENT_SIDE
+}
+
+export enum RequestMethod {
+  Get = 'GET',
+  Post = 'POST',
+  Put = 'PUT',
+  Patch = 'PATCH',
+  Delete = 'DELETE',
+}
+
 export class GridData<Entity> {
   dgIndex: number;
   isExpandable: boolean;

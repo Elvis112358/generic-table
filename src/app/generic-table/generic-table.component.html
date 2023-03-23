@@ -1,36 +1,44 @@
-<div class="table-wrapper">
-  <div class="header">
-    <div *ngFor="let col of cols" class="header-cell" [style.width.px]="col.width" [style.min-width.px]="col.minWidth">
-      <div class="cell-content-container">
-        <span>
-          {{col?.header}}
-        </span>
+<div>
+  <div class="table-wrapper">
+    <div class="header">
+      <div *ngFor="let col of cols" class="header-cell" [style.width.px]="col.width"
+        [style.min-width.px]="col.minWidth">
+        <div class="cell-content-container">
+          <span>
+            {{col?.header}}
+          </span>
+        </div>
+      </div>
+
+    </div>
+    <div class="body">
+      <div *ngFor="let rowData of pagedGridData;
+            let i = index;
+            let rowIndex = index;
+            let firstRow = first; let lastRow = last;" class="row">
+        <div *ngFor="let col of cols let colIndex = index" class="body-cell" [style.width.px]="col.width"
+          [style.min-width.px]="col.minWidth">
+          <ng-container *ngIf="col.templateRefs[ColumnTemplate.BODY]">
+
+            <ng-container *ngTemplateOutlet="
+                            col.templateRefs[ColumnTemplate.BODY];
+                              context: { $implicit: rowData, 'rowIndex': rowIndex, 'column': col, 'columnIndex': colIndex, 'columns': cols}
+                            "></ng-container>
+
+          </ng-container>
+          <ng-container *ngIf="!col.templateRefs[ColumnTemplate.BODY]">
+            <div class="cell-content-container">
+              <span>
+                {{ $any(rowData)[(col.field)] }}
+              </span>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </div>
-
   </div>
-  <div class="body">
-    <div *ngFor="let rowData of gridData;
-          let i = index;
-          let rowIndex = index;
-          let firstRow = first; let lastRow = last;" class="row">
-      <div *ngFor="let col of cols let colIndex = index" class="body-cell" [style.width.px]="col.width" [style.min-width.px]="col.minWidth">
-        <ng-container *ngIf="col.templateRefs[ColumnTemplate.BODY]">
-
-          <ng-container *ngTemplateOutlet="
-                          col.templateRefs[ColumnTemplate.BODY];
-                            context: { $implicit: rowData, 'rowIndex': rowIndex, 'column': col, 'columnIndex': colIndex, 'columns': cols}
-                          "></ng-container>
-
-        </ng-container>
-        <ng-container *ngIf="!col.templateRefs[ColumnTemplate.BODY]">
-          <div class="cell-content-container">
-            <span>
-              {{ $any(rowData)[(col.field)] }}
-            </span>
-          </div>
-        </ng-container>
-      </div>
-    </div>
+  <div class="paging">
+    <app-paging [pageSize]="pageSize" [totalElements]="totalElements" (pageChange)="pageChanged($event)">
+    </app-paging>
   </div>
-  </div>
+</div>

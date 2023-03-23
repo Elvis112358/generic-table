@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ColumnTemplate } from '../generic-table/generic-table.const';
+import { ColumnTemplate, PagingType } from '../generic-table/generic-table.const';
 import { Inventory } from '../interfaces/inventory.interface';
 import { User } from '../interfaces/user.interface';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-test-table-example',
@@ -10,77 +11,47 @@ import { User } from '../interfaces/user.interface';
 })
 export class TestTableExampleComponent implements OnInit {
   ColumnTemplate = ColumnTemplate;
-  inventory: Inventory[] = [
-    {
-      plu: 110,
-      supplier: 'X Corp',
-      name: 'Table extender',
-      inStock: 500,
-      price: 50,
-      currency: 'GBP',
-    },
-    {
-      plu: 120,
-      supplier: 'X Corp',
-      name: 'Heated toilet seat',
-      inStock: 0,
-      price: 80,
-      currency: 'GBP',
-    },
-    {
-      plu: 155,
-      supplier: 'Y Corp',
-      name: 'Really good pencil',
-      inStock: 1,
-      price: 8000,
-      currency: 'AUD',
-    },
-  ];
+  users: User[] = [];
+  records: number = 0;
+  pagingType: PagingType = PagingType.SERVER_SIDE;
+  pageSize: number = 2;
+  constructor(private usersService: UsersService) {}
 
-  users: User[] = [
-    {
-      name: 'elvis',
-      surname: 'sehic',
-      department: 'dev',
-      age: 29,
-      salary: 500,
-      position: 'junior upper',
-    },
-    {
-      name: 'andi',
-      surname: 'gvozdjar',
-      department: 'dev',
-      age: 26,
-      salary: 500,
-      position: 'medior upper',
-    },
-    {
-      name: 'ilma',
-      surname: 'kazazic',
-      department: 'dev',
-      age: 24,
-      salary: 500,
-      position: 'junior upper',
-    },
-    {
-      name: 'Dzanis',
-      surname: 'brkan',
-      department: 'dev',
-      age: 26,
-      salary: 500,
-      position: 'junior upper',
-    },
-  ];
+  async ngOnInit(): Promise<void> {
+    await this.getUsers();
+    this.records = this.users.length;
+  }
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
-  seePosition(position:string) {
+  seePosition(position: string) {
     console.log('Position of employee is', position);
   }
 
-  log(a: any) {
-    console.log("a", a)
+  async getUsers(pageNumber?: number, pageSize?: number): Promise<any> {
+    await this.getUsersData(pageNumber, pageSize)
+    if (this.pagingType === PagingType.SERVER_SIDE) {
+      await this.pageChanged(1);
+    }
+
+  }
+
+  //in case of server side paging we emit event on pageChanged
+  async pageChanged(event: any) {
+    this.getUsersData(event, this.pageSize)
+  }
+
+  private async getUsersData(pageNummber?: number, pageSize?: number): Promise<any> {
+     return new Promise((resolve, reject) => {
+      this.usersService
+        .getUsers(pageNummber, pageSize)
+        .then((response) => {
+          if (response) {
+            this.users = response;
+          }
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 }

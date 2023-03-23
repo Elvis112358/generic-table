@@ -1,8 +1,13 @@
-<app-generic-table [data]='users'>
-  <app-dg-column [field]="'name'" header="{{ 'First Name'}}" [width]="70" ></app-dg-column>
-  <app-dg-column [field]="'surname'" header="{{ 'Last Name'}}" [width]="120"></app-dg-column>
-  <app-dg-column [field]="'age'" header="{{ 'Age'}}" [minWidth]="25"></app-dg-column>
-  <app-dg-column [field]="'salary'" header="{{ 'Salary'}}" [width]="40"></app-dg-column>
+<app-generic-table [data]='users' [totalElements]="records" [pageSize]="pageSize" [pagingType]="pagingType" [pager]='{
+  showPageSizeSelector: true,
+  allowedPageSizes: [5, 10, 20],
+  showInfo: true
+}'
+(pageChange)="pageChanged($event)">
+  <app-dg-column [field]="'name'" header="First Name" [width]="70"></app-dg-column>
+  <app-dg-column [field]="'surname'" header="Last Name" [width]="120"></app-dg-column>
+  <app-dg-column [field]="'age'" header="Age" [minWidth]="25"></app-dg-column>
+  <app-dg-column [field]="'salary'" header="Salary" [width]="40"></app-dg-column>
   <app-dg-column [header]="'Information'" [width]="200">
     <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData>
       <div class="info">
@@ -10,8 +15,9 @@
         <div>
 
           <img *ngIf="rowData.name ==='andi'; else other_content"
-            src="https://scontent-sof1-1.xx.fbcdn.net/v/t31.18172-8/15000793_10209473155018640_3707538421257357061_o.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ymAejn4EWXMAX9_RAd1&_nc_ht=scontent-sof1-1.xx&oh=00_AfBQntbw8oaTcFdusCx2S7kVJFr3fD2QbP3k6lOC1SaWpA&oe=63FBB4FE">
-          <ng-template #other_content><img src="https://yt3.ggpht.com/ytc/AMLnZu8yAo2jQ2x5PZodn9sZPLBZnB_QbuOOeP5uwOwxJA=s900-c-k-c0x00ffffff-no-rj"></ng-template>
+            src="https://scontent-sof1-1.xx.fbcdn.net/v/t31.18172-8/15000793_10209473155018640_3707538421257357061_o.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=CZ1c63A5NG8AX8kOK-7&_nc_ht=scontent-sof1-1.xx&oh=00_AfA0X9feGDS9BJJ2ezbdmnjPv-2iJ8fUZ1RJwvvBgVLlww&oe=64245B3E">
+          <ng-template #other_content><img
+              src="https://yt3.ggpht.com/ytc/AMLnZu8yAo2jQ2x5PZodn9sZPLBZnB_QbuOOeP5uwOwxJA=s900-c-k-c0x00ffffff-no-rj"></ng-template>
         </div>
       </div>
     </ng-template>
@@ -25,4 +31,5 @@
       </div>
     </ng-template>
   </app-dg-column>
+  <!-- <app-paginator> ovdje se treba implementirati</app-paginator> -->
 </app-generic-table>

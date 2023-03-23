@@ -1,0 +1,124 @@
+{
+  "users": [
+    {
+      "name": "elvis",
+      "surname": "sehic",
+      "department": "dev",
+      "age": 29,
+      "salary": 500,
+      "position": "junior upper"
+    },
+    {
+      "name": "andi",
+      "surname": "gvozdjar",
+      "department": "dev",
+      "age": 26,
+      "salary": 500,
+      "position": "medior upper"
+    },
+    {
+      "name": "ilma",
+      "surname": "kazazic",
+      "department": "dev",
+      "age": 24,
+      "salary": 500,
+      "position": "junior upper"
+    },
+    {
+      "name": "Dzanis",
+      "surname": "brkan",
+      "department": "dev",
+      "age": 26,
+      "salary": 500,
+      "position": "junior upper"
+    },
+    {
+      "name": "elvis 2",
+      "surname": "sehic",
+      "department": "dev",
+      "age": 29,
+      "salary": 500,
+      "position": "junior upper"
+    },
+    {
+      "name": "andi 2",
+      "surname": "gvozdjar",
+      "department": "dev",
+      "age": 26,
+      "salary": 500,
+      "position": "medior upper"
+    },
+    {
+      "name": "ilma 2",
+      "surname": "kazazic",
+      "department": "dev",
+      "age": 24,
+      "salary": 500,
+      "position": "junior upper"
+    },
+    {
+      "name": "Dzanis 2",
+      "surname": "brkan",
+      "department": "dev",
+      "age": 26,
+      "salary": 500,
+      "position": "junior upper"
+    },
+    {
+      "name": "elvis 3",
+      "surname": "sehic",
+      "department": "dev",
+      "age": 29,
+      "salary": 500,
+      "position": "junior upper"
+    },
+    {
+      "name": "andi 3",
+      "surname": "gvozdjar",
+      "department": "dev",
+      "age": 26,
+      "salary": 500,
+      "position": "medior upper"
+    },
+    {
+      "name": "ilma 3",
+      "surname": "kazazic",
+      "department": "dev",
+      "age": 24,
+      "salary": 500,
+      "position": "junior upper"
+    },
+    {
+      "name": "Dzanis 3",
+      "surname": "brkan",
+      "department": "dev",
+      "age": 26,
+      "salary": 500,
+      "position": "junior upper"
+    },
+    {
+      "name": "andi 4",
+      "surname": "gvozdjar",
+      "department": "dev",
+      "age": 26,
+      "salary": 500,
+      "position": "medior upper"
+    },
+    {
+      "name": "ilma 4",
+      "surname": "kazazic",
+      "department": "dev",
+      "age": 24,
+      "salary": 500,
+      "position": "junior upper"
+    },
+    {
+      "name": "Dzanis 4",
+      "surname": "brkan",
+      "department": "dev",
+      "age": 26,
+      "salary": 500,
+      "position": "junior upper"
+    }
+  ]
+}

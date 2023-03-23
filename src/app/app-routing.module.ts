@@ -5,6 +5,11 @@ import { TestTableExampleComponent } from './test-table-example/test-table-examp
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'users'
+  },
+  {
+    path: 'users',
     component: TestTableExampleComponent,
   },
 ];
