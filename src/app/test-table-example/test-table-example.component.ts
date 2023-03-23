@@ -54,4 +54,16 @@ export class TestTableExampleComponent implements OnInit {
         });
     });
   }
+
+  rtnImageSrc(name: string): string {
+    if(name.includes('andi')) {
+      return 'assets/andale.png'
+    } else if(name.includes('ilma')) {
+      return 'assets/ilma.png'
+    } else if(name.includes('Dzanis')) {
+      return 'assets/dzanke.png'
+    } else {
+      return 'assets/elva.png'
+    }
+  }
 }

@@ -1,9 +1,7 @@
 @import 'src/colors.scss';
-// hocemol dodavat font da bude dependency ove tabele??
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 
-// NOTE ostavio sam FLEXaru zakomentarisanu jer sam vidio da i druge custome tabele koriste flex (vjerovatno ima razlog)
 .table-wrapper {
   background-color: $table-background-color;
   font-family: 'Roboto';
@@ -11,28 +9,13 @@
   width: 100%;
   display: table;
 
-  // DISABLE ALL BORDERS
-  // border-top: 1px solid $border-color;
-  // border-left: 1px solid $border-color;
-  // border-right: 1px solid $border-color;
-
   font-size: 12px;
 
   .header {
-    // min-height: 18px;
-    // font-weight: bold;
-    // min-width: fit-content;
-    // display: flex;
-    // border: 3px solid $border-color;
-    // height: 45px;
-    // font-size: 18px;
     display: table-header-group;
     font-weight: 600;
 
     .header-cell {
-      // flex: 1;
-      // text-align: center;
-      // min-width: 105px;
       display: table-cell;
       padding: 10px;
       text-align: center;
@@ -44,49 +27,25 @@
       }
 
       .cell-content-container {
-        // height: 100%;
-        // display: inline-flex;
-        // align-items: center;
-        // justify-content: center;
-        // max-width: calc(100% - 40px);
-        // letter-spacing: 1px;
-        // cursor: default;
-
-        >span {
-          // opacity: 0.7;
-          // text-overflow: ellipsis;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          margin-left: 9px;
+          width: 10px;
+          height: 10px;
         }
       }
-    }
-
-    .header-cell:not(:last-child) {
-      //DISABLE ALL BORDERS
-      // border-right: 1px solid $border-color;
     }
   }
 
   .body {
-    // display: flex;
-    // border-bottom: 3px solid $border-color;
-    // border-left: 3px solid $border-color;
-    // min-width: fit-content;
     display: table-row-group;
 
     .row {
-      // display: flex;
-      // flex-direction: column;
-      // flex: 1;
-
-      // :not(:last-child) {
-      //   border-bottom: 3px solid $border-color;
-      // }
       display: table-row;
-
       .body-cell {
-        // flex: 1;
-        // text-align: center;
-        // border-right: 3px solid $border-color;
-        // min-width: 105px;
         display: table-cell;
         text-align: center;
         vertical-align: middle;
@@ -95,28 +54,9 @@
           background-color: $table-cell-hover;
           font-weight: 900;
         }
-
-
-
         .cell-content-container {
-          // height: 100%;
-          // display: inline-flex;
-          // align-items: center;
-          // justify-content: center;
-          // max-width: calc(100% - 40px);
-          // letter-spacing: 1px;
-          // cursor: default;
-
-          // >span {
-          //   opacity: 0.7;
-          //   text-overflow: ellipsis;
-          // }
+          // test
         }
-      }
-
-      .body-cell:not(:last-child) {
-        //DISABLE ALL BORDERS
-        // border-right: 1px solid $border-color;
       }
     }
   }

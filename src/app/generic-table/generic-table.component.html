@@ -7,6 +7,8 @@
           <span>
             {{col?.header}}
           </span>
+          <img src="../../assets/arrow-down.svg" alt="arrow-down">
+
         </div>
       </div>
 
@@ -29,7 +31,7 @@
           <ng-container *ngIf="!col.templateRefs[ColumnTemplate.BODY]">
             <div class="cell-content-container">
               <span>
-                {{ $any(rowData)[(col.field)] }}
+                {{ isString($any(rowData)[(col.field)]) ? ( $any(rowData)[(col.field)] | titlecase ) : $any(rowData)[(col.field)] }}
               </span>
             </div>
           </ng-container>

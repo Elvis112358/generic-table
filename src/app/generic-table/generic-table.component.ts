@@ -102,4 +102,8 @@ export class GenericTableComponent<Entity extends object>
     this.applyPaging(event, this.pageSize);
     if (this.pagingType === PagingType.SERVER_SIDE) this.pageChange.emit(event);
   }
+
+  isString(cellData:any): boolean {
+    return typeof cellData === 'string';
+  }
 }
