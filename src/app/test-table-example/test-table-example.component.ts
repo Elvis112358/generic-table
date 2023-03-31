@@ -13,8 +13,8 @@ export class TestTableExampleComponent implements OnInit {
   ColumnTemplate = ColumnTemplate;
   users: User[] = [];
   records: number = 0;
-  pagingType: PagingType = PagingType.SERVER_SIDE;
-  pageSize: number = 2;
+  pagingType: PagingType = PagingType.CLIENT_SIDE;
+  pageSize: number = 5;
   constructor(private usersService: UsersService) {}
 
   async ngOnInit(): Promise<void> {
@@ -35,8 +35,8 @@ export class TestTableExampleComponent implements OnInit {
   }
 
   //in case of server side paging we emit event on pageChanged
-  async pageChanged(event: any) {
-    this.getUsersData(event, this.pageSize)
+  async pageChanged(currentPage: number) {
+    this.getUsersData(currentPage, this.pageSize)
   }
 
   private async getUsersData(pageNummber?: number, pageSize?: number): Promise<any> {

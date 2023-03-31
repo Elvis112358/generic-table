@@ -5,7 +5,7 @@
       "surname": "sehic",
       "department": "dev",
       "age": 29,
-      "salary": 500,
+      "salary": 512,
       "position": "junior upper"
     },
     {
@@ -13,7 +13,7 @@
       "surname": "gvozdjar",
       "department": "dev",
       "age": 26,
-      "salary": 500,
+      "salary": 6540,
       "position": "medior upper"
     },
     {
@@ -21,7 +21,7 @@
       "surname": "kazazic",
       "department": "dev",
       "age": 24,
-      "salary": 500,
+      "salary": 45500,
       "position": "junior upper"
     },
     {
@@ -29,7 +29,7 @@
       "surname": "brkan",
       "department": "dev",
       "age": 26,
-      "salary": 500,
+      "salary": 4646,
       "position": "junior upper"
     },
     {
@@ -37,7 +37,7 @@
       "surname": "sehic",
       "department": "dev",
       "age": 29,
-      "salary": 500,
+      "salary": 5464,
       "position": "junior upper"
     },
     {
@@ -45,7 +45,7 @@
       "surname": "gvozdjar",
       "department": "dev",
       "age": 26,
-      "salary": 500,
+      "salary": 464,
       "position": "medior upper"
     },
     {
@@ -53,7 +53,7 @@
       "surname": "kazazic",
       "department": "dev",
       "age": 24,
-      "salary": 500,
+      "salary": 123,
       "position": "junior upper"
     },
     {
@@ -61,7 +61,7 @@
       "surname": "brkan",
       "department": "dev",
       "age": 26,
-      "salary": 500,
+      "salary": 312,
       "position": "junior upper"
     },
     {
@@ -69,7 +69,7 @@
       "surname": "sehic",
       "department": "dev",
       "age": 29,
-      "salary": 500,
+      "salary": 143,
       "position": "junior upper"
     },
     {
@@ -77,7 +77,7 @@
       "surname": "gvozdjar",
       "department": "dev",
       "age": 26,
-      "salary": 500,
+      "salary": 134,
       "position": "medior upper"
     },
     {
@@ -85,7 +85,7 @@
       "surname": "kazazic",
       "department": "dev",
       "age": 24,
-      "salary": 500,
+      "salary": 512400,
       "position": "junior upper"
     },
     {
@@ -93,7 +93,7 @@
       "surname": "brkan",
       "department": "dev",
       "age": 26,
-      "salary": 500,
+      "salary": 501410,
       "position": "junior upper"
     },
     {
@@ -101,7 +101,7 @@
       "surname": "gvozdjar",
       "department": "dev",
       "age": 26,
-      "salary": 500,
+      "salary": 51200,
       "position": "medior upper"
     },
     {
@@ -109,7 +109,7 @@
       "surname": "kazazic",
       "department": "dev",
       "age": 24,
-      "salary": 500,
+      "salary": 12,
       "position": "junior upper"
     },
     {
@@ -117,7 +117,7 @@
       "surname": "brkan",
       "department": "dev",
       "age": 26,
-      "salary": 500,
+      "salary": 1,
       "position": "junior upper"
     }
   ]

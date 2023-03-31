@@ -3,11 +3,18 @@
     <div class="header">
       <div *ngFor="let col of cols" class="header-cell" [style.width.px]="col.width"
         [style.min-width.px]="col.minWidth">
-        <div class="cell-content-container">
+        <div class="cell-content-container" (click)="sort(col)" [ngClass]="{
+          'not-sortable': !col.sortable
+        }">
           <span>
             {{col?.header}}
           </span>
-          <img src="../../assets/arrow-down.svg" alt="arrow-down">
+
+          <img src="../../assets/arrow-down.svg" alt="arrow-down" *ngIf="col.sortable"
+            [ngClass]="{
+              down: currentSortDirection === SortingTypes.DESC,
+              hide: col.sortable && this.currentSortField !== col.field || this.currentSortDirection == SortingTypes.NONE
+            }">
 
         </div>
       </div>

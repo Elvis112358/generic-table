@@ -3,7 +3,7 @@ import {
   Input,
   TemplateRef
 } from '@angular/core';
-import { ColumnTemplate, GridTemplates } from '../generic-table.const';
+import { ColumnTemplate } from '../generic-table.const';
 
 @Directive({
   selector: '[template]'

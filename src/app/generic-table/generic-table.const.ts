@@ -1,7 +1,13 @@
-export enum GridTemplates {
-  OPTIONS ,
-  HEADER,
-  NO_RESULT
+// export enum GridTemplates {
+//   OPTIONS ,
+//   HEADER,
+//   NO_RESULT
+// }
+
+export enum SortingType {
+  NONE,
+  ASC,
+  DESC
 }
 
 export enum ColumnTemplate {

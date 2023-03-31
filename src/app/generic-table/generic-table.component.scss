@@ -31,10 +31,26 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        white-space: nowrap;
         img {
           margin-left: 9px;
           width: 10px;
           height: 10px;
+          &.down {
+            transform: rotate(180deg);
+          }
+          &.hide {
+            visibility: hidden;
+          };
+        }
+        &:hover:not(.not-sortable) {
+          cursor:pointer;
+        }
+        &.not-sortable {
+          cursor: normal;
+        }
+        &:not(.not-sortable) {
+          padding-left: 10px;
         }
       }
     }

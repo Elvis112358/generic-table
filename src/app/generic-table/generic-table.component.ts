@@ -13,8 +13,8 @@ import {
 import { ColumnComponent } from './dg-column/dg-column.component';
 import {
   ColumnTemplate,
-  GridTemplates,
   PagingType,
+  SortingType,
 } from './generic-table.const';
 
 @Component({
@@ -25,22 +25,23 @@ import {
 export class GenericTableComponent<Entity extends object>
   implements OnInit, OnChanges, AfterContentInit
 {
-  @Input() data: Array<Entity> = [];
+  @Input() data: any = [];
   @Input() pager: any;
   @Input() templateRefs: any = {};
   @Input() totalElements: number = 0;
-  @Input() pageSize:number = 10;
+  @Input() pageSize: number = 10;
   @Input() pagingType!: PagingType;
   @Output() pageChange = new EventEmitter<number>();
   cols!: Array<ColumnComponent>;
   gridData?: Array<any>; // TODO type ovoga?
   @ContentChildren(ColumnComponent) columnList!: QueryList<ColumnComponent>;
-  // @ContentChildren(TemplateDirective) templateList!: QueryList<TemplateDirective>;
+  currentSortField = '';
+  currentSortDirection: SortingType = SortingType.NONE;
+  currentPage: number = 1;
 
   // constants
-  readonly GridTemplates = GridTemplates;
-  readonly ColumnTemplate  = ColumnTemplate;
-
+  readonly ColumnTemplate = ColumnTemplate;
+  readonly SortingTypes = SortingType;
 
   pagedGridData: any[] | undefined;
   page: number = 1;
@@ -62,11 +63,33 @@ export class GenericTableComponent<Entity extends object>
 
   ngAfterContentInit() {
     this.initCols();
-    // this.collectTemplateRefs();
   }
 
   initCols(): void {
     this.cols = this.columnList.toArray();
+  }
+
+  sort(column: ColumnComponent) {
+    if (!column.sortable) return;
+    this.handleSortSelection();
+
+    this.currentSortField = column.field;
+    if (this.pagingType === PagingType.CLIENT_SIDE) {
+      if (
+        this.currentSortDirection === SortingType.ASC ||
+        this.currentSortDirection === SortingType.DESC
+      )
+        this.gridData?.sort((a, b) =>
+          this.operators[
+            this.currentSortDirection === SortingType.ASC ? '<' : '>'
+          ](a[this.currentSortField], b[this.currentSortField])
+            ? -1
+            : 1
+        );
+      else this.gridData = [...this.data];
+
+      this.applyPaging(this.currentPage, this.pageSize);
+    }
   }
 
   onInputDataChanges(): void {
@@ -79,31 +102,49 @@ export class GenericTableComponent<Entity extends object>
     });
   }
   applyPaging(page: number, pageSize: number): void {
-    if (this.pagingType === PagingType.CLIENT_SIDE) {
-      this.pagedGridData = [];
-      this.pagedGridData = this.gridData?.slice(
-        (page - 1) * pageSize,
-        pageSize * page
-      );
-    } else {
-      // if serverSide Paging, we already get data per page
-      this.pagedGridData = this.gridData;
+    this.currentPage = page;
+    if (this.gridData?.length) {
+      if (this.pagingType === PagingType.CLIENT_SIDE) {
+        this.pagedGridData = [];
+        this.pagedGridData = this.gridData?.slice(
+          (page - 1) * pageSize,
+          pageSize * page
+        );
+      } else {
+        // if serverSide Paging, we already get data per page
+        this.pagedGridData = this.gridData;
+      }
     }
   }
-
-  // collectTemplateRefs(): void {
-  //   this.templateList?.toArray().forEach((t: TemplateDirective) => {
-  //     console.log("t", t)
-  //     this.templateRefs[t.type] = t.templateRef;
-  //   });
-  // }
 
   pageChanged(event: number) {
     this.applyPaging(event, this.pageSize);
     if (this.pagingType === PagingType.SERVER_SIDE) this.pageChange.emit(event);
   }
 
-  isString(cellData:any): boolean {
+  isString(cellData: any): boolean {
     return typeof cellData === 'string';
   }
+
+  private handleSortSelection() {
+    // choose next sorting option  None -> ASC -> DESC -> None...
+    if (this.currentSortDirection === SortingType.ASC)
+      this.currentSortDirection = SortingType.DESC;
+    else if (this.currentSortDirection === SortingType.DESC) {
+      this.currentSortDirection = SortingType.NONE;
+    } else {
+      this.currentSortDirection = SortingType.ASC;
+    }
+  }
+
+  private operators = {
+    '>': function (a: any, b: any) {
+      return a > b;
+    },
+    '<': function (a: any, b: any) {
+      return a < b;
+    },
+  };
+
+  private handleClientSideSorting() {}
 }
