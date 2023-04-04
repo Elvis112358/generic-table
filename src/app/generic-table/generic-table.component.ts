@@ -51,6 +51,11 @@ export class GenericTableComponent<Entity extends object>
   @Input() pageSize: number = 10;
   @Input() pagingType!: PagingType;
   @Output() pageChange = new EventEmitter<number>();
+  @Output() sorting = new EventEmitter<{
+    column:string,
+    sortDirection:string|undefined
+  }>();
+
   cols!: Array<ColumnComponent>;
   gridData?: Array<any>; // TODO type ovoga?
   @ContentChildren(ColumnComponent) columnList!: QueryList<ColumnComponent>;
@@ -90,6 +95,7 @@ export class GenericTableComponent<Entity extends object>
 
   sort(column: ColumnComponent) {
     if (!column.sortable) return;
+
     this.handleSortSelection(column.field);
 
     //reset hover session for arrow
@@ -99,20 +105,12 @@ export class GenericTableComponent<Entity extends object>
     this.currentSortField = column.field;
 
     if (this.pagingType === PagingType.CLIENT_SIDE) {
-      if (
-        this.currentSortDirection === SortingType.ASC ||
-        this.currentSortDirection === SortingType.DESC
-      )
-        this.gridData?.sort((a, b) =>
-          this.operators[
-            this.currentSortDirection === SortingType.ASC ? '<' : '>'
-          ](a[this.currentSortField], b[this.currentSortField])
-            ? -1
-            : 1
-        );
-      else this.gridData = [...this.data];
-
-      this.applyPaging(this.currentPage, this.pageSize);
+      this.handleClientSideSorting();
+    } else {
+      this.sorting.emit({
+        column: column.field,
+        sortDirection: this.currentSortDirectionAsString
+      });
     }
   }
 
@@ -154,6 +152,14 @@ export class GenericTableComponent<Entity extends object>
     this.freshHoverForSortArrowCss = true;
   }
 
+  get currentSortDirectionAsString(): string | undefined {
+    return this.currentSortDirection === SortingType.ASC
+    ? 'ASC'
+    : this.currentSortDirection === SortingType.DESC
+    ? 'DESC'
+    : undefined;
+  }
+
   private handleSortSelection(columnField: string) {
     if(columnField === this.currentSortField) {
       // choose next sorting option  None -> ASC -> DESC -> None...
@@ -179,6 +185,20 @@ export class GenericTableComponent<Entity extends object>
     },
   };
 
-  // TO DO
-  private handleClientSideSorting() {}
+  private handleClientSideSorting() {
+    if (
+      this.currentSortDirection === SortingType.ASC ||
+      this.currentSortDirection === SortingType.DESC
+    )
+      this.gridData?.sort((a, b) =>
+        this.operators[
+          this.currentSortDirection === SortingType.ASC ? '>' : '<'
+        ](a[this.currentSortField], b[this.currentSortField])
+          ? -1
+          : 1
+      );
+    else this.gridData = [...this.data];
+
+    this.applyPaging(this.currentPage, this.pageSize);
+  }
 }

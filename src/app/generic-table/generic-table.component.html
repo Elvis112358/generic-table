@@ -19,7 +19,6 @@
           </span>
           <img src="../../assets/arrow-down.svg" alt="arrow-down" *ngIf="col.sortable"
             [ngClass]="{
-              down: currentSortDirection === SortingTypes.DESC,
               hide: col.sortable && this.currentSortField !== col.field || this.currentSortDirection == SortingTypes.NONE,
               'sort-right': col.textAlign === 'right'
             }" [@rotateArrow]='currentSortDirection'>

@@ -3,10 +3,11 @@
   allowedPageSizes: [5, 10, 20],
   showInfo: true
 }'
-(pageChange)="pageChanged($event)">
+(pageChange)="pageChanged($event)"
+(sorting)="serverHandledSorting($event)">
   <app-dg-column [field]="'name'" header="First Name" [width]="70" [sortable]="true" [textAlign]="'left'"></app-dg-column>
-  <app-dg-column [field]="'surname'" header="Last Name" [width]="120" [sortable]="true" [textAlign]="'right'"></app-dg-column>
-  <app-dg-column [field]="'age'" header="Age" [minWidth]="25" [sortable]="true" [textAlign]="'right'"></app-dg-column>
+  <app-dg-column [field]="'surname'" header="Last Name" [width]="120" [sortable]="true" [textAlign]="'center'"></app-dg-column>
+  <app-dg-column [field]="'age'" header="Age" [minWidth]="25" [sortable]="true" [textAlign]="'center'"></app-dg-column>
   <app-dg-column [field]="'salary'" header="Salary" [width]="60" [sortable]="true" [textAlign]="'left'"></app-dg-column>
   <app-dg-column [header]="'Information'" [width]="200">
     <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData>
