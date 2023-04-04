@@ -2,19 +2,27 @@
   <div class="table-wrapper">
     <div class="header">
       <div *ngFor="let col of cols" class="header-cell" [style.width.px]="col.width"
-        [style.min-width.px]="col.minWidth">
-        <div class="cell-content-container" (click)="sort(col)" [ngClass]="{
-          'not-sortable': !col.sortable
+        [style.min-width.px]="col.minWidth"  [ngClass]="{
+          'sort-right': col.textAlign === 'right'
         }">
+        <div class="cell-content-container" (click)="sort(col)" (mouseenter)="mouseEnter()" [ngClass]="{
+          'not-sortable': !col.sortable,
+          'ghost-arrow': freshHoverForSortArrowCss && currentSortDirection === SortingTypes.NONE,
+          'left': col.textAlign === 'left',
+          'right': col.textAlign === 'right'
+        }" [ngStyle]="{
+          'justify-content': col.textAlign === 'center' ? col.textAlign : 'flex-start',
+          'flex-direction' : col.textAlign === 'right' ? 'row-reverse' : 'row'
+         }">
           <span>
             {{col?.header}}
           </span>
-
           <img src="../../assets/arrow-down.svg" alt="arrow-down" *ngIf="col.sortable"
             [ngClass]="{
               down: currentSortDirection === SortingTypes.DESC,
-              hide: col.sortable && this.currentSortField !== col.field || this.currentSortDirection == SortingTypes.NONE
-            }">
+              hide: col.sortable && this.currentSortField !== col.field || this.currentSortDirection == SortingTypes.NONE,
+              'sort-right': col.textAlign === 'right'
+            }" [@rotateArrow]='currentSortDirection'>
 
         </div>
       </div>
@@ -26,7 +34,13 @@
             let rowIndex = index;
             let firstRow = first; let lastRow = last;" class="row">
         <div *ngFor="let col of cols let colIndex = index" class="body-cell" [style.width.px]="col.width"
-          [style.min-width.px]="col.minWidth">
+          [style.min-width.px]="col.minWidth" [ngStyle]="{
+            'text-align': col.textAlign
+           }" [ngClass]="{
+            'left': col.textAlign === 'left',
+            'right': col.textAlign === 'right',
+            'sort-indent': col.sortable
+          }">
           <ng-container *ngIf="col.templateRefs[ColumnTemplate.BODY]">
 
             <ng-container *ngTemplateOutlet="

@@ -12,7 +12,8 @@ export class ColumnComponent implements AfterContentInit {
   @Input() width?: number;
   @Input() minWidth?: number;
   @Input() sortable?: boolean = false;
-  // add min-with input
+  @Input() textAlign?: string = 'center';
+
   templateRefs: any = {};
   @ContentChildren(TemplateDirective) templates!: QueryList<TemplateDirective>;
 

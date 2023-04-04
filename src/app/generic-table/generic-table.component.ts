@@ -16,15 +16,34 @@ import {
   PagingType,
   SortingType,
 } from './generic-table.const';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-generic-table',
+  animations: [
+    trigger('rotateArrow', [
+      state('1', style({
+        transform: 'rotate(0)'
+      })),
+      state('2', style({
+        transform: 'rotate(180deg)'
+      })),
+      transition('1 => 2', [
+        animate('0.25s ease-out')
+      ]),
+      transition('2 => 1', [
+        animate('0.25s ease-in')
+      ]),
+    ]),
+  ],
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.scss'],
 })
 export class GenericTableComponent<Entity extends object>
   implements OnInit, OnChanges, AfterContentInit
 {
+  freshHoverForSortArrowCss: boolean = true;
+
   @Input() data: any = [];
   @Input() pager: any;
   @Input() templateRefs: any = {};
@@ -71,9 +90,14 @@ export class GenericTableComponent<Entity extends object>
 
   sort(column: ColumnComponent) {
     if (!column.sortable) return;
-    this.handleSortSelection();
+    this.handleSortSelection(column.field);
 
+    //reset hover session for arrow
+    this.freshHoverForSortArrowCss = false;
+
+    //set current sort field after arrow direction handle
     this.currentSortField = column.field;
+
     if (this.pagingType === PagingType.CLIENT_SIDE) {
       if (
         this.currentSortDirection === SortingType.ASC ||
@@ -126,13 +150,22 @@ export class GenericTableComponent<Entity extends object>
     return typeof cellData === 'string';
   }
 
-  private handleSortSelection() {
-    // choose next sorting option  None -> ASC -> DESC -> None...
-    if (this.currentSortDirection === SortingType.ASC)
-      this.currentSortDirection = SortingType.DESC;
-    else if (this.currentSortDirection === SortingType.DESC) {
-      this.currentSortDirection = SortingType.NONE;
+  mouseEnter() {
+    this.freshHoverForSortArrowCss = true;
+  }
+
+  private handleSortSelection(columnField: string) {
+    if(columnField === this.currentSortField) {
+      // choose next sorting option  None -> ASC -> DESC -> None...
+      if (this.currentSortDirection === SortingType.ASC)
+        this.currentSortDirection = SortingType.DESC;
+      else if (this.currentSortDirection === SortingType.DESC) {
+        this.currentSortDirection = SortingType.NONE;
+      } else {
+        this.currentSortDirection = SortingType.ASC;
+      }
     } else {
+      // start sort handle from ascending as new column selected
       this.currentSortDirection = SortingType.ASC;
     }
   }
@@ -146,5 +179,6 @@ export class GenericTableComponent<Entity extends object>
     },
   };
 
+  // TO DO
   private handleClientSideSorting() {}
 }

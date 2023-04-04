@@ -11,6 +11,7 @@ import { PagingComponent } from './generic-table/paging/paging.component';
 import { UsersService } from './services/users.service';
 import { ApiService } from './services/api.service';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [UsersService, ApiService],
   bootstrap: [AppComponent]
