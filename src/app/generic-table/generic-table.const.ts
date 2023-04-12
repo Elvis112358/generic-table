@@ -4,10 +4,56 @@
 //   NO_RESULT
 // }
 
+export const searchDebounceTime = 300;
+
+export enum FilterOperation {
+  EQUALS = '=',
+  RANGE_LOWER = '_gte',
+  RANGE_HIGHER = '_lte',
+  EXCLUDE = '_ne',
+  LIKE = '_like'
+}
+
+export class TableDataQuery {
+  currentPage: number | undefined = 1;
+  pageSize: number | undefined;
+  currentSortColumn: string | undefined;
+  sortDirection: SortingType| undefined  = SortingType.NONE;
+  currentFilterColumn!: string | undefined;
+  filterValue!: string | undefined;
+  constructor(
+    currentPage: number | undefined,
+    pageSize: number | undefined,
+    currentSortColumn: string | undefined,
+    sortDirection: SortingType,
+    currentFilterColumn: string | undefined,
+    filterValue: string | undefined
+  ) {
+    this.currentPage = currentPage;
+    this.pageSize = pageSize;
+    this.currentSortColumn = currentSortColumn;
+    this.sortDirection = sortDirection;
+    this.currentFilterColumn = currentFilterColumn;
+    this.filterValue = filterValue;
+  }
+}
+
+export class Filter {
+  field!: string;
+  value!: string;
+  filterOperation!: FilterOperation
+}
+
+export enum FilterDataType {
+  TEXT = 'text',
+  NUMBER = 'number',
+  DATE= 'DateTime'
+}
+
 export enum SortingType {
   NONE,
-  ASC,
-  DESC
+  ASC = 'ASC',
+  DESC = 'DESC'
 }
 
 export enum ColumnTemplate {

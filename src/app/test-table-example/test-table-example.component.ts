@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {
   ColumnTemplate,
+  FilterDataType,
   PagingType,
+  SortingType,
+  TableDataQuery,
 } from '../generic-table/generic-table.const';
-import { Inventory } from '../interfaces/inventory.interface';
 import { User } from '../interfaces/user.interface';
 import { UsersService } from '../services/users.service';
 
@@ -18,12 +20,27 @@ export class TestTableExampleComponent implements OnInit {
   records: number = 0;
   pagingType: PagingType = PagingType.SERVER_SIDE;
   pageSize: number = 5;
-  sortDirection: any;
+  sortDirection: SortingType = SortingType.NONE;
   currentPage: number = 1;
   currentSortColum: string | undefined;
+
+  readonly FilterDataType = FilterDataType;
+  filterColumn: string | undefined = undefined;
+  filterValue: string | undefined = undefined;
+
+  queryOptionsData: TableDataQuery = new TableDataQuery(
+    undefined,
+    1,
+    undefined,
+    SortingType.NONE,
+    undefined,
+    undefined
+  );
+
   constructor(private usersService: UsersService) {}
 
   async ngOnInit(): Promise<void> {
+    this.queryOptionsData.pageSize = this.pageSize;
     await this.getInitalUsers();
     this.records = this.users.length;
   }
@@ -33,7 +50,9 @@ export class TestTableExampleComponent implements OnInit {
   }
 
   async getInitalUsers(pageNumber?: number, pageSize?: number): Promise<any> {
-    await this.getUsersData(pageNumber, pageSize);
+    if (pageNumber) this.queryOptionsData.currentPage = pageNumber;
+    if (pageSize) this.queryOptionsData.pageSize = pageSize;
+    await this.getUsersData(this.queryOptionsData);
     if (this.pagingType === PagingType.SERVER_SIDE) {
       // apply paging for first page
       await this.pageChanged(1);
@@ -42,36 +61,40 @@ export class TestTableExampleComponent implements OnInit {
 
   //in case of server side paging we emit event on pageChanged
   async pageChanged(currentPage: number): Promise<void> {
-    this.currentPage = currentPage;
-    this.getUsersData(this.currentPage, this.pageSize);
+    if (currentPage) this.queryOptionsData.currentPage = currentPage;
+    this.getUsersData(this.queryOptionsData);
   }
 
   serverHandledSorting(sortData: {
     column: string;
-    sortDirection: string | undefined;
+    sortDirection: SortingType | undefined;
   }) {
-    this.sortDirection = sortData.sortDirection;
-    this.currentSortColum = sortData.column;
-    this.getUsersData(
-      this.currentPage,
-      this.pageSize,
-      this.currentSortColum,
-      this.sortDirection
-    );
+    this.queryOptionsData.sortDirection = sortData.sortDirection;
+    if (sortData.column)
+      this.queryOptionsData.currentSortColumn = sortData.column;
+    this.getUsersData(this.queryOptionsData);
   }
 
-  private async getUsersData(
-    pageNummber?: number,
-    pageSize?: number,
-    sortColumn?: string,
-    sortDirection?: string
-  ): Promise<any> {
+  serverHendledFiltering(filterData: {
+    column: string;
+    filterValue: string | number | undefined;
+  }) {
+    this.queryOptionsData.currentPage = 1;
+    this.queryOptionsData.currentFilterColumn = this.filterColumn;
+    this.queryOptionsData.filterValue = filterData.filterValue?.toString();
+    this.queryOptionsData.currentFilterColumn = filterData.column;
+    this.getUsersData(this.queryOptionsData);
+  }
+
+  private async getUsersData(queryData: TableDataQuery): Promise<any> {
     return new Promise((resolve, reject) => {
       this.usersService
-        .getUsers(pageNummber, pageSize, sortColumn, sortDirection)
+        .getUsers(queryData)
         .then((response) => {
           if (response) {
-            this.users = response;
+            this.users = response.body;
+            if (response.headers.get('X-Total-Count'))
+              this.records = response.headers.get('X-Total-Count');
           }
           resolve(response);
         })
@@ -91,5 +114,13 @@ export class TestTableExampleComponent implements OnInit {
     } else {
       return 'assets/elva.png';
     }
+  }
+  calculateDate(startDate: Date, endDate: Date): any {
+    const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
+    const diffInMilliseconds = Math.abs(
+      new Date(endDate).getTime() - new Date(startDate)?.getTime()
+    );
+    let daysBetween = Math.round(diffInMilliseconds / oneDay);
+    return daysBetween;
   }
 }

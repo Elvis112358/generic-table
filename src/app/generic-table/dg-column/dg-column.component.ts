@@ -1,6 +1,6 @@
 import { AfterContentInit, Component, ContentChild, ContentChildren, Input, OnInit, QueryList, TemplateRef } from '@angular/core';
 import { TemplateDirective } from '../directives/template.directive';
-import { ColumnTemplate } from '../generic-table.const';
+import { ColumnTemplate, FilterDataType } from '../generic-table.const';
 
 @Component({
   selector: 'app-dg-column',
@@ -11,10 +11,15 @@ export class ColumnComponent implements AfterContentInit {
   @Input() header: string = '';
   @Input() width?: number;
   @Input() minWidth?: number;
-  @Input() sortable?: boolean = false;
   @Input() textAlign?: string = 'center';
+  // data Type per column (string, number, dateTime...)
+  @Input() dataType: FilterDataType = FilterDataType.TEXT;
+  // enable/disable filter option per column
+  @Input() filterOptOn: boolean = false;
+  // enable/disable sorting option per column
+  @Input() sortable?: boolean = false;
 
-  templateRefs: any = {};
+  templateRefs: { [key: number]: TemplateRef<any> } = {};
   @ContentChildren(TemplateDirective) templates!: QueryList<TemplateDirective>;
 
   ngAfterContentInit() {

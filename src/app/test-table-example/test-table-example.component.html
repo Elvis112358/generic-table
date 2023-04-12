@@ -1,21 +1,17 @@
-<app-generic-table [data]='users' [totalElements]="records" [pageSize]="pageSize" [pagingType]="pagingType" [pager]='{
-  showPageSizeSelector: true,
-  allowedPageSizes: [5, 10, 20],
-  showInfo: true
-}'
+<app-generic-table [data]='users' [totalElements]="records" [pageSize]="pageSize" [pagingType]="pagingType"
 (pageChange)="pageChanged($event)"
-(sorting)="serverHandledSorting($event)">
-  <app-dg-column [field]="'name'" header="First Name" [width]="70" [sortable]="true" [textAlign]="'left'"></app-dg-column>
-  <app-dg-column [field]="'surname'" header="Last Name" [width]="120" [sortable]="true" [textAlign]="'center'"></app-dg-column>
-  <app-dg-column [field]="'age'" header="Age" [minWidth]="25" [sortable]="true" [textAlign]="'center'"></app-dg-column>
-  <app-dg-column [field]="'salary'" header="Salary" [width]="60" [sortable]="true" [textAlign]="'left'"></app-dg-column>
+(sorting)="serverHandledSorting($event)"
+(filtering)="serverHendledFiltering($event)">
+  <app-dg-column [field]="'name'" header="First Name" [width]="70" [sortable]="true" [textAlign]="'left'" [dataType]="FilterDataType.TEXT" [filterOptOn]="true"></app-dg-column>
+  <app-dg-column [field]="'surname'" header="Last Name" [width]="120" [sortable]="true" [textAlign]="'right'" [dataType]="FilterDataType.TEXT" [filterOptOn]="true"></app-dg-column>
+  <app-dg-column [field]="'age'" header="Age" [width]="70" [minWidth]="25" [sortable]="true" [textAlign]="'left'" [dataType]="FilterDataType.NUMBER" [filterOptOn]="true"></app-dg-column>
+  <app-dg-column [field]="'salary'" header="Salary" [width]="60" [sortable]="true" [textAlign]="'right'" [dataType]="FilterDataType.NUMBER" [filterOptOn]="true"></app-dg-column>
   <app-dg-column [header]="'Information'" [width]="200">
     <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData>
       <div class="info">
         <p>Employe Age {{rowData.age}}</p>
         <div>
-
-          <!-- <img ="{{rtnImageSrc(rowData.name)}}" alt="employee-image"> -->
+          <!-- <img src="{{rtnImageSrc(rowData.name)}}" alt="employee-image"> -->
         </div>
       </div>
     </ng-template>
@@ -26,6 +22,13 @@
         <button class="test" (click)="seePosition(rowData.position)">
           See Position
         </button>
+      </div>
+    </ng-template>
+  </app-dg-column>
+  <app-dg-column [header]="'Time in Company'">
+    <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData>
+      <div class="btn-continer">
+        <div>{{calculateDate(rowData.startDate, rowData.toDate)}} </div>
       </div>
     </ng-template>
   </app-dg-column>

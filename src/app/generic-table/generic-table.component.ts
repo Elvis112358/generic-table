@@ -9,33 +9,21 @@ import {
   Output,
   QueryList,
   SimpleChanges,
+  TemplateRef,
 } from '@angular/core';
 import { ColumnComponent } from './dg-column/dg-column.component';
 import {
   ColumnTemplate,
+  FilterDataType,
   PagingType,
   SortingType,
 } from './generic-table.const';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { rotateArrow } from './animations/sort-arow-animation';
 
 @Component({
   selector: 'app-generic-table',
-  animations: [
-    trigger('rotateArrow', [
-      state('1', style({
-        transform: 'rotate(0)'
-      })),
-      state('2', style({
-        transform: 'rotate(180deg)'
-      })),
-      transition('1 => 2', [
-        animate('0.25s ease-out')
-      ]),
-      transition('2 => 1', [
-        animate('0.25s ease-in')
-      ]),
-    ]),
-  ],
+  animations: [rotateArrow],
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.scss'],
 })
@@ -44,16 +32,20 @@ export class GenericTableComponent<Entity extends object>
 {
   freshHoverForSortArrowCss: boolean = true;
 
-  @Input() data: any = [];
-  @Input() pager: any;
-  @Input() templateRefs: any = {};
+  @Input() data: Array<Entity> = [];
+  @Input() templateRefs: { [key: number]: TemplateRef<any> } = {};
   @Input() totalElements: number = 0;
   @Input() pageSize: number = 10;
   @Input() pagingType!: PagingType;
   @Output() pageChange = new EventEmitter<number>();
   @Output() sorting = new EventEmitter<{
-    column:string,
-    sortDirection:string|undefined
+    column: string;
+    sortDirection: SortingType | undefined;
+  }>();
+
+  @Output() filtering = new EventEmitter<{
+    column: string;
+    filterValue: string | number | undefined;
   }>();
 
   cols!: Array<ColumnComponent>;
@@ -63,12 +55,13 @@ export class GenericTableComponent<Entity extends object>
   currentSortDirection: SortingType = SortingType.NONE;
   currentPage: number = 1;
 
+  pagedGridData: any[] | undefined;
+  page: number = 1;
+
   // constants
   readonly ColumnTemplate = ColumnTemplate;
   readonly SortingTypes = SortingType;
-
-  pagedGridData: any[] | undefined;
-  page: number = 1;
+  readonly FilterDataType = FilterDataType;
 
   constructor() {}
 
@@ -109,7 +102,7 @@ export class GenericTableComponent<Entity extends object>
     } else {
       this.sorting.emit({
         column: column.field,
-        sortDirection: this.currentSortDirectionAsString
+        sortDirection: this.currentSortDirectionAsString,
       });
     }
   }
@@ -123,6 +116,7 @@ export class GenericTableComponent<Entity extends object>
       return rowData;
     });
   }
+
   applyPaging(page: number, pageSize: number): void {
     this.currentPage = page;
     if (this.gridData?.length) {
@@ -136,6 +130,8 @@ export class GenericTableComponent<Entity extends object>
         // if serverSide Paging, we already get data per page
         this.pagedGridData = this.gridData;
       }
+    } else {
+      this.pagedGridData = [];
     }
   }
 
@@ -148,20 +144,29 @@ export class GenericTableComponent<Entity extends object>
     return typeof cellData === 'string';
   }
 
-  mouseEnter() {
+  // use event to implement filtering
+  handleFiltersEvent(event: any) {
+    this.filtering.emit({
+      column: event.column,
+      filterValue: event.filterValue,
+    });
+  }
+
+  // catch new hover event on sorting area to handle ghost arrow logic
+  mouseEnterFilterCell() {
     this.freshHoverForSortArrowCss = true;
   }
 
-  get currentSortDirectionAsString(): string | undefined {
+  get currentSortDirectionAsString(): SortingType | undefined {
     return this.currentSortDirection === SortingType.ASC
-    ? 'ASC'
-    : this.currentSortDirection === SortingType.DESC
-    ? 'DESC'
-    : undefined;
+      ? SortingType.ASC
+      : this.currentSortDirection === SortingType.DESC
+      ? SortingType.DESC
+      : undefined;
   }
 
   private handleSortSelection(columnField: string) {
-    if(columnField === this.currentSortField) {
+    if (columnField === this.currentSortField) {
       // choose next sorting option  None -> ASC -> DESC -> None...
       if (this.currentSortDirection === SortingType.ASC)
         this.currentSortDirection = SortingType.DESC;

@@ -22,6 +22,8 @@ export class PagingComponent implements OnInit, OnChanges{
 
   ngOnInit(): void {
     this.numberOfPages= Math.ceil(this.totalElements / this.pageSize)
+    this.pages = [];
+    this.currentPage = 1;
     for (let page = 1; page <= this.numberOfPages; page++) {
       this.pages.push(page);
     }

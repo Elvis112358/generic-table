@@ -1,0 +1,10 @@
+<div class="filter-cell-container" [ngClass]="{
+  'reverse-aligned': col.textAlign === 'right'
+}">
+  <div class="filter-icon-continer" *ngIf="col.filterOptOn && (col.dataType===FilterDataType.TEXT || col.dataType===FilterDataType.NUMBER)">
+    <img src="{{checkInputValue ? '../../assets/xmark-solid.svg':'../../assets/magnifying-glass-solid.svg'}}" alt="search" (click)="resetInput()" [ngClass]="{'reset-input': checkInputValue}">
+  </div>
+  <mat-form-field>
+    <input type="{{ col.dataType }}"  #input matInput [ngStyle]="{'text-align': col.textAlign === 'right' ? 'right' : 'left'}">
+  </mat-form-field>
+</div>

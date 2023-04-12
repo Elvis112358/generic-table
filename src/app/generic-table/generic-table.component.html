@@ -5,9 +5,9 @@
         [style.min-width.px]="col.minWidth"  [ngClass]="{
           'sort-right': col.textAlign === 'right'
         }">
-        <div class="cell-content-container" (click)="sort(col)" (mouseenter)="mouseEnter()" [ngClass]="{
+        <div class="cell-content-container" (click)="sort(col)" (mouseenter)="mouseEnterFilterCell()" [ngClass]="{
           'not-sortable': !col.sortable,
-          'ghost-arrow': freshHoverForSortArrowCss && currentSortDirection === SortingTypes.NONE,
+          'ghost-arrow': freshHoverForSortArrowCss && currentSortDirection === SortingTypes.NONE || currentSortField !== col.field,
           'left': col.textAlign === 'left',
           'right': col.textAlign === 'right'
         }" [ngStyle]="{
@@ -26,6 +26,14 @@
         </div>
       </div>
 
+    </div>
+    <div class="filter-section">
+      <div *ngFor="let col of cols" class="filter-cell" [ngClass]="{
+                  'underline-no-filter-cell': !col.filterOptOn
+                }">
+
+                <app-search-filter [col]="col" (filter)="handleFiltersEvent($event)" *ngIf="col.filterOptOn"></app-search-filter>
+      </div>
     </div>
     <div class="body">
       <div *ngFor="let rowData of pagedGridData;

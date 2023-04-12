@@ -15,11 +15,11 @@ export class ApiService {
   ): Promise<any> {
     let request: Promise<any>;
 
-    body = body == false ? body : body || {};
+    body = {observe: 'response'};
 
     switch (method) {
       case RequestMethod.Get:
-        request = this.httpClient.get(url).toPromise();
+        request = this.httpClient.get(url, body).toPromise();
         break;
       case RequestMethod.Delete:
         request = this.httpClient.delete(url).toPromise();

@@ -66,10 +66,21 @@
       }
     }
   }
+  .filter-section {
+    display: table-row;
+
+    .filter-cell {
+        display: table-cell;
+        background-color: whitesmoke;
+
+        &.underline-no-filter-cell {
+          border-bottom: 1px solid rgb(142 142 142);
+        }
+      }
+  }
 
   .body {
     display: table-row-group;
-
     .row {
       display: table-row;
       .body-cell {

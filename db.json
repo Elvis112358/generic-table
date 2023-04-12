@@ -6,7 +6,9 @@
       "department": "dev",
       "age": 29,
       "salary": 512,
-      "position": "junior upper"
+      "position": "junior upper",
+      "startDate": "2012-03-17T15:43:51.997Z",
+      "toDate": "2019-06-12T05:34:23.000Z"
     },
     {
       "name": "andi",
@@ -14,7 +16,9 @@
       "department": "dev",
       "age": 26,
       "salary": 6540,
-      "position": "medior upper"
+      "position": "medior upper",
+      "startDate": "2013-08-08T06:27:49.019Z",
+      "toDate": "2022-01-18T12:23:56.000Z"
     },
     {
       "name": "ilma",
@@ -22,7 +26,9 @@
       "department": "dev",
       "age": 24,
       "salary": 45500,
-      "position": "junior upper"
+      "position": "junior upper",
+      "startDate": "2015-06-21T02:18:11.096Z",
+      "toDate": "2021-07-03T20:01:45.000Z"
     },
     {
       "name": "Dzanis",
@@ -30,7 +36,9 @@
       "department": "dev",
       "age": 26,
       "salary": 4646,
-      "position": "junior upper"
+      "position": "junior upper",
+      "startDate": "2018-02-04T18:32:27.233Z",
+      "toDate": "2018-06-29T11:57:12.000Z"
     },
     {
       "name": "elvis 2",
@@ -38,7 +46,9 @@
       "department": "dev",
       "age": 29,
       "salary": 5464,
-      "position": "junior upper"
+      "position": "junior upper",
+      "startDate":"2016-12-05T12:56:14.011Z",
+      "toDate": "2019-12-19T19:39:33.000Z"
     },
     {
       "name": "andi 2",
@@ -46,7 +56,9 @@
       "department": "dev",
       "age": 26,
       "salary": 464,
-      "position": "medior upper"
+      "position": "medior upper",
+      "startDate":"2011-10-27T08:08:51.304Z",
+      "toDate": "2014-11-10T06:12:48.000Z"
     },
     {
       "name": "ilma 2",
@@ -54,7 +66,9 @@
       "department": "dev",
       "age": 24,
       "salary": 123,
-      "position": "junior upper"
+      "position": "junior upper",
+      "startDate":"2020-01-11T21:47:57.001Z",
+      "toDate": "2021-03-28T03:56:39.000Z"
     },
     {
       "name": "Dzanis 2",
@@ -62,7 +76,9 @@
       "department": "dev",
       "age": 26,
       "salary": 312,
-      "position": "junior upper"
+      "position": "junior upper",
+      "startDate":"2014-11-08T22:03:02.524Z",
+      "toDate": "2019-06-12T05:34:23.000Z"
     },
     {
       "name": "elvis 3",
@@ -70,7 +86,9 @@
       "department": "dev",
       "age": 29,
       "salary": 143,
-      "position": "junior upper"
+      "position": "junior upper",
+      "startDate":"2017-05-19T07:39:06.289Z",
+      "toDate": "2022-01-18T12:23:56.000Z"
     },
     {
       "name": "andi 3",
@@ -78,7 +96,9 @@
       "department": "dev",
       "age": 26,
       "salary": 134,
-      "position": "medior upper"
+      "position": "medior upper",
+      "startDate":"2019-09-02T03:57:11.108Z",
+      "toDate": "2021-07-03T20:01:45.000Z"
     },
     {
       "name": "ilma 3",
@@ -86,7 +106,9 @@
       "department": "dev",
       "age": 24,
       "salary": 512400,
-      "position": "junior upper"
+      "position": "junior upper",
+      "startDate":"2012-09-15T23:14:42.256Z",
+      "toDate": "2018-06-29T11:57:12.000Z"
     },
     {
       "name": "Dzanis 3",
@@ -94,7 +116,9 @@
       "department": "dev",
       "age": 26,
       "salary": 501410,
-      "position": "junior upper"
+      "position": "junior upper",
+      "startDate":"2018-06-10T18:55:31.997Z",
+      "toDate": "2021-03-28T03:56:39.000Z"
     },
     {
       "name": "andi 4",
@@ -102,7 +126,9 @@
       "department": "dev",
       "age": 26,
       "salary": 51200,
-      "position": "medior upper"
+      "position": "medior upper",
+      "startDate":"2016-02-23T04:22:39.112Z",
+      "toDate": "2014-11-10T06:12:48.000Z"
     },
     {
       "name": "ilma 4",
@@ -110,7 +136,9 @@
       "department": "dev",
       "age": 24,
       "salary": 12,
-      "position": "junior upper"
+      "position": "junior upper",
+      "startDate":"2022-01-08T08:10:59.907Z",
+      "toDate": "2019-12-19T19:39:33.000Z"
     },
     {
       "name": "Dzanis 4",
@@ -118,7 +146,9 @@
       "department": "dev",
       "age": 26,
       "salary": 1,
-      "position": "junior upper"
+      "position": "junior upper",
+      "startDate":"2013-12-29T17:02:25.475Z",
+      "toDate": "2018-06-29T11:57:12.000Z"
     }
   ]
 }

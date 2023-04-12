@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { RequestMethod } from '../generic-table/generic-table.const';
+import { RequestMethod, SortingType, TableDataQuery } from '../generic-table/generic-table.const';
 import { ApiService } from './api.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,33 +12,26 @@ export class UsersService {
 
   url = 'http://localhost:3000/';
 
-  async getUsers(page?:number, pageSize?:number, sortColumn?:string, sortDirection?: string): Promise<any> {
+  // async getUsers(page?:number, pageSize?:number, sortColumn?:string, sortDirection?: SortingType, filterProperty?: any, filterValue ?:any): Promise<any> {
+    async getUsers(queryData: TableDataQuery): Promise<any> {
     let url = this.url + 'users';
+    const headers = new HttpHeaders()
 
-    if(page &&  pageSize) {
-      url = url + `?_page=${page}&_limit=${pageSize}`;
+    if(queryData.currentPage &&  queryData.pageSize) {
+      url = url + `?_page=${queryData.currentPage}&_limit=${queryData.pageSize}`;
     }
 
-    if(page &&  pageSize && sortColumn && sortDirection) {
-      url = url + `&_sort=${sortColumn}&_order=${sortDirection}`
+    if(queryData.currentPage &&  queryData.pageSize&& queryData.currentSortColumn && queryData.sortDirection) {
+      url = url + `&_sort=${queryData.currentSortColumn}&_order=${queryData.sortDirection}`
     }
+
+    if(queryData.currentPage &&  queryData.pageSize && queryData.currentFilterColumn && queryData.filterValue) {
+      url = url + `&${queryData.currentFilterColumn}=${queryData.filterValue}`
+    }
+
     return await this.api.sendRequest(
       RequestMethod.Get,
       url
     );
-
-    // if(page &&  pageSize) {
-    //   const url =this.url + `users?_page=${page}&_limit=${pageSize}`
-    //   return await this.api.sendRequest(
-    //     RequestMethod.Get,
-    //     url
-    //   );
-    // } else {
-    //   return await this.api.sendRequest(
-    //     RequestMethod.Get,
-    //     this.url + 'users'
-    //   );
-    // }
-
   }
 }
