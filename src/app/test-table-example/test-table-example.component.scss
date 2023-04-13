@@ -28,3 +28,14 @@ app-generic-table {
   display: flex;
   width: 100%;
 }
+
+.header-container {
+  font-family: 'Roboto';
+  background-color: #f2f2f2;
+  height: 60px;
+  line-height: 60px;
+  border-bottom: 2px solid #999999;
+  vertical-align: middle;
+  text-align: center;
+  /* Add any other styles as desired */
+}

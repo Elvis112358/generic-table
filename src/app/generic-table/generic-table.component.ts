@@ -137,9 +137,6 @@ export class GenericTableComponent<Entity extends object>
     if (this.pagingType === PagingType.SERVER_SIDE) this.pageChange.emit(event);
   }
 
-  isString(cellData: any): boolean {
-    return typeof cellData === 'string';
-  }
 
   // use event to implement filtering
   handleFiltersEvent(event: Filter) {

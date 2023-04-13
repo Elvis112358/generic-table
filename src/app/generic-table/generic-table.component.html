@@ -59,7 +59,7 @@
           <ng-container *ngIf="!col.templateRefs[ColumnTemplate.BODY]">
             <div class="cell-content-container">
               <span>
-                {{ isString($any(rowData)[(col.field)]) ? ( $any(rowData)[(col.field)] | titlecase ) : $any(rowData)[(col.field)] }}
+                {{ $any(rowData)[(col.field)] }}
               </span>
             </div>
           </ng-container>

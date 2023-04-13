@@ -38,6 +38,8 @@ export class TestTableExampleComponent implements OnInit {
     undefined,
     undefined
   );
+  showUserInfo: boolean = true;
+  switch: Array<boolean> = [];
 
   constructor(private usersService: UsersService) {}
 
@@ -45,10 +47,17 @@ export class TestTableExampleComponent implements OnInit {
     this.queryOptionsData.pageSize = this.pageSize;
     await this.getInitalUsers();
     this.records = this.users.length;
+    this.resetSwitchState();
   }
 
-  seePosition(position: string) {
-    console.log('Position of employee is', position);
+  seePosition(user: User) {
+    this.switch[this.users.indexOf(user)] = !this.switch[this.users.indexOf(user)]
+  }
+  resetSwitchState():void {
+    this.switch = [];
+    for (let index = 0; index < this.pageSize; index++) {
+        this.switch.push(false);
+    }
   }
 
   async getInitalUsers(pageNumber?: number, pageSize?: number): Promise<any> {
@@ -114,12 +123,12 @@ export class TestTableExampleComponent implements OnInit {
       return 'assets/elva.png';
     }
   }
-  calculateDate(startDate: Date, endDate: Date): any {
+  calculateDate(startDate: Date, endDate: Date): number {
     const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
     const diffInMilliseconds = Math.abs(
       new Date(endDate).getTime() - new Date(startDate)?.getTime()
     );
     let daysBetween = Math.round(diffInMilliseconds / oneDay);
-    return daysBetween;
+    return daysBetween / 365;
   }
 }
