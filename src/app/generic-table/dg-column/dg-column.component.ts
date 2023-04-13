@@ -1,6 +1,6 @@
-import { AfterContentInit, Component, ContentChild, ContentChildren, Input, OnInit, QueryList, TemplateRef } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, ContentChildren, ElementRef, Input, OnInit, QueryList, TemplateRef } from '@angular/core';
 import { TemplateDirective } from '../directives/template.directive';
-import { ColumnTemplate, FilterDataType } from '../generic-table.const';
+import { ColumnTemplate, FilterDataType } from '../shared/utils';
 
 @Component({
   selector: 'app-dg-column',
@@ -19,7 +19,7 @@ export class ColumnComponent implements AfterContentInit {
   // enable/disable sorting option per column
   @Input() sortable?: boolean = false;
 
-  templateRefs: { [key: number]: TemplateRef<any> } = {};
+  templateRefs: { [key:number]: TemplateRef<ElementRef> } = {};
   @ContentChildren(TemplateDirective) templates!: QueryList<TemplateDirective>;
 
   ngAfterContentInit() {

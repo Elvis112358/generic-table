@@ -2,6 +2,7 @@ import {
   AfterContentInit,
   Component,
   ContentChildren,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -14,16 +15,16 @@ import {
 import { ColumnComponent } from './dg-column/dg-column.component';
 import {
   ColumnTemplate,
+  Filter,
   FilterDataType,
   PagingType,
   SortingType,
-} from './generic-table.const';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { rotateArrow } from './animations/sort-arow-animation';
+} from './shared/utils';
+import { rotate } from './animations/rotate-animation';
 
 @Component({
   selector: 'app-generic-table',
-  animations: [rotateArrow],
+  animations: [rotate],
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.scss'],
 })
@@ -33,7 +34,7 @@ export class GenericTableComponent<Entity extends object>
   freshHoverForSortArrowCss: boolean = true;
 
   @Input() data: Array<Entity> = [];
-  @Input() templateRefs: { [key: number]: TemplateRef<any> } = {};
+  @Input() templateRefs: { [key: number]: TemplateRef<ElementRef> } = {};
   @Input() totalElements: number = 0;
   @Input() pageSize: number = 10;
   @Input() pagingType!: PagingType;
@@ -42,17 +43,13 @@ export class GenericTableComponent<Entity extends object>
     column: string;
     sortDirection: SortingType | undefined;
   }>();
-
-  @Output() filtering = new EventEmitter<{
-    column: string;
-    filterValue: string | number | undefined;
-  }>();
+  @Output() filtering = new EventEmitter<Filter>();
 
   cols!: Array<ColumnComponent>;
   gridData?: Array<any>; // TODO type ovoga?
   @ContentChildren(ColumnComponent) columnList!: QueryList<ColumnComponent>;
   currentSortField = '';
-  currentSortDirection: SortingType = SortingType.NONE;
+  currentSortDirection: SortingType | undefined;
   currentPage: number = 1;
 
   pagedGridData: any[] | undefined;
@@ -102,7 +99,7 @@ export class GenericTableComponent<Entity extends object>
     } else {
       this.sorting.emit({
         column: column.field,
-        sortDirection: this.currentSortDirectionAsString,
+        sortDirection: this.currentSortDirection,
       });
     }
   }
@@ -145,24 +142,13 @@ export class GenericTableComponent<Entity extends object>
   }
 
   // use event to implement filtering
-  handleFiltersEvent(event: any) {
-    this.filtering.emit({
-      column: event.column,
-      filterValue: event.filterValue,
-    });
+  handleFiltersEvent(event: Filter) {
+    this.filtering.emit(event);
   }
 
   // catch new hover event on sorting area to handle ghost arrow logic
   mouseEnterFilterCell() {
     this.freshHoverForSortArrowCss = true;
-  }
-
-  get currentSortDirectionAsString(): SortingType | undefined {
-    return this.currentSortDirection === SortingType.ASC
-      ? SortingType.ASC
-      : this.currentSortDirection === SortingType.DESC
-      ? SortingType.DESC
-      : undefined;
   }
 
   private handleSortSelection(columnField: string) {
@@ -171,7 +157,7 @@ export class GenericTableComponent<Entity extends object>
       if (this.currentSortDirection === SortingType.ASC)
         this.currentSortDirection = SortingType.DESC;
       else if (this.currentSortDirection === SortingType.DESC) {
-        this.currentSortDirection = SortingType.NONE;
+        this.currentSortDirection = undefined;
       } else {
         this.currentSortDirection = SortingType.ASC;
       }

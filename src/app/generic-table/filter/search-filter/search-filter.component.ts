@@ -9,7 +9,8 @@ import {
 } from '@angular/core';
 import { ColumnComponent } from '../../dg-column/dg-column.component';
 import { debounceTime, distinctUntilChanged, fromEvent } from 'rxjs';
-import { FilterDataType, searchDebounceTime } from '../../generic-table.const';
+import { searchDebounceTime } from '../../shared/const';
+import { Filter, FilterDataType, FilterOperation} from '../../shared/utils';
 
 @Component({
   selector: 'app-search-filter',
@@ -18,33 +19,31 @@ import { FilterDataType, searchDebounceTime } from '../../generic-table.const';
 })
 export class SearchFilterComponent implements AfterViewInit {
   @Input() col!: ColumnComponent;
-  @Output() filter = new EventEmitter<{
-    filterValue: string | number | undefined;
-    column: string;
-  }>();
+  @Output() filter = new EventEmitter<Filter>();
   @ViewChild('input') input!: ElementRef;
+  searchOperation: FilterOperation = FilterOperation.LIKE;
+
+  //constants
   readonly FilterDataType = FilterDataType;
 
   ngAfterViewInit() {
     fromEvent(this.input.nativeElement, 'keyup')
       .pipe(debounceTime(searchDebounceTime), distinctUntilChanged())
       .subscribe((res: any) => {
-        this.filter.emit({
-          filterValue: res.target.value,
-          column: this.col.field,
-        });
+        this.filter.emit(new Filter(
+          this.col.field,
+          res.target.value,
+          this.searchOperation
+        ));
       });
-  }
-  get checkInputValue(): boolean {
-    if (this.input?.nativeElement?.value) return true;
-    else return false;
   }
   resetInput(): void {
     if (!this.input?.nativeElement?.value) return;
     this.input.nativeElement.value = '';
-    this.filter.emit({
-      filterValue: this.input.nativeElement.value,
-      column: this.col.field,
-    });
+    this.filter.emit(new Filter(
+      this.col.field,
+      this.input.nativeElement.value,
+      this.searchOperation
+    ));
   }
 }

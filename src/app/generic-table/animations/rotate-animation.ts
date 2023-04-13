@@ -1,18 +1,18 @@
 import { animate, state, style, transition, trigger } from "@angular/animations";
 
-export const rotateArrow = trigger('rotateArrow', [
+export const rotate = trigger('rotate', [
   state(
-    'ASC',
+    'UP',
     style({
       transform: 'rotate(0)',
     })
   ),
   state(
-    'DESC',
+    'DOWN',
     style({
       transform: 'rotate(180deg)',
     })
   ),
-  transition('ASC => DESC', [animate('0.25s ease-out')]),
-  transition('DESC => ASC', [animate('0.25s ease-in')]),
+  transition('UP => DOWN', [animate('0.25s ease-out')]),
+  transition('DOWN => UP', [animate('0.25s ease-in')]),
 ])

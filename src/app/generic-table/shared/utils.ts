@@ -4,8 +4,6 @@
 //   NO_RESULT
 // }
 
-export const searchDebounceTime = 300;
-
 export enum FilterOperation {
   EQUALS = '=',
   RANGE_LOWER = '_gte',
@@ -18,14 +16,14 @@ export class TableDataQuery {
   currentPage: number | undefined = 1;
   pageSize: number | undefined;
   currentSortColumn: string | undefined;
-  sortDirection: SortingType| undefined  = SortingType.NONE;
+  sortDirection: SortingType| undefined;
   currentFilterColumn!: string | undefined;
   filterValue!: string | undefined;
   constructor(
     currentPage: number | undefined,
     pageSize: number | undefined,
     currentSortColumn: string | undefined,
-    sortDirection: SortingType,
+    sortDirection: SortingType | undefined,
     currentFilterColumn: string | undefined,
     filterValue: string | undefined
   ) {
@@ -42,6 +40,11 @@ export class Filter {
   field!: string;
   value!: string;
   filterOperation!: FilterOperation
+  constructor(field: string,value: string, filterOperation: FilterOperation) {
+    this.field = field;
+    this.value = value;
+    this.filterOperation = filterOperation;
+  }
 }
 
 export enum FilterDataType {
@@ -51,7 +54,6 @@ export enum FilterDataType {
 }
 
 export enum SortingType {
-  NONE,
   ASC = 'ASC',
   DESC = 'DESC'
 }

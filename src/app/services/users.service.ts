@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RequestMethod, SortingType, TableDataQuery } from '../generic-table/generic-table.const';
+import { RequestMethod, TableDataQuery } from '../generic-table/shared/utils';
 import { ApiService } from './api.service';
 import { HttpHeaders } from '@angular/common/http';
 
@@ -11,6 +11,7 @@ export class UsersService {
   constructor(protected api: ApiService) { }
 
   url = 'http://localhost:3000/';
+  body = { observe: 'response' };
 
   // async getUsers(page?:number, pageSize?:number, sortColumn?:string, sortDirection?: SortingType, filterProperty?: any, filterValue ?:any): Promise<any> {
     async getUsers(queryData: TableDataQuery): Promise<any> {
@@ -31,7 +32,8 @@ export class UsersService {
 
     return await this.api.sendRequest(
       RequestMethod.Get,
-      url
+      url,
+      this.body
     );
   }
 }

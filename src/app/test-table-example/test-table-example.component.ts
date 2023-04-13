@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
   ColumnTemplate,
+  Filter,
   FilterDataType,
   PagingType,
   SortingType,
   TableDataQuery,
-} from '../generic-table/generic-table.const';
+} from '../generic-table/shared/utils';
 import { User } from '../interfaces/user.interface';
 import { UsersService } from '../services/users.service';
 
@@ -17,12 +18,13 @@ import { UsersService } from '../services/users.service';
 export class TestTableExampleComponent implements OnInit {
   ColumnTemplate = ColumnTemplate;
   users: User[] = [];
+  // total Number of elements retrieved from BE SIDE
+  // used to calculate visible pages for client side paging
   records: number = 0;
+  // SET SERVER OR CLIENT SIDE PAGINATION SORTING AND FILTERING
   pagingType: PagingType = PagingType.SERVER_SIDE;
+  // SET PAGE SIZE FOR PAGINTAION
   pageSize: number = 5;
-  sortDirection: SortingType = SortingType.NONE;
-  currentPage: number = 1;
-  currentSortColum: string | undefined;
 
   readonly FilterDataType = FilterDataType;
   filterColumn: string | undefined = undefined;
@@ -32,7 +34,7 @@ export class TestTableExampleComponent implements OnInit {
     undefined,
     1,
     undefined,
-    SortingType.NONE,
+    undefined,
     undefined,
     undefined
   );
@@ -75,14 +77,11 @@ export class TestTableExampleComponent implements OnInit {
     this.getUsersData(this.queryOptionsData);
   }
 
-  serverHendledFiltering(filterData: {
-    column: string;
-    filterValue: string | number | undefined;
-  }) {
+  serverHendledFiltering(filterData: Filter) {
     this.queryOptionsData.currentPage = 1;
     this.queryOptionsData.currentFilterColumn = this.filterColumn;
-    this.queryOptionsData.filterValue = filterData.filterValue?.toString();
-    this.queryOptionsData.currentFilterColumn = filterData.column;
+    this.queryOptionsData.filterValue = filterData.value?.toString();
+    this.queryOptionsData.currentFilterColumn = filterData.field;
     this.getUsersData(this.queryOptionsData);
   }
 

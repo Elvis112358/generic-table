@@ -7,7 +7,7 @@
         }">
         <div class="cell-content-container" (click)="sort(col)" (mouseenter)="mouseEnterFilterCell()" [ngClass]="{
           'not-sortable': !col.sortable,
-          'ghost-arrow': freshHoverForSortArrowCss && currentSortDirection === SortingTypes.NONE || currentSortField !== col.field,
+          'ghost-arrow': freshHoverForSortArrowCss && currentSortDirection === undefined || currentSortField !== col.field,
           'left': col.textAlign === 'left',
           'right': col.textAlign === 'right'
         }" [ngStyle]="{
@@ -19,9 +19,9 @@
           </span>
           <img src="../../assets/arrow-down.svg" alt="arrow-down" *ngIf="col.sortable"
             [ngClass]="{
-              hide: col.sortable && this.currentSortField !== col.field || this.currentSortDirection == SortingTypes.NONE,
+              hide: col.sortable && this.currentSortField !== col.field || this.currentSortDirection == undefined,
               'sort-right': col.textAlign === 'right'
-            }" [@rotateArrow]='currentSortDirection'>
+            }" [@rotate]="currentSortDirection === SortingTypes.ASC ? 'UP' : 'DOWN'">
 
         </div>
       </div>
@@ -67,8 +67,20 @@
       </div>
     </div>
   </div>
-  <div class="paging">
+  <div *ngIf="pagedGridData?.length; else noResult">
     <app-paging [pageSize]="pageSize" [totalElements]="totalElements" (pageChange)="pageChanged($event)">
     </app-paging>
   </div>
+  <ng-template #noResult>
+    <div class="no-result-container">
+      <div class="no-result">
+        <div>
+          <div class="no-result-title">There is nothing here.</div>
+          <div class="no-result-subtitle">
+            Try refreshing the page or changing your search.
+          </div>
+        </div>
+      </div>
+    </div>
+    </ng-template>
 </div>
