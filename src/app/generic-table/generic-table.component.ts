@@ -31,13 +31,12 @@ import { rotate } from './animations/rotate-animation';
 export class GenericTableComponent<Entity extends object>
   implements OnInit, OnChanges, AfterContentInit
 {
-  freshHoverForSortArrowCss: boolean = true;
-
   @Input() data: Array<Entity> = [];
   @Input() templateRefs: { [key: number]: TemplateRef<ElementRef> } = {};
   @Input() totalElements: number = 0;
   @Input() pageSize: number = 10;
   @Input() pagingType!: PagingType;
+  @Input() fixedFirstCol: boolean = false;
   @Output() pageChange = new EventEmitter<number>();
   @Output() sorting = new EventEmitter<{
     column: string;
@@ -54,7 +53,7 @@ export class GenericTableComponent<Entity extends object>
 
   pagedGridData: any[] | undefined;
   page: number = 1;
-
+  freshHoverForSortArrowCss: boolean = true;
   // constants
   readonly ColumnTemplate = ColumnTemplate;
   readonly SortingTypes = SortingType;

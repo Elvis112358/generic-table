@@ -19,6 +19,14 @@
       display: table-cell;
       padding-bottom: 2px;
       border-bottom: 1px solid $border-color;
+      &.fixed:first-child {
+        width: 100px;
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background-color: #FFF;
+        border-right: 1px solid $border-color;
+      }
 
       &:hover {
         background-color: $table-cell-hover;
@@ -72,6 +80,13 @@
     .filter-cell {
         display: table-cell;
         background-color: whitesmoke;
+        &.fixed:first-child {
+          width: 100px;
+          position: sticky;
+          left: 0;
+          z-index: 1;
+          border-right: 1px solid $border-color;
+        }
 
         &.underline-no-filter-cell {
           border-bottom: 1px solid rgb(142 142 142);
@@ -88,6 +103,14 @@
         text-align: center;
         vertical-align: middle;
         border-bottom: 1px solid $border-color;
+        &.fixed:first-child {
+          width: 100px;
+          position: sticky;
+          left: 0;
+          z-index: 1;
+          background-color: #FFF;
+          border-right: 1px solid $border-color;
+        }
         &.left {
           padding-left: 10px;
         }
@@ -101,9 +124,15 @@
       }
     }
   }
+
+}
+.paging {
+  position: absolute;
+  bottom: 10px;
+  right: 0px;
 }
 .no-result-container {
-  margin: 20px 10px;
+  // margin: 20px 10px;
   width: 100%;
   box-sizing: border-box;
   border-bottom: 1px solid #e2e2e2;

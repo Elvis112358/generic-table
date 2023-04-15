@@ -9,7 +9,7 @@ import { ColumnTemplate, FilterDataType } from '../shared/utils';
 export class ColumnComponent implements AfterContentInit {
   @Input() field: string = '';
   @Input() header: string = '';
-  @Input() width?: number;
+  @Input() width?: number | string;
   @Input() minWidth?: number;
   @Input() textAlign?: string = 'center';
   // data Type per column (string, number, dateTime...)

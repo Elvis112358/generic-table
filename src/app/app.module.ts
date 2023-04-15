@@ -17,6 +17,7 @@ import { MatFormFieldModule }  from "@angular/material/form-field";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchFilterComponent } from './generic-table/filter/search-filter/search-filter.component';
 import { DateFilterComponent } from './generic-table/filter/date-filter/date-filter.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { DateFilterComponent } from './generic-table/filter/date-filter/date-fil
     PagingComponent,
     SearchFilterComponent,
     DateFilterComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,

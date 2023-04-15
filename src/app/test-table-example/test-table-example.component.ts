@@ -24,7 +24,7 @@ export class TestTableExampleComponent implements OnInit {
   // SET SERVER OR CLIENT SIDE PAGINATION SORTING AND FILTERING
   pagingType: PagingType = PagingType.SERVER_SIDE;
   // SET PAGE SIZE FOR PAGINTAION
-  pageSize: number = 5;
+  pageSize: number = 10;
 
   readonly FilterDataType = FilterDataType;
   filterColumn: string | undefined = undefined;
