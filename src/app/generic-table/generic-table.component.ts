@@ -17,7 +17,9 @@ import {
   ColumnTemplate,
   Filter,
   FilterDataType,
+  GridData,
   PagingType,
+  Sorting,
   SortingType,
 } from './shared/utils';
 import { rotate } from './animations/rotate-animation';
@@ -38,14 +40,11 @@ export class GenericTableComponent<Entity extends object>
   @Input() pagingType!: PagingType;
   @Input() fixedFirstCol: boolean = false;
   @Output() pageChange = new EventEmitter<number>();
-  @Output() sorting = new EventEmitter<{
-    column: string;
-    sortDirection: SortingType | undefined;
-  }>();
+  @Output() sorting = new EventEmitter<Sorting>();
   @Output() filtering = new EventEmitter<Filter>();
 
   cols!: Array<ColumnComponent>;
-  gridData?: Array<any>; // TODO type ovoga?
+  gridData?: Array<GridData<Entity>>;
   @ContentChildren(ColumnComponent) columnList!: QueryList<ColumnComponent>;
   currentSortField = '';
   currentSortDirection: SortingType | undefined;
@@ -104,7 +103,7 @@ export class GenericTableComponent<Entity extends object>
   }
 
   onInputDataChanges(): void {
-    this.gridData = this.data.map((rowData: any, i: number) => {
+    this.gridData = this.data.map((rowData: any, i: number):GridData<Entity> => {
       rowData = rowData || {};
       rowData.dgIndex = i;
       rowData.dgExpanded = false;
@@ -177,15 +176,15 @@ export class GenericTableComponent<Entity extends object>
       this.currentSortDirection === SortingType.ASC ||
       this.currentSortDirection === SortingType.DESC
     )
-      this.gridData?.sort((a, b) =>
+      this.gridData?.sort((a:any, b:any) =>
         this.operators[
           this.currentSortDirection === SortingType.ASC ? '>' : '<'
         ](a[this.currentSortField], b[this.currentSortField])
           ? -1
           : 1
       );
-    else this.gridData = [...this.data];
-
+    else
+      this.onInputDataChanges();
     this.applyPaging(this.currentPage, this.pageSize);
   }
 }

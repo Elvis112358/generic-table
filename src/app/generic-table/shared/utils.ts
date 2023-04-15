@@ -13,26 +13,36 @@ export enum FilterOperation {
 }
 
 export class TableDataQuery {
-  currentPage: number | undefined = 1;
+  currentPage: number | undefined;
   pageSize: number | undefined;
-  currentSortColumn: string | undefined;
-  sortDirection: SortingType| undefined;
+  sorting: Sorting;
   currentFilterColumn!: string | undefined;
   filterValue!: string | undefined;
   constructor(
-    currentPage: number | undefined,
-    pageSize: number | undefined,
-    currentSortColumn: string | undefined,
-    sortDirection: SortingType | undefined,
-    currentFilterColumn: string | undefined,
-    filterValue: string | undefined
+    currentPage: number | undefined = undefined,
+    pageSize: number | undefined = 1,
+    sorting: Sorting = new Sorting(),
+    currentFilterColumn: string | undefined = undefined,
+    filterValue: string | undefined = undefined
   ) {
     this.currentPage = currentPage;
     this.pageSize = pageSize;
-    this.currentSortColumn = currentSortColumn;
-    this.sortDirection = sortDirection;
+    this.sorting = sorting;
     this.currentFilterColumn = currentFilterColumn;
     this.filterValue = filterValue;
+  }
+
+}
+export class Sorting {
+  column: string | undefined;
+  sortDirection!: SortingType | undefined;
+
+  constructor(
+    column: string | undefined = undefined,
+    sortDirection: SortingType | undefined = undefined
+  ) {
+    this.column = column;
+    this.sortDirection = sortDirection;
   }
 }
 

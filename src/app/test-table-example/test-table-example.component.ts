@@ -4,7 +4,7 @@ import {
   Filter,
   FilterDataType,
   PagingType,
-  SortingType,
+  Sorting,
   TableDataQuery,
 } from '../generic-table/shared/utils';
 import { User } from '../interfaces/user.interface';
@@ -30,14 +30,7 @@ export class TestTableExampleComponent implements OnInit {
   filterColumn: string | undefined = undefined;
   filterValue: string | undefined = undefined;
 
-  queryOptionsData: TableDataQuery = new TableDataQuery(
-    undefined,
-    1,
-    undefined,
-    undefined,
-    undefined,
-    undefined
-  );
+  queryOptionsData: TableDataQuery = new TableDataQuery();
   showUserInfo: boolean = true;
   switch: Array<boolean> = [];
 
@@ -76,19 +69,15 @@ export class TestTableExampleComponent implements OnInit {
     this.getUsersData(this.queryOptionsData);
   }
 
-  serverHandledSorting(sortData: {
-    column: string;
-    sortDirection: SortingType | undefined;
-  }) {
-    this.queryOptionsData.sortDirection = sortData.sortDirection;
+  serverHandledSorting(sortData: Sorting) {
+    this.queryOptionsData.sorting.sortDirection = sortData.sortDirection;
     if (sortData.column)
-      this.queryOptionsData.currentSortColumn = sortData.column;
+      this.queryOptionsData.sorting.column = sortData.column;
     this.getUsersData(this.queryOptionsData);
   }
 
   serverHendledFiltering(filterData: Filter) {
     this.queryOptionsData.currentPage = 1;
-    this.queryOptionsData.currentFilterColumn = this.filterColumn;
     this.queryOptionsData.filterValue = filterData.value?.toString();
     this.queryOptionsData.currentFilterColumn = filterData.field;
     this.getUsersData(this.queryOptionsData);
