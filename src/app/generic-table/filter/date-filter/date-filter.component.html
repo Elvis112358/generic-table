@@ -1,1 +1,15 @@
-<p>date-filter works!</p>
+<div class="date-filter-cell-container" [ngClass]="{
+  'reverse-aligned': col.textAlign === 'right'
+}" *ngIf="col.filterOptOn && (col.dataType===FilterDataType.DATE)">
+  <mat-form-field appearance="fill">
+    <mat-date-range-input [rangePicker]="picker" [dateFilter]="rangeFilter">
+      <input matStartDate placeholder="Start" #dateRangeStart>
+      <input matEndDate placeholder="End" #dateRangeEnd
+        (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+  <img *ngIf="!!dateRangeStart.value" src="{{'../../assets/xmark-solid.svg'}}" alt="search" (click)="resetInput()"
+    [ngClass]="{'reset-input': !!dateRangeStart.value}">
+</div>

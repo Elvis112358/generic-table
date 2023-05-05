@@ -1,6 +1,6 @@
 import { AfterContentInit, Component, ContentChild, ContentChildren, ElementRef, Input, OnInit, QueryList, TemplateRef } from '@angular/core';
 import { TemplateDirective } from '../directives/template.directive';
-import { ColumnTemplate, FilterDataType } from '../shared/utils';
+import { Template, FilterDataType } from '../shared/utils';
 
 @Component({
   selector: 'app-dg-column',
@@ -11,7 +11,7 @@ export class ColumnComponent implements AfterContentInit {
   @Input() header: string = '';
   @Input() width?: number | string;
   @Input() minWidth?: number;
-  @Input() textAlign?: string = 'center';
+  @Input() textAlign: string = 'center';
   // data Type per column (string, number, dateTime...)
   @Input() dataType: FilterDataType = FilterDataType.TEXT;
   // enable/disable filter option per column
@@ -28,7 +28,7 @@ export class ColumnComponent implements AfterContentInit {
 
   private _collectTemplateRefs(): void {
     this.templates.toArray().forEach((t: TemplateDirective) => {
-      this.templateRefs[t.type] = t.templateRef ?? ColumnTemplate.BODY;
+      this.templateRefs[t.type] = t.templateRef ?? Template.BODY;
     });
   }
 }

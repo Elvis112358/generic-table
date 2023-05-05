@@ -1,6 +1,7 @@
 import {
   AfterContentInit,
   Component,
+  ContentChild,
   ContentChildren,
   ElementRef,
   EventEmitter,
@@ -14,7 +15,7 @@ import {
 } from '@angular/core';
 import { ColumnComponent } from './dg-column/dg-column.component';
 import {
-  ColumnTemplate,
+  Template,
   Filter,
   FilterDataType,
   GridData,
@@ -23,6 +24,8 @@ import {
   SortingType,
 } from './shared/utils';
 import { rotate } from './animations/rotate-animation';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { TemplateDirective } from './directives/template.directive';
 
 @Component({
   selector: 'app-generic-table',
@@ -45,22 +48,31 @@ export class GenericTableComponent<Entity extends object>
 
   cols!: Array<ColumnComponent>;
   gridData?: Array<GridData<Entity>>;
+  // @ContentChild(TemplateRef) templates?: TemplateRef<ElementRef>;
+  @ContentChildren(TemplateDirective) templateList!: QueryList<TemplateDirective>;
   @ContentChildren(ColumnComponent) columnList!: QueryList<ColumnComponent>;
   currentSortField = '';
   currentSortDirection: SortingType | undefined;
   currentPage: number = 1;
 
-  pagedGridData: any[] | undefined;
+  pagedGridData: Array<GridData<Entity>> | undefined;
   page: number = 1;
   freshHoverForSortArrowCss: boolean = true;
+  myFormGroup!: FormGroup;
+  start = new Date()
+  end = new Date()
   // constants
-  readonly ColumnTemplate = ColumnTemplate;
+  readonly Template = Template;
   readonly SortingTypes = SortingType;
   readonly FilterDataType = FilterDataType;
 
-  constructor() {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
+    this.myFormGroup = this.formBuilder.group({
+      start: [new Date()],
+      end: [new Date()],
+    });
     this.onInputDataChanges();
     this.applyPaging(this.page, this.pageSize);
   }
@@ -75,10 +87,18 @@ export class GenericTableComponent<Entity extends object>
 
   ngAfterContentInit() {
     this.initCols();
+    // this.initNoResultTemplate();
+    this.collectTemplateRefs();
   }
 
   initCols(): void {
     this.cols = this.columnList.toArray();
+  }
+
+  collectTemplateRefs(): void {
+    this.templateList?.toArray().forEach((t: TemplateDirective) => {
+      this.templateRefs[t.type] = t.templateRef;
+    });
   }
 
   sort(column: ColumnComponent) {

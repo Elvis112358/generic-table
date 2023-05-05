@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  ColumnTemplate,
+  Template,
   Filter,
   FilterDataType,
   PagingType,
@@ -16,7 +16,7 @@ import { UsersService } from '../services/users.service';
   styleUrls: ['./test-table-example.component.scss'],
 })
 export class TestTableExampleComponent implements OnInit {
-  ColumnTemplate = ColumnTemplate;
+  Template = Template;
   users: User[] = [];
   // total Number of elements retrieved from BE SIDE
   // used to calculate visible pages for client side paging
@@ -46,6 +46,7 @@ export class TestTableExampleComponent implements OnInit {
   seePosition(user: User) {
     this.switch[this.users.indexOf(user)] = !this.switch[this.users.indexOf(user)]
   }
+
   resetSwitchState():void {
     this.switch = [];
     for (let index = 0; index < this.pageSize; index++) {
@@ -54,8 +55,8 @@ export class TestTableExampleComponent implements OnInit {
   }
 
   async getInitalUsers(pageNumber?: number, pageSize?: number): Promise<any> {
-    if (pageNumber) this.queryOptionsData.currentPage = pageNumber;
-    if (pageSize) this.queryOptionsData.pageSize = pageSize;
+    this.queryOptionsData.setPageSize(pageSize);
+    this.queryOptionsData.setCurrentPage(pageNumber);
     await this.getUsersData(this.queryOptionsData);
     if (this.pagingType === PagingType.SERVER_SIDE) {
       // apply paging for first page
@@ -65,21 +66,27 @@ export class TestTableExampleComponent implements OnInit {
 
   //in case of server side paging we emit event on pageChanged
   async pageChanged(currentPage: number): Promise<void> {
-    if (currentPage) this.queryOptionsData.currentPage = currentPage;
+    this.queryOptionsData.setCurrentPage(currentPage);
     this.getUsersData(this.queryOptionsData);
   }
 
   serverHandledSorting(sortData: Sorting) {
-    this.queryOptionsData.sorting.sortDirection = sortData.sortDirection;
-    if (sortData.column)
-      this.queryOptionsData.sorting.column = sortData.column;
+    this.queryOptionsData.setSorting(sortData);
     this.getUsersData(this.queryOptionsData);
   }
 
   serverHendledFiltering(filterData: Filter) {
-    this.queryOptionsData.currentPage = 1;
-    this.queryOptionsData.filterValue = filterData.value?.toString();
-    this.queryOptionsData.currentFilterColumn = filterData.field;
+    this.queryOptionsData.setCurrentPage(1);
+    if (filterData && Array.isArray(filterData.value)) {
+      const tempArray = filterData.value.map((date) => {
+        if (date instanceof Date) {
+          return date.toISOString();
+        } else 
+           return date
+      });
+      filterData.value = tempArray;
+    }   
+    this.queryOptionsData.setFiltering(filterData);
     this.getUsersData(this.queryOptionsData);
   }
 
@@ -112,6 +119,7 @@ export class TestTableExampleComponent implements OnInit {
       return 'assets/elva.png';
     }
   }
+
   calculateDate(startDate: Date, endDate: Date): number {
     const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
     const diffInMilliseconds = Math.abs(

@@ -18,6 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchFilterComponent } from './generic-table/filter/search-filter/search-filter.component';
 import { DateFilterComponent } from './generic-table/filter/date-filter/date-filter.component';
 import { LayoutComponent } from './layout/layout.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,11 @@ import { LayoutComponent } from './layout/layout.component';
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    // MatMomentDateModule,
+    MatNativeDateModule
+
   ],
   exports: [
     MatInputModule

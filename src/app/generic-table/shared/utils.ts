@@ -9,30 +9,55 @@ export enum FilterOperation {
   RANGE_LOWER = '_gte',
   RANGE_HIGHER = '_lte',
   EXCLUDE = '_ne',
-  LIKE = '_like'
+  LIKE = '_like',
 }
 
 export class TableDataQuery {
   currentPage: number | undefined;
   pageSize: number | undefined;
   sorting: Sorting;
-  currentFilterColumn!: string | undefined;
-  filterValue!: string | undefined;
+  filtering: Filter[];
   constructor(
     currentPage: number | undefined = undefined,
     pageSize: number | undefined = 1,
     sorting: Sorting = new Sorting(),
-    currentFilterColumn: string | undefined = undefined,
-    filterValue: string | undefined = undefined
+    filtering: Filter[] = [new Filter()]
   ) {
     this.currentPage = currentPage;
     this.pageSize = pageSize;
     this.sorting = sorting;
-    this.currentFilterColumn = currentFilterColumn;
-    this.filterValue = filterValue;
+    this.filtering = filtering;
   }
 
+  setPageSize(pageSize?: number | undefined) {
+    if (pageSize) this.pageSize = pageSize;
+  }
+  setCurrentPage(currentPage: number | undefined) {
+    if (currentPage) this.currentPage = currentPage;
+  }
+  setSorting(sortData: Sorting) {
+    if (sortData) this.sorting = sortData;
+  }
+  setFiltering(filter: Filter) {
+    let existingFilter = this.filtering.find((f) => f.field === filter.field);
+    if (existingFilter) {
+      if (filter.value !== '') {
+        existingFilter.value = filter.value;
+      } else {
+        this.filtering = [
+          ...this.filtering.filter((value) => value.field !== filter.field),
+        ];
+      }
+    } else if (
+      filter.value !== '' &&
+      filter.value !== undefined &&
+      filter.field !== undefined
+    ) {
+      this.filtering.push(filter);
+    }
+  }
 }
+
 export class Sorting {
   column: string | undefined;
   sortDirection!: SortingType | undefined;
@@ -47,10 +72,14 @@ export class Sorting {
 }
 
 export class Filter {
-  field!: string;
-  value!: string;
-  filterOperation!: FilterOperation
-  constructor(field: string,value: string, filterOperation: FilterOperation) {
+  field: string | undefined;
+  value: string | string[] | number | Date | Date[] | undefined;
+  filterOperation: FilterOperation| FilterOperation[] | undefined;
+  constructor(
+    field: string | undefined = undefined,
+    value: string | number | Date | Date[] | undefined = undefined,
+    filterOperation: FilterOperation | FilterOperation[] | undefined = undefined
+  ) {
     this.field = field;
     this.value = value;
     this.filterOperation = filterOperation;
@@ -60,22 +89,23 @@ export class Filter {
 export enum FilterDataType {
   TEXT = 'text',
   NUMBER = 'number',
-  DATE= 'DateTime'
+  DATE = 'DateTime',
 }
 
 export enum SortingType {
   ASC = 'ASC',
-  DESC = 'DESC'
+  DESC = 'DESC',
 }
 
-export enum ColumnTemplate {
-  BODY ,
+export enum Template {
+  BODY,
   HEAD,
+  NO_RESULT
 }
 
 export enum PagingType {
   SERVER_SIDE,
-  CLIENT_SIDE
+  CLIENT_SIDE,
 }
 
 export enum RequestMethod {
@@ -91,7 +121,7 @@ export class GridData<Entity> {
   isExpandable: boolean;
   data: Entity;
 
-  constructor(data: Entity,i: number, expandable: boolean) {
+  constructor(data: Entity, i: number, expandable: boolean) {
     this.data = data;
     this.isExpandable = expandable;
     this.dgIndex = i;

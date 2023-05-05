@@ -46,3 +46,26 @@ app-generic-table {
     height: calc(100% - 160px);
   }
 }
+
+.no-result {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: silver;
+  text-align: center;
+  height: 100%;
+  margin-top: 40px;
+  margin-left: 10px;
+  margin-bottom: 40px;
+
+  .no-result-title {
+    font-family: 'Roboto';
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .no-result-subtitle {
+    font-size: 24px;
+  }
+}

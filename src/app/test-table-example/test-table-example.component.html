@@ -10,8 +10,8 @@
       [dataType]="FilterDataType.NUMBER" [filterOptOn]="true"></app-dg-column>
     <app-dg-column [field]="'salary'" header="Salary"  [width]="60" [sortable]="true" [textAlign]="'right'"
       [dataType]="FilterDataType.NUMBER" [filterOptOn]="true"></app-dg-column>
-    <app-dg-column [header]="'Information'" [width]="200">
-      <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData>
+    <app-dg-column [header]="'Information'" [width]="120">
+      <ng-template [appTableRow]="users" [template]="Template.BODY" let-rowData>
         <div class="info">
           <p>Employe Age {{rowData.age}}</p>
           <div>
@@ -20,7 +20,7 @@
       </ng-template>
     </app-dg-column>
     <app-dg-column [header]="'Action'" [width]="70">
-      <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData let-ri="rowIndex">
+      <ng-template [appTableRow]="users" [template]="Template.BODY" let-rowData let-ri="rowIndex">
         <div class="info" *ngIf="switch[ri]">
           <p>Position {{rowData.position}}</p>
           <div>
@@ -35,25 +35,36 @@
       </ng-template>
     </app-dg-column>
     <app-dg-column [header]="'Years in Company'" [width]="70">
-      <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData>
+      <ng-template [appTableRow]="users" [template]="Template.BODY" let-rowData>
         <div class="btn-continer">
           <div>{{calculateDate(rowData.startDate, rowData.toDate) | number:'1.1-1'}} </div>
         </div>
       </ng-template>
     </app-dg-column>
-    <app-dg-column [header]="'Start Date'" [width]="90">
-      <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData>
+    <app-dg-column [header]="'Start Date'" [field]="'startDate'" [width]="120" [minWidth]="120" [dataType]="FilterDataType.DATE" [filterOptOn]="true">
+      <ng-template [appTableRow]="users" [template]="Template.BODY" let-rowData>
         <div class="btn-continer">
           <div>{{rowData.startDate | date}} </div>
         </div>
       </ng-template>
     </app-dg-column>
-    <app-dg-column [header]="'End Date'" [width]="90">
-      <ng-template [appTableRow]="users" [template]="ColumnTemplate.BODY" let-rowData>
+    <app-dg-column [header]="'End Date'" [width]="90" [field]="'toDate'" [width]="120" [minWidth]="120" [dataType]="FilterDataType.DATE" [filterOptOn]="true">
+      <ng-template [appTableRow]="users" [template]="Template.BODY" let-rowData>
         <div class="btn-continer">
           <div>{{rowData.toDate | date}} </div>
         </div>
       </ng-template>
     </app-dg-column>
+    <ng-template [template]="Template.NO_RESULT">
+      <div class="no-result">
+        <div>
+          <div class="no-result-title">CONTENT PROJECTED NO RESULT TEMPLATE.</div>
+          <div class="no-result-title">There is nothing here.</div>
+          <div class="no-result-subtitle">
+            Try refreshing the page or changing your search.
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </app-generic-table>
 </app-layout>

@@ -30,11 +30,15 @@ export class SearchFilterComponent implements AfterViewInit {
     fromEvent(this.input.nativeElement, 'keyup')
       .pipe(debounceTime(searchDebounceTime), distinctUntilChanged())
       .subscribe((res: any) => {
-        this.filter.emit(new Filter(
-          this.col.field,
-          res.target.value,
-          this.searchOperation
-        ));
+        this.filter.emit(
+          new Filter(
+            this.col.field,
+            this.col.dataType === FilterDataType.NUMBER
+              ? parseInt(res.target.value)
+              : res.target.value,
+            this.searchOperation
+          )
+        );
       });
   }
   resetInput(): void {
