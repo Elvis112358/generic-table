@@ -169,9 +169,12 @@
 }
 
 .paging {
-  position: fixed;
-  bottom: 85px;
-  right: 15px;
+  padding-bottom: 10px;
+
+  // for pager position to be fixed at the end of the page and handle view with pageSize
+  // position: fixed;
+  // bottom: 85px;
+  // right: 15px;
 }
 
 .no-result-container {
