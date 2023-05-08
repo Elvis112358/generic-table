@@ -88,6 +88,9 @@
       width: 15px;
       right:35px;
       top: 5px;
+      &.reset-input:hover {
+        cursor: pointer;
+      }
     }
   
     &.reverse-aligned {
