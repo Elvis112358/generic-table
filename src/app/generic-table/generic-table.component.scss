@@ -20,13 +20,21 @@
       padding-bottom: 2px;
       border-bottom: 1px solid $border-color;
 
-      &.fixed:first-child {
+      &.fixed-left:first-child {
         width: 100px;
         position: sticky;
         left: 0;
         z-index: 1;
         background-color: #FFF;
         border-right: 2px solid $border-color;
+      }
+      &.fixed-right:last-child {
+        width: 100px;
+        position: sticky;
+        right: 0;
+        z-index: 1;
+        background-color: #FFF;
+        border-left: 2px solid $border-color;
       }
 
       &:hover {
@@ -92,12 +100,19 @@
       display: table-cell;
       background-color: whitesmoke;
 
-      &.fixed:first-child {
+      &.fixed-left:first-child {
         width: 100px;
         position: sticky;
         left: 0;
         z-index: 1;
         border-right: 1px solid $border-color;
+      }
+      &.fixed-right:last-child {
+        width: 100px;
+        position: sticky;
+        right: 0;
+        z-index: 1;
+        border-left: 1px solid $border-color;
       }
 
       &.underline-no-filter-cell {
@@ -118,13 +133,21 @@
         vertical-align: middle;
         border-bottom: 1px solid $border-color;
 
-        &.fixed:first-child {
+        &.fixed-left:first-child {
           width: 100px;
           position: sticky;
           left: 0;
           z-index: 1;
           background-color: #FFF;
           border-right: 1px solid $border-color;
+        }
+        &.fixed-right:last-child {
+          width: 100px;
+          position: sticky;
+          right: 0;
+          z-index: 1;
+          background-color: #FFF;
+          border-left: 1px solid $border-color;
         }
 
         &.left {

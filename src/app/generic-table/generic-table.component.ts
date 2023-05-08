@@ -22,6 +22,7 @@ import {
   PagingType,
   Sorting,
   SortingType,
+  FixedPosition,
 } from './shared/utils';
 import { rotate } from './animations/rotate-animation';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -65,6 +66,7 @@ export class GenericTableComponent<Entity extends object>
   readonly Template = Template;
   readonly SortingTypes = SortingType;
   readonly FilterDataType = FilterDataType;
+  readonly FixedPosition = FixedPosition;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -93,6 +95,24 @@ export class GenericTableComponent<Entity extends object>
 
   initCols(): void {
     this.cols = this.columnList.toArray();
+ 
+    const colToBeFixed = this.cols.find(col => col.fixed === FixedPosition.LEFT || col.fixed === FixedPosition.RIGHT )
+    if(colToBeFixed) {
+        console.log('barem jedan sadzi FIXED');
+        const index = this.cols.indexOf(colToBeFixed);
+        if (index !== -1) {
+          this.cols.splice(index, 1); // Remove the item from its current position
+          if (colToBeFixed.fixed === FixedPosition.RIGHT)
+            this.cols.push(colToBeFixed); // Add it to the end of the array
+          else if(colToBeFixed.fixed === FixedPosition.LEFT) {
+            this.cols.unshift(colToBeFixed); // Add it at the start of the array
+          }
+        }
+
+        console.log(this.cols); // [1, 2, 4, 5, 3]
+      }
+    
+    console.log('COLS', this.cols)
   }
 
   collectTemplateRefs(): void {

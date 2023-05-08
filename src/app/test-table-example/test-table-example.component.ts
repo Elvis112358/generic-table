@@ -6,6 +6,7 @@ import {
   PagingType,
   Sorting,
   TableDataQuery,
+  FixedPosition,
 } from '../generic-table/shared/utils';
 import { User } from '../interfaces/user.interface';
 import { UsersService } from '../services/users.service';
@@ -27,6 +28,7 @@ export class TestTableExampleComponent implements OnInit {
   pageSize: number = 10;
 
   readonly FilterDataType = FilterDataType;
+  readonly FixedPosition = FixedPosition;
   filterColumn: string | undefined = undefined;
   filterValue: string | undefined = undefined;
 

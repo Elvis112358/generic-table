@@ -97,6 +97,11 @@ export enum SortingType {
   DESC = 'DESC',
 }
 
+export enum FixedPosition {
+  LEFT,
+  RIGHT,
+}
+
 export enum Template {
   BODY,
   HEAD,

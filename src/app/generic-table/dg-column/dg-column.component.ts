@@ -1,6 +1,6 @@
 import { AfterContentInit, Component, ContentChild, ContentChildren, ElementRef, Input, OnInit, QueryList, TemplateRef } from '@angular/core';
 import { TemplateDirective } from '../directives/template.directive';
-import { Template, FilterDataType } from '../shared/utils';
+import { Template, FilterDataType, FixedPosition } from '../shared/utils';
 
 @Component({
   selector: 'app-dg-column',
@@ -18,6 +18,8 @@ export class ColumnComponent implements AfterContentInit {
   @Input() filterOptOn: boolean = false;
   // enable/disable sorting option per column
   @Input() sortable?: boolean = false;
+  //if property exists fix column to the left or right position depending on FixedPosition
+  @Input() fixed?: FixedPosition
 
   templateRefs: { [key:number]: TemplateRef<ElementRef> } = {};
   @ContentChildren(TemplateDirective) templates!: QueryList<TemplateDirective>;

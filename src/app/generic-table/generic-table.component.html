@@ -4,7 +4,8 @@
       <div *ngFor="let col of cols" class="header-cell" [style.width.px]="col.width"
         [style.min-width.px]="col.minWidth"  [ngClass]="{
           'sort-right': col.textAlign === 'right',
-          'fixed': fixedFirstCol
+          'fixed-left': col.fixed === FixedPosition.LEFT,
+          'fixed-right': col.fixed === FixedPosition.RIGHT
         }">
         <div class="cell-content-container" (click)="sort(col)" (mouseenter)="mouseEnterFilterCell()" [ngClass]="{
           'not-sortable': !col.sortable,
@@ -31,7 +32,8 @@
     <div class="filter-section">
       <div *ngFor="let col of cols" class="filter-cell" [ngClass]="{
                   'underline-no-filter-cell': !col.filterOptOn,
-                  'fixed': fixedFirstCol
+                  'fixed-left': col.fixed === FixedPosition.LEFT,
+                  'fixed-right': col.fixed === FixedPosition.RIGHT
                 }">
                 <div [ngSwitch]="col.dataType">
                   <ng-container *ngSwitchCase="FilterDataType.DATE">
@@ -59,7 +61,8 @@
             'left': col.textAlign === 'left',
             'right': col.textAlign === 'right',
             'sort-indent': col.sortable,
-            'fixed': fixedFirstCol
+            'fixed-left': col.fixed === FixedPosition.LEFT,
+            'fixed-right': col.fixed === FixedPosition.RIGHT
           }">
           <ng-container *ngIf="col.templateRefs[Template.BODY]">
 
