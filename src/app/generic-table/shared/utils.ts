@@ -1,17 +1,14 @@
-// export enum GridTemplates {
-//   OPTIONS ,
-//   HEADER,
-//   NO_RESULT
-// }
+export class GridData<Entity> {
+  dgIndex: number;
+  isExpandable: boolean;
+  data: Entity;
 
-export enum FilterOperation {
-  EQUALS = '=',
-  RANGE_LOWER = '_gte',
-  RANGE_HIGHER = '_lte',
-  EXCLUDE = '_ne',
-  LIKE = '_like',
+  constructor(data: Entity, i: number, expandable: boolean) {
+    this.data = data;
+    this.isExpandable = expandable;
+    this.dgIndex = i;
+  }
 }
-
 export class TableDataQuery {
   currentPage: number | undefined;
   pageSize: number | undefined;
@@ -86,10 +83,21 @@ export class Filter {
   }
 }
 
+export class SelectFilterOptions {
+    id?: string | number;
+    text?: string | number;
+    constructor(id: string | number, text: string | number ) {
+        this.id = id;
+        this.text = text;
+    }
+}
+
+
 export enum FilterDataType {
   TEXT = 'text',
   NUMBER = 'number',
   DATE = 'DateTime',
+  SELECT = 'select'
 }
 
 export enum SortingType {
@@ -121,14 +129,12 @@ export enum RequestMethod {
   Delete = 'DELETE',
 }
 
-export class GridData<Entity> {
-  dgIndex: number;
-  isExpandable: boolean;
-  data: Entity;
-
-  constructor(data: Entity, i: number, expandable: boolean) {
-    this.data = data;
-    this.isExpandable = expandable;
-    this.dgIndex = i;
-  }
+export enum FilterOperation {
+  EQUALS = '=',
+  RANGE_LOWER = '_gte',
+  RANGE_HIGHER = '_lte',
+  EXCLUDE = '_ne',
+  LIKE = '_like',
 }
+
+

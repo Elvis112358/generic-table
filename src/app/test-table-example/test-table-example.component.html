@@ -2,14 +2,17 @@
   <app-generic-table [data]='users' [totalElements]="records" [pageSize]="pageSize" [pagingType]="pagingType"
     (pageChange)="pageChanged($event)" (sorting)="serverHandledSorting($event)"
     (filtering)="serverHendledFiltering($event)">
-    <app-dg-column [field]="'name'" header="First Name" [width]="90" [minWidth]="80" [sortable]="true" [textAlign]="'left'"
-      [dataType]="FilterDataType.TEXT" [filterOptOn]="true"></app-dg-column>
+    <app-dg-column [field]="'name'" header="First Name" [width]="90" [minWidth]="80" [sortable]="true"
+      [textAlign]="'left'" [dataType]="FilterDataType.TEXT" [filterOptOn]="true"></app-dg-column>
     <app-dg-column [field]="'surname'" header="Last Name" [width]="120" [sortable]="true" [textAlign]="'right'"
       [dataType]="FilterDataType.TEXT" [filterOptOn]="true"></app-dg-column>
-    <app-dg-column [field]="'age'" header="Age"  [width]="70" [minWidth]="25" [sortable]="true" [textAlign]="'left'"
+    <app-dg-column [field]="'age'" header="Age" [width]="70" [minWidth]="25" [sortable]="true" [textAlign]="'left'"
       [dataType]="FilterDataType.NUMBER" [filterOptOn]="true"></app-dg-column>
-    <app-dg-column [field]="'salary'" header="Salary"  [width]="60" [sortable]="true" [textAlign]="'right'" [fixed] = "FixedPosition.LEFT"
-      [dataType]="FilterDataType.NUMBER" [filterOptOn]="true"></app-dg-column>
+    <app-dg-column [field]="'salary'" header="Salary" [width]="60" [sortable]="true" [textAlign]="'right'"
+      [fixed]="FixedPosition.LEFT" [dataType]="FilterDataType.NUMBER" [filterOptOn]="true"></app-dg-column>
+    <app-dg-column [field]="'department'" header="Deparment" [sortable]="true" [textAlign]="'right'"
+      [width]="120" [minWidth]="120" [dataType]="FilterDataType.SELECT" [selectFilterOptions]="departments"
+      [filterOptOn]="true"></app-dg-column>
     <app-dg-column [header]="'Information'" [width]="120">
       <ng-template [appTableRow]="users" [template]="Template.BODY" let-rowData>
         <div class="info">
@@ -41,14 +44,16 @@
         </div>
       </ng-template>
     </app-dg-column>
-    <app-dg-column [header]="'Start Date'" [field]="'startDate'" [width]="120" [minWidth]="120" [dataType]="FilterDataType.DATE" [filterOptOn]="true">
+    <app-dg-column [header]="'Start Date'" [field]="'startDate'" [width]="120" [minWidth]="120"
+      [dataType]="FilterDataType.DATE" [filterOptOn]="true">
       <ng-template [appTableRow]="users" [template]="Template.BODY" let-rowData>
         <div class="btn-continer">
           <div>{{rowData.startDate | date}} </div>
         </div>
       </ng-template>
     </app-dg-column>
-    <app-dg-column [header]="'End Date'" [width]="90" [field]="'toDate'" [width]="120" [minWidth]="120" [dataType]="FilterDataType.DATE" [filterOptOn]="true">
+    <app-dg-column [header]="'End Date'" [width]="90" [field]="'toDate'" [width]="120" [minWidth]="120"
+      [dataType]="FilterDataType.DATE" [filterOptOn]="true">
       <ng-template [appTableRow]="users" [template]="Template.BODY" let-rowData>
         <div class="btn-continer">
           <div>{{rowData.toDate | date}} </div>

@@ -1,9 +1,9 @@
 {
   "users": [
     {
-      "name": "elvis",
-      "surname": "sehic",
-      "department": "dev",
+      "name": "Liam",
+      "surname": "Davis",
+      "department": "qa",
       "age": 29,
       "salary": 512,
       "position": "junior upper",
@@ -11,8 +11,8 @@
       "toDate": "2019-06-12T05:34:23.000Z"
     },
     {
-      "name": "andi",
-      "surname": "gvozdjar",
+      "name": "William",
+      "surname": "Smith",
       "department": "dev",
       "age": 26,
       "salary": 6540,
@@ -21,9 +21,9 @@
       "toDate": "2022-01-18T12:23:56.000Z"
     },
     {
-      "name": "ilma",
-      "surname": "kazazic",
-      "department": "dev",
+      "name": "Hannah",
+      "surname": "Davis",
+      "department": "qa",
       "age": 24,
       "salary": 45500,
       "position": "junior upper",
@@ -31,9 +31,9 @@
       "toDate": "2021-07-03T20:01:45.000Z"
     },
     {
-      "name": "Dzanis",
-      "surname": "brkan",
-      "department": "dev",
+      "name": "Liam",
+      "surname": "Caveman",
+      "department": "qa",
       "age": 26,
       "salary": 4646,
       "position": "junior upper",
@@ -41,8 +41,8 @@
       "toDate": "2018-06-29T11:57:12.000Z"
     },
     {
-      "name": "elvis 2",
-      "surname": "sehic",
+      "name": "Lucas",
+      "surname": "Nobleman",
       "department": "dev",
       "age": 29,
       "salary": 5464,
@@ -51,9 +51,9 @@
       "toDate": "2019-12-19T19:39:33.000Z"
     },
     {
-      "name": "andi 2",
-      "surname": "gvozdjar",
-      "department": "dev",
+      "name": "William",
+      "surname": "Davis",
+      "department": "qa",
       "age": 26,
       "salary": 464,
       "position": "medior upper",
@@ -61,9 +61,9 @@
       "toDate": "2014-11-10T06:12:48.000Z"
     },
     {
-      "name": "ilma 2",
-      "surname": "kazazic",
-      "department": "dev",
+      "name": "Lucas",
+      "surname": "Smith",
+      "department": "qa",
       "age": 24,
       "salary": 123,
       "position": "junior upper",
@@ -71,9 +71,9 @@
       "toDate": "2021-03-28T03:56:39.000Z"
     },
     {
-      "name": "Dzanis 2",
-      "surname": "brkan",
-      "department": "dev",
+      "name": "Alex",
+      "surname": "Nobleman",
+      "department": "qa",
       "age": 26,
       "salary": 312,
       "position": "junior upper",
@@ -81,8 +81,8 @@
       "toDate": "2019-06-12T05:34:23.000Z"
     },
     {
-      "name": "elvis 3",
-      "surname": "sehic",
+      "name": "Junior",
+      "surname": "Anderson",
       "department": "dev",
       "age": 29,
       "salary": 143,
@@ -91,9 +91,9 @@
       "toDate": "2022-01-18T12:23:56.000Z"
     },
     {
-      "name": "andi 3",
-      "surname": "gvozdjar",
-      "department": "dev",
+      "name": "Lucas",
+      "surname": "Clark",
+      "department": "qa",
       "age": 26,
       "salary": 134,
       "position": "medior upper",
@@ -101,8 +101,8 @@
       "toDate": "2021-07-03T20:01:45.000Z"
     },
     {
-      "name": "ilma 3",
-      "surname": "kazazic",
+      "name": "Liam",
+      "surname": "Garcia",
       "department": "dev",
       "age": 24,
       "salary": 512400,
@@ -111,8 +111,8 @@
       "toDate": "2018-06-29T11:57:12.000Z"
     },
     {
-      "name": "Dzanis 3",
-      "surname": "brkan",
+      "name": "Heffer",
+      "surname": "Rodriguez",
       "department": "dev",
       "age": 26,
       "salary": 501410,
@@ -121,8 +121,8 @@
       "toDate": "2021-03-28T03:56:39.000Z"
     },
     {
-      "name": "andi 4",
-      "surname": "gvozdjar",
+      "name": "Hannah",
+      "surname": "Hall",
       "department": "dev",
       "age": 26,
       "salary": 51200,
@@ -131,8 +131,8 @@
       "toDate": "2014-11-10T06:12:48.000Z"
     },
     {
-      "name": "ilma 4",
-      "surname": "kazazic",
+      "name": "Liam",
+      "surname": "Thomas",
       "department": "dev",
       "age": 24,
       "salary": 12,
@@ -141,8 +141,8 @@
       "toDate": "2019-12-19T19:39:33.000Z"
     },
     {
-      "name": "Dzanis 4",
-      "surname": "brkan",
+      "name": "Lucas",
+      "surname": "Walker",
       "department": "dev",
       "age": 26,
       "salary": 1,
@@ -183,7 +183,7 @@
     {
       "name": "Lucas",
       "surname": "Thompson",
-      "department": "qa",
+      "department": "pm",
       "age": 23,
       "salary": 5596,
       "position": "middle",
@@ -223,7 +223,7 @@
     {
       "name": "William",
       "surname": "Walker",
-      "department": "dev",
+      "department": "pm",
       "age": 24,
       "salary": 4976,
       "position": "senior",

@@ -19,7 +19,9 @@ import { SearchFilterComponent } from './generic-table/filter/search-filter/sear
 import { DateFilterComponent } from './generic-table/filter/date-filter/date-filter.component';
 import { LayoutComponent } from './layout/layout.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { SelectFilterComponent } from './generic-table/filter/select-filter/select-filter.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     SearchFilterComponent,
     DateFilterComponent,
     LayoutComponent,
+    SelectFilterComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     FormsModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    // MatMomentDateModule,
+    MatSelectModule,
+    MatOptionModule,
     MatNativeDateModule
 
   ],

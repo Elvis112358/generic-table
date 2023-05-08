@@ -7,6 +7,7 @@ import {
   Sorting,
   TableDataQuery,
   FixedPosition,
+  SelectFilterOptions,
 } from '../generic-table/shared/utils';
 import { User } from '../interfaces/user.interface';
 import { UsersService } from '../services/users.service';
@@ -35,6 +36,16 @@ export class TestTableExampleComponent implements OnInit {
   queryOptionsData: TableDataQuery = new TableDataQuery();
   showUserInfo: boolean = true;
   switch: Array<boolean> = [];
+  // for testing select filter values
+  departments: Array<SelectFilterOptions> = [
+    new SelectFilterOptions('dev', 'Dev'),
+    new SelectFilterOptions('qa', 'QA'),
+    new SelectFilterOptions('hr', 'HR'),
+    new SelectFilterOptions('pm', 'PM'),
+    new SelectFilterOptions('marketing', 'Marketing'),
+    new SelectFilterOptions('sales', 'Sales'),
+    new SelectFilterOptions('nonExisting', 'NonExisting'),
+  ];
 
   constructor(private usersService: UsersService) {}
 
@@ -46,13 +57,14 @@ export class TestTableExampleComponent implements OnInit {
   }
 
   seePosition(user: User) {
-    this.switch[this.users.indexOf(user)] = !this.switch[this.users.indexOf(user)]
+    this.switch[this.users.indexOf(user)] =
+      !this.switch[this.users.indexOf(user)];
   }
 
-  resetSwitchState():void {
+  resetSwitchState(): void {
     this.switch = [];
     for (let index = 0; index < this.pageSize; index++) {
-        this.switch.push(false);
+      this.switch.push(false);
     }
   }
 
@@ -83,11 +95,10 @@ export class TestTableExampleComponent implements OnInit {
       const tempArray = filterData.value.map((date) => {
         if (date instanceof Date) {
           return date.toISOString();
-        } else 
-           return date
+        } else return date;
       });
       filterData.value = tempArray;
-    }   
+    }
     this.queryOptionsData.setFiltering(filterData);
     this.getUsersData(this.queryOptionsData);
   }
