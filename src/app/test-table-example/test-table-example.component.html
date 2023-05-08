@@ -10,10 +10,10 @@
       [dataType]="FilterDataType.NUMBER" [filterOptOn]="true"></app-dg-column>
     <app-dg-column [field]="'salary'" header="Salary" [width]="60" [sortable]="true" [textAlign]="'right'"
       [fixed]="FixedPosition.LEFT" [dataType]="FilterDataType.NUMBER" [filterOptOn]="true"></app-dg-column>
-    <app-dg-column [field]="'department'" header="Deparment" [sortable]="true" [textAlign]="'right'"
+    <app-dg-column [field]="'department'" header="Deparment" [sortable]="true" [textAlign]="'center'"
       [width]="120" [minWidth]="120" [dataType]="FilterDataType.SELECT" [selectFilterOptions]="departments"
       [filterOptOn]="true"></app-dg-column>
-    <app-dg-column [header]="'Information'" [width]="120">
+    <app-dg-column [field]="'age'" [header]="'Information'" [width]="120" [dataType]="FilterDataType.NUMBER" [filterOptOn]="true">
       <ng-template [appTableRow]="users" [template]="Template.BODY" let-rowData>
         <div class="info">
           <p>Employe Age {{rowData.age}}</p>
