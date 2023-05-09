@@ -93,9 +93,9 @@ export class TestTableExampleComponent implements OnInit {
     this.queryOptionsData.setCurrentPage(1);
     if (filterData && Array.isArray(filterData.value)) {
       const tempArray = filterData.value.map((date) => {
-        if (date instanceof Date) {
+        if (date instanceof Date && !isNaN(date.getTime())) {
           return date.toISOString();
-        } else return date;
+        } else return date.toString();
       });
       filterData.value = tempArray;
     }
