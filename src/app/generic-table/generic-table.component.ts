@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  AfterViewChecked,
   AfterViewInit,
   Component,
   ContentChild,
@@ -36,7 +37,7 @@ import { TemplateDirective } from './directives/template.directive';
   styleUrls: ['./generic-table.component.scss'],
 })
 export class GenericTableComponent<Entity extends object>
-  implements OnInit, OnChanges, AfterContentInit
+  implements OnInit, OnChanges, AfterContentInit, AfterViewChecked
 {
   @Input() data: Array<Entity> = [];
   @Input() templateRefs: { [key: number]: TemplateRef<ElementRef> } = {};
@@ -70,7 +71,7 @@ export class GenericTableComponent<Entity extends object>
   readonly FilterDataType = FilterDataType;
   readonly FixedPosition = FixedPosition;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private elementRef: ElementRef) {}
 
   ngOnInit(): void {
     this.myFormGroup = this.formBuilder.group({
@@ -92,6 +93,12 @@ export class GenericTableComponent<Entity extends object>
   ngAfterContentInit() {
     this.initCols();
     this.collectTemplateRefs();
+  }
+
+  ngAfterViewChecked(): void {
+    var noResultContent: HTMLTableCellElement = this.elementRef.nativeElement.querySelector('#noResult');
+    if(this.cols.length && noResultContent)
+      noResultContent.colSpan  = this.cols.length;
   }
 
   initCols(): void {

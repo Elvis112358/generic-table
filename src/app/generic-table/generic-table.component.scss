@@ -14,6 +14,9 @@
     table-layout: fixed;
   
     font-size: 12px;
+    &.no-results {
+      display: block;
+    }
   
     .header {
       display: table-header-group;
@@ -130,6 +133,10 @@
   
       .row {
         display: table-row;
+        &:hover {
+          background-color: $table-cell-hover;
+          font-weight: 900;
+        }
   
         .body-cell {
           display: table-cell;
@@ -161,11 +168,6 @@
           &.right {
             padding-right: 5px;
           }
-  
-          &:hover {
-            background-color: $table-cell-hover;
-            font-weight: 900;
-          }
         }
       }
     }
@@ -183,7 +185,6 @@
 }
 
 .no-result-container {
-  // margin: 20px 10px;
   width: 100%;
   box-sizing: border-box;
   border-bottom: 1px solid #e2e2e2;
