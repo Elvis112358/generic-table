@@ -129,6 +129,8 @@ export enum RequestMethod {
   Delete = 'DELETE',
 }
 
+// TODO 
+// Implement filter operators
 export enum FilterOperation {
   EQUALS = '=',
   RANGE_LOWER = '_gte',

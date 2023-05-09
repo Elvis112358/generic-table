@@ -37,7 +37,7 @@
         </div>
       </ng-template>
     </app-dg-column>
-    <app-dg-column [header]="'Years in Company'" [width]="70">
+    <app-dg-column [header]="'Years in Company'" [width]="100" [minWidth]="100" [fixed]="FixedPosition.RIGHT">
       <ng-template [appTableRow]="users" [template]="Template.BODY" let-rowData>
         <div class="btn-continer">
           <div>{{calculateDate(rowData.startDate, rowData.toDate) | number:'1.1-1'}} </div>

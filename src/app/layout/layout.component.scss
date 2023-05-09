@@ -1,10 +1,10 @@
 .wrapper {
   display: flex;
-  justify-content: stretch;
-  align-items: stretch;
+  // justify-content: stretch;
+  // align-items: stretch;
   .main {
     flex: 1;
-    overflow-x: auto;
+    // overflow-x: auto;
     .content {
       height: calc(100vh - 62px);
       width: 100%;

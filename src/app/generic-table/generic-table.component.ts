@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  AfterViewInit,
   Component,
   ContentChild,
   ContentChildren,
@@ -50,7 +51,8 @@ export class GenericTableComponent<Entity extends object>
   cols!: Array<ColumnComponent>;
   gridData?: Array<GridData<Entity>>;
   // @ContentChild(TemplateRef) templates?: TemplateRef<ElementRef>;
-  @ContentChildren(TemplateDirective) templateList!: QueryList<TemplateDirective>;
+  @ContentChildren(TemplateDirective)
+  templateList!: QueryList<TemplateDirective>;
   @ContentChildren(ColumnComponent) columnList!: QueryList<ColumnComponent>;
   currentSortField = '';
   currentSortDirection: SortingType | undefined;
@@ -60,8 +62,8 @@ export class GenericTableComponent<Entity extends object>
   page: number = 1;
   freshHoverForSortArrowCss: boolean = true;
   myFormGroup!: FormGroup;
-  start = new Date()
-  end = new Date()
+  start = new Date();
+  end = new Date();
   // constants
   readonly Template = Template;
   readonly SortingTypes = SortingType;
@@ -89,30 +91,13 @@ export class GenericTableComponent<Entity extends object>
 
   ngAfterContentInit() {
     this.initCols();
-    // this.initNoResultTemplate();
     this.collectTemplateRefs();
   }
 
   initCols(): void {
     this.cols = this.columnList.toArray();
- 
-    const colToBeFixed = this.cols.find(col => col.fixed === FixedPosition.LEFT || col.fixed === FixedPosition.RIGHT )
-    if(colToBeFixed) {
-        console.log('barem jedan sadzi FIXED');
-        const index = this.cols.indexOf(colToBeFixed);
-        if (index !== -1) {
-          this.cols.splice(index, 1); // Remove the item from its current position
-          if (colToBeFixed.fixed === FixedPosition.RIGHT)
-            this.cols.push(colToBeFixed); // Add it to the end of the array
-          else if(colToBeFixed.fixed === FixedPosition.LEFT) {
-            this.cols.unshift(colToBeFixed); // Add it at the start of the array
-          }
-        }
 
-        console.log(this.cols); // [1, 2, 4, 5, 3]
-      }
-    
-    console.log('COLS', this.cols)
+    this.repositionFixedColumns();
   }
 
   collectTemplateRefs(): void {
@@ -143,13 +128,15 @@ export class GenericTableComponent<Entity extends object>
   }
 
   onInputDataChanges(): void {
-    this.gridData = this.data.map((rowData: any, i: number):GridData<Entity> => {
-      rowData = rowData || {};
-      rowData.dgIndex = i;
-      rowData.dgExpanded = false;
+    this.gridData = this.data.map(
+      (rowData: any, i: number): GridData<Entity> => {
+        rowData = rowData || {};
+        rowData.dgIndex = i;
+        rowData.dgExpanded = false;
 
-      return rowData;
-    });
+        return rowData;
+      }
+    );
   }
 
   applyPaging(page: number, pageSize: number): void {
@@ -174,7 +161,6 @@ export class GenericTableComponent<Entity extends object>
     this.applyPaging(event, this.pageSize);
     if (this.pagingType === PagingType.SERVER_SIDE) this.pageChange.emit(event);
   }
-
 
   // use event to implement filtering
   handleFiltersEvent(event: Filter) {
@@ -216,15 +202,35 @@ export class GenericTableComponent<Entity extends object>
       this.currentSortDirection === SortingType.ASC ||
       this.currentSortDirection === SortingType.DESC
     )
-      this.gridData?.sort((a:any, b:any) =>
+      this.gridData?.sort((a: any, b: any) =>
         this.operators[
           this.currentSortDirection === SortingType.ASC ? '>' : '<'
         ](a[this.currentSortField], b[this.currentSortField])
           ? -1
           : 1
       );
-    else
-      this.onInputDataChanges();
+    else this.onInputDataChanges();
     this.applyPaging(this.currentPage, this.pageSize);
+  }
+
+  private repositionFixedColumns() {
+    const colToBeFixed = this.cols.filter(
+      (col) =>
+        col.fixed === FixedPosition.LEFT || col.fixed === FixedPosition.RIGHT
+    );
+    if (colToBeFixed.length) {
+      console.log('barem jedan sadzi FIXED');
+      colToBeFixed.forEach((col) => {
+        const index = this.cols.indexOf(col);
+        if (index !== -1) {
+          this.cols.splice(index, 1); // Remove the item from its current position
+          if (col.fixed === FixedPosition.RIGHT)
+            this.cols.push(col); // Add it to the end of the array
+          else if (col.fixed === FixedPosition.LEFT) {
+            this.cols.unshift(col); // Add it at the start of the array
+          }
+        }
+      });
+    }
   }
 }

@@ -31,13 +31,14 @@ html, body {
 }
 
 app-generic-table {
-  display: flex;
   width: 100%;
   overflow-y: auto;
+  ::ng-deep .table-outter-wrapper {
+    width: calc(100vw - 200px);
+  }
   ::ng-deep .table-wrapper {
     margin-left: 0px;
     margin-right: 0px;
-    table-layout: fixed;
     ::ng-deep .body {
       height: 100%;
     }
