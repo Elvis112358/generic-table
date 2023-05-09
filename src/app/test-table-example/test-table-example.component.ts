@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  ColumnTemplate,
+  Template,
+  Filter,
+  FilterDataType,
   PagingType,
-} from '../generic-table/generic-table.const';
-import { Inventory } from '../interfaces/inventory.interface';
+  Sorting,
+  TableDataQuery,
+  FixedPosition,
+  SelectFilterOptions,
+} from '../generic-table/shared/utils';
 import { User } from '../interfaces/user.interface';
 import { UsersService } from '../services/users.service';
 
@@ -13,27 +18,60 @@ import { UsersService } from '../services/users.service';
   styleUrls: ['./test-table-example.component.scss'],
 })
 export class TestTableExampleComponent implements OnInit {
-  ColumnTemplate = ColumnTemplate;
+  Template = Template;
   users: User[] = [];
+  // total Number of elements retrieved from BE SIDE
+  // used to calculate visible pages for client side paging
   records: number = 0;
+  // SET SERVER OR CLIENT SIDE PAGINATION SORTING AND FILTERING
   pagingType: PagingType = PagingType.SERVER_SIDE;
-  pageSize: number = 5;
-  sortDirection: any;
-  currentPage: number = 1;
-  currentSortColum: string | undefined;
+  // SET PAGE SIZE FOR PAGINTAION
+  pageSize: number = 10;
+
+  readonly FilterDataType = FilterDataType;
+  readonly FixedPosition = FixedPosition;
+  filterColumn: string | undefined = undefined;
+  filterValue: string | undefined = undefined;
+
+  queryOptionsData: TableDataQuery = new TableDataQuery();
+  showUserInfo: boolean = true;
+  switch: Array<boolean> = [];
+  // for testing select filter values
+  departments: Array<SelectFilterOptions> = [
+    new SelectFilterOptions('dev', 'Dev'),
+    new SelectFilterOptions('qa', 'QA'),
+    new SelectFilterOptions('hr', 'HR'),
+    new SelectFilterOptions('pm', 'PM'),
+    new SelectFilterOptions('marketing', 'Marketing'),
+    new SelectFilterOptions('sales', 'Sales'),
+    new SelectFilterOptions('nonExisting', 'NonExisting'),
+  ];
+
   constructor(private usersService: UsersService) {}
 
   async ngOnInit(): Promise<void> {
+    this.queryOptionsData.pageSize = this.pageSize;
     await this.getInitalUsers();
     this.records = this.users.length;
+    this.resetSwitchState();
   }
 
-  seePosition(position: string) {
-    console.log('Position of employee is', position);
+  seePosition(user: User) {
+    this.switch[this.users.indexOf(user)] =
+      !this.switch[this.users.indexOf(user)];
+  }
+
+  resetSwitchState(): void {
+    this.switch = [];
+    for (let index = 0; index < this.pageSize; index++) {
+      this.switch.push(false);
+    }
   }
 
   async getInitalUsers(pageNumber?: number, pageSize?: number): Promise<any> {
-    await this.getUsersData(pageNumber, pageSize);
+    this.queryOptionsData.setPageSize(pageSize);
+    this.queryOptionsData.setCurrentPage(pageNumber);
+    await this.getUsersData(this.queryOptionsData);
     if (this.pagingType === PagingType.SERVER_SIDE) {
       // apply paging for first page
       await this.pageChanged(1);
@@ -42,36 +80,38 @@ export class TestTableExampleComponent implements OnInit {
 
   //in case of server side paging we emit event on pageChanged
   async pageChanged(currentPage: number): Promise<void> {
-    this.currentPage = currentPage;
-    this.getUsersData(this.currentPage, this.pageSize);
+    this.queryOptionsData.setCurrentPage(currentPage);
+    this.getUsersData(this.queryOptionsData);
   }
 
-  serverHandledSorting(sortData: {
-    column: string;
-    sortDirection: string | undefined;
-  }) {
-    this.sortDirection = sortData.sortDirection;
-    this.currentSortColum = sortData.column;
-    this.getUsersData(
-      this.currentPage,
-      this.pageSize,
-      this.currentSortColum,
-      this.sortDirection
-    );
+  serverHandledSorting(sortData: Sorting) {
+    this.queryOptionsData.setSorting(sortData);
+    this.getUsersData(this.queryOptionsData);
   }
 
-  private async getUsersData(
-    pageNummber?: number,
-    pageSize?: number,
-    sortColumn?: string,
-    sortDirection?: string
-  ): Promise<any> {
+  serverHendledFiltering(filterData: Filter) {
+    this.queryOptionsData.setCurrentPage(1);
+    if (filterData && Array.isArray(filterData.value)) {
+      const tempArray = filterData.value.map((date) => {
+        if (date instanceof Date) {
+          return date.toISOString();
+        } else return date;
+      });
+      filterData.value = tempArray;
+    }
+    this.queryOptionsData.setFiltering(filterData);
+    this.getUsersData(this.queryOptionsData);
+  }
+
+  private async getUsersData(queryData: TableDataQuery): Promise<any> {
     return new Promise((resolve, reject) => {
       this.usersService
-        .getUsers(pageNummber, pageSize, sortColumn, sortDirection)
+        .getUsers(queryData)
         .then((response) => {
           if (response) {
-            this.users = response;
+            this.users = response.body;
+            if (response.headers.get('X-Total-Count'))
+              this.records = response.headers.get('X-Total-Count');
           }
           resolve(response);
         })
@@ -91,5 +131,14 @@ export class TestTableExampleComponent implements OnInit {
     } else {
       return 'assets/elva.png';
     }
+  }
+
+  calculateDate(startDate: Date, endDate: Date): number {
+    const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
+    const diffInMilliseconds = Math.abs(
+      new Date(endDate).getTime() - new Date(startDate)?.getTime()
+    );
+    let daysBetween = Math.round(diffInMilliseconds / oneDay);
+    return daysBetween / 365;
   }
 }

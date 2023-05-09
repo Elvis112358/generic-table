@@ -1,7 +1,10 @@
 import {
   AfterContentInit,
+  AfterViewInit,
   Component,
+  ContentChild,
   ContentChildren,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -9,70 +12,71 @@ import {
   Output,
   QueryList,
   SimpleChanges,
+  TemplateRef,
 } from '@angular/core';
 import { ColumnComponent } from './dg-column/dg-column.component';
 import {
-  ColumnTemplate,
+  Template,
+  Filter,
+  FilterDataType,
+  GridData,
   PagingType,
+  Sorting,
   SortingType,
-} from './generic-table.const';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+  FixedPosition,
+} from './shared/utils';
+import { rotate } from './animations/rotate-animation';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { TemplateDirective } from './directives/template.directive';
 
 @Component({
   selector: 'app-generic-table',
-  animations: [
-    trigger('rotateArrow', [
-      state('1', style({
-        transform: 'rotate(0)'
-      })),
-      state('2', style({
-        transform: 'rotate(180deg)'
-      })),
-      transition('1 => 2', [
-        animate('0.25s ease-out')
-      ]),
-      transition('2 => 1', [
-        animate('0.25s ease-in')
-      ]),
-    ]),
-  ],
+  animations: [rotate],
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.scss'],
 })
 export class GenericTableComponent<Entity extends object>
   implements OnInit, OnChanges, AfterContentInit
 {
-  freshHoverForSortArrowCss: boolean = true;
-
-  @Input() data: any = [];
-  @Input() pager: any;
-  @Input() templateRefs: any = {};
+  @Input() data: Array<Entity> = [];
+  @Input() templateRefs: { [key: number]: TemplateRef<ElementRef> } = {};
   @Input() totalElements: number = 0;
   @Input() pageSize: number = 10;
   @Input() pagingType!: PagingType;
+  @Input() fixedFirstCol: boolean = false;
   @Output() pageChange = new EventEmitter<number>();
-  @Output() sorting = new EventEmitter<{
-    column:string,
-    sortDirection:string|undefined
-  }>();
+  @Output() sorting = new EventEmitter<Sorting>();
+  @Output() filtering = new EventEmitter<Filter>();
 
   cols!: Array<ColumnComponent>;
-  gridData?: Array<any>; // TODO type ovoga?
+  gridData?: Array<GridData<Entity>>;
+  // @ContentChild(TemplateRef) templates?: TemplateRef<ElementRef>;
+  @ContentChildren(TemplateDirective)
+  templateList!: QueryList<TemplateDirective>;
   @ContentChildren(ColumnComponent) columnList!: QueryList<ColumnComponent>;
   currentSortField = '';
-  currentSortDirection: SortingType = SortingType.NONE;
+  currentSortDirection: SortingType | undefined;
   currentPage: number = 1;
 
-  // constants
-  readonly ColumnTemplate = ColumnTemplate;
-  readonly SortingTypes = SortingType;
-
-  pagedGridData: any[] | undefined;
+  pagedGridData: Array<GridData<Entity>> | undefined;
   page: number = 1;
+  freshHoverForSortArrowCss: boolean = true;
+  myFormGroup!: FormGroup;
+  start = new Date();
+  end = new Date();
+  // constants
+  readonly Template = Template;
+  readonly SortingTypes = SortingType;
+  readonly FilterDataType = FilterDataType;
+  readonly FixedPosition = FixedPosition;
 
-  constructor() {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
+    this.myFormGroup = this.formBuilder.group({
+      start: [new Date()],
+      end: [new Date()],
+    });
     this.onInputDataChanges();
     this.applyPaging(this.page, this.pageSize);
   }
@@ -87,10 +91,19 @@ export class GenericTableComponent<Entity extends object>
 
   ngAfterContentInit() {
     this.initCols();
+    this.collectTemplateRefs();
   }
 
   initCols(): void {
     this.cols = this.columnList.toArray();
+
+    this.repositionFixedColumns();
+  }
+
+  collectTemplateRefs(): void {
+    this.templateList?.toArray().forEach((t: TemplateDirective) => {
+      this.templateRefs[t.type] = t.templateRef;
+    });
   }
 
   sort(column: ColumnComponent) {
@@ -109,20 +122,23 @@ export class GenericTableComponent<Entity extends object>
     } else {
       this.sorting.emit({
         column: column.field,
-        sortDirection: this.currentSortDirectionAsString
+        sortDirection: this.currentSortDirection,
       });
     }
   }
 
   onInputDataChanges(): void {
-    this.gridData = this.data.map((rowData: any, i: number) => {
-      rowData = rowData || {};
-      rowData.dgIndex = i;
-      rowData.dgExpanded = false;
+    this.gridData = this.data.map(
+      (rowData: any, i: number): GridData<Entity> => {
+        rowData = rowData || {};
+        rowData.dgIndex = i;
+        rowData.dgExpanded = false;
 
-      return rowData;
-    });
+        return rowData;
+      }
+    );
   }
+
   applyPaging(page: number, pageSize: number): void {
     this.currentPage = page;
     if (this.gridData?.length) {
@@ -136,6 +152,8 @@ export class GenericTableComponent<Entity extends object>
         // if serverSide Paging, we already get data per page
         this.pagedGridData = this.gridData;
       }
+    } else {
+      this.pagedGridData = [];
     }
   }
 
@@ -144,29 +162,23 @@ export class GenericTableComponent<Entity extends object>
     if (this.pagingType === PagingType.SERVER_SIDE) this.pageChange.emit(event);
   }
 
-  isString(cellData: any): boolean {
-    return typeof cellData === 'string';
+  // use event to implement filtering
+  handleFiltersEvent(event: Filter) {
+    this.filtering.emit(event);
   }
 
-  mouseEnter() {
+  // catch new hover event on sorting area to handle ghost arrow logic
+  mouseEnterFilterCell() {
     this.freshHoverForSortArrowCss = true;
   }
 
-  get currentSortDirectionAsString(): string | undefined {
-    return this.currentSortDirection === SortingType.ASC
-    ? 'ASC'
-    : this.currentSortDirection === SortingType.DESC
-    ? 'DESC'
-    : undefined;
-  }
-
   private handleSortSelection(columnField: string) {
-    if(columnField === this.currentSortField) {
+    if (columnField === this.currentSortField) {
       // choose next sorting option  None -> ASC -> DESC -> None...
       if (this.currentSortDirection === SortingType.ASC)
         this.currentSortDirection = SortingType.DESC;
       else if (this.currentSortDirection === SortingType.DESC) {
-        this.currentSortDirection = SortingType.NONE;
+        this.currentSortDirection = undefined;
       } else {
         this.currentSortDirection = SortingType.ASC;
       }
@@ -190,15 +202,35 @@ export class GenericTableComponent<Entity extends object>
       this.currentSortDirection === SortingType.ASC ||
       this.currentSortDirection === SortingType.DESC
     )
-      this.gridData?.sort((a, b) =>
+      this.gridData?.sort((a: any, b: any) =>
         this.operators[
           this.currentSortDirection === SortingType.ASC ? '>' : '<'
         ](a[this.currentSortField], b[this.currentSortField])
           ? -1
           : 1
       );
-    else this.gridData = [...this.data];
-
+    else this.onInputDataChanges();
     this.applyPaging(this.currentPage, this.pageSize);
+  }
+
+  private repositionFixedColumns() {
+    const colToBeFixed = this.cols.filter(
+      (col) =>
+        col.fixed === FixedPosition.LEFT || col.fixed === FixedPosition.RIGHT
+    );
+    if (colToBeFixed.length) {
+      console.log('barem jedan sadzi FIXED');
+      colToBeFixed.forEach((col) => {
+        const index = this.cols.indexOf(col);
+        if (index !== -1) {
+          this.cols.splice(index, 1); // Remove the item from its current position
+          if (col.fixed === FixedPosition.RIGHT)
+            this.cols.push(col); // Add it to the end of the array
+          else if (col.fixed === FixedPosition.LEFT) {
+            this.cols.unshift(col); // Add it at the start of the array
+          }
+        }
+      });
+    }
   }
 }

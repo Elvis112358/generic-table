@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { RequestMethod } from '../generic-table/generic-table.const';
+import { HttpClient } from '@angular/common/http';
+import { RequestMethod } from '../generic-table/shared/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,9 @@ export class ApiService {
     body?: any,
   ): Promise<any> {
     let request: Promise<any>;
-
-    body = body == false ? body : body || {};
-
     switch (method) {
       case RequestMethod.Get:
-        request = this.httpClient.get(url).toPromise();
+        request = this.httpClient.get(url, body).toPromise();
         break;
       case RequestMethod.Delete:
         request = this.httpClient.delete(url).toPromise();

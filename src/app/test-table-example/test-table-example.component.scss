@@ -1,3 +1,9 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .btn-continer {
   height: 100%;
   flex-direction: column;
@@ -25,6 +31,42 @@
 }
 
 app-generic-table {
-  display: flex;
   width: 100%;
+  overflow-y: auto;
+  ::ng-deep .table-outter-wrapper {
+    width: calc(100vw - 200px);
+  }
+  ::ng-deep .table-wrapper {
+    margin-left: 0px;
+    margin-right: 0px;
+    ::ng-deep .body {
+      height: 100%;
+    }
+  }
+  ::ng-deep .no-result-container {
+    height: calc(100% - 160px);
+  }
+}
+
+.no-result {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: silver;
+  text-align: center;
+  height: 100%;
+  margin-top: 40px;
+  margin-left: 10px;
+  margin-bottom: 40px;
+
+  .no-result-title {
+    font-family: 'Roboto';
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .no-result-subtitle {
+    font-size: 24px;
+  }
 }

@@ -1,0 +1,13 @@
+<div class="select-filter-cell-container" [ngClass]="{
+    'reverse-aligned': col.textAlign === 'right'
+  }">
+    <mat-form-field>
+        <mat-select [(ngModel)]="defaultValue" (ngModelChange)="onValueChange($event, selectOption.value)" #selectOption>
+            <mat-option *ngFor="let option of options" [value]="option.text" >
+                {{option.text}}
+              </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <img *ngIf="!!selectOption.value" src="{{'../../assets/xmark-solid.svg'}}" alt="select" (click)="resetInput()"
+    [ngClass]="{'reset-input': !!selectOption.value}">
+</div>

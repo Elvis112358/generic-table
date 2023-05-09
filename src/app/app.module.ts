@@ -12,6 +12,16 @@ import { UsersService } from './services/users.service';
 import { ApiService } from './services/api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule }  from "@angular/material/form-field";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SearchFilterComponent } from './generic-table/filter/search-filter/search-filter.component';
+import { DateFilterComponent } from './generic-table/filter/date-filter/date-filter.component';
+import { LayoutComponent } from './layout/layout.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { SelectFilterComponent } from './generic-table/filter/select-filter/select-filter.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -21,13 +31,29 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ColumnComponent,
     TemplateDirective,
     TableRowTemplateDirective,
-    PagingComponent
+    PagingComponent,
+    SearchFilterComponent,
+    DateFilterComponent,
+    LayoutComponent,
+    SelectFilterComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatNativeDateModule
+
+  ],
+  exports: [
+    MatInputModule
   ],
   providers: [UsersService, ApiService],
   bootstrap: [AppComponent]
