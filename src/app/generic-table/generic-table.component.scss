@@ -12,11 +12,7 @@
     width: 100%;
     display: table;
     table-layout: fixed;
-  
     font-size: 12px;
-    &.no-results {
-      display: block;
-    }
   
     .header {
       display: table-header-group;
