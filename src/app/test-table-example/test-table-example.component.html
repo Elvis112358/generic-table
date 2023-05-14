@@ -1,7 +1,7 @@
 <app-layout>
   <app-generic-table [data]='users' [totalElements]="records" [pageSize]="pageSize" [pagingType]="pagingType"
     (pageChange)="pageChanged($event)" (sorting)="serverHandledSorting($event)"
-    (filtering)="serverHendledFiltering($event)">
+    (filtering)="serverHendledFiltering($event)" [tableWidth] = "200" [tableHeight] = "210">
     <app-dg-column [field]="'name'" header="First Name" [width]="90" [minWidth]="80" [sortable]="true"
       [textAlign]="'left'" [dataType]="FilterDataType.TEXT" [filterOptOn]="true"></app-dg-column>
     <app-dg-column [field]="'surname'" header="Last Name" [width]="120" [sortable]="true" [textAlign]="'right'"

@@ -1,40 +1,45 @@
 <div>
-  <div class="table-outter-wrapper">
+  <div class="table-outter-wrapper" id ="outterWrapper">
     <div class="table-wrapper">
       <div class="header">
-        <div *ngFor="let col of cols" class="header-cell" [style.width.px]="col.width"
-          [style.min-width.px]="col.minWidth" [ngClass]="{
+        <div *ngFor="let col of cols" class="header-cell" 
+          [style.width.px]="col.width"
+          [style.min-width.px]="col.minWidth" 
+          [ngClass]="{
           'sort-right': col.textAlign === 'right',
           'fixed-left': col.fixed === FixedPosition.LEFT,
           'fixed-right': col.fixed === FixedPosition.RIGHT
-        }">
-          <div class="cell-content-container" (click)="sort(col)" (mouseenter)="mouseEnterFilterCell()" [ngClass]="{
-          'not-sortable': !col.sortable,
-          'ghost-arrow': freshHoverForSortArrowCss && currentSortDirection === undefined || currentSortField !== col.field,
-          'left': col.textAlign === 'left',
-          'right': col.textAlign === 'right'
-        }" [ngStyle]="{
-          'justify-content': col.textAlign === 'center' ? col.textAlign : 'flex-start',
-          'flex-direction' : col.textAlign === 'right' ? 'row-reverse' : 'row'
-         }">
+          }">
+          <div class="cell-content-container" (click)="sort(col)" (mouseenter)="mouseEnterFilterCell()" 
+            [ngClass]="{
+            'not-sortable': !col.sortable,
+            'ghost-arrow': freshHoverForSortArrowCss && currentSortDirection === undefined || currentSortField !== col.field,
+            'left': col.textAlign === 'left',
+            'right': col.textAlign === 'right'
+            }" 
+            [ngStyle]="{
+            'justify-content': col.textAlign === 'center' ? col.textAlign : 'flex-start',
+            'flex-direction' : col.textAlign === 'right' ? 'row-reverse' : 'row'
+            }">
             <span>
               {{col?.header}}
             </span>
-            <img src="../../assets/arrow-down.svg" alt="arrow-down" *ngIf="col.sortable" [ngClass]="{
+            <img src="../../assets/arrow-down.svg" alt="arrow-down" *ngIf="col.sortable"    
+              [ngClass]="{
               hide: col.sortable && this.currentSortField !== col.field || this.currentSortDirection == undefined,
               'sort-right': col.textAlign === 'right'
-            }" [@rotate]="currentSortDirection === SortingTypes.ASC ? 'UP' : 'DOWN'">
-
+              }" 
+              [@rotate]="currentSortDirection === SortingTypes.ASC ? 'UP' : 'DOWN'">
           </div>
         </div>
-
       </div>
       <div class="filter-section">
-        <div *ngFor="let col of cols" class="filter-cell" [ngClass]="{
-                  'underline-no-filter-cell': !col.filterOptOn,
-                  'fixed-left': col.fixed === FixedPosition.LEFT,
-                  'fixed-right': col.fixed === FixedPosition.RIGHT
-                }">
+        <div *ngFor="let col of cols" class="filter-cell" 
+          [ngClass]="{
+            'underline-no-filter-cell': !col.filterOptOn,
+            'fixed-left': col.fixed === FixedPosition.LEFT,
+            'fixed-right': col.fixed === FixedPosition.RIGHT
+          }">
           <div [ngSwitch]="col.dataType" *ngIf="col.filterOptOn">
             <ng-container *ngSwitchCase="FilterDataType.DATE">
               <ng-container *ngTemplateOutlet="dateRange"></ng-container>
@@ -62,23 +67,24 @@
             let i = index;
             let rowIndex = index;
             let firstRow = first; let lastRow = last;" class="row">
-          <div *ngFor="let col of cols; let colIndex = index" class="body-cell" [style.width.px]="col.width"
-            [style.min-width.px]="col.minWidth" [ngStyle]="{
-            'text-align': col.textAlign
-           }" [ngClass]="{
-            'left': col.textAlign === 'left',
-            'right': col.textAlign === 'right',
-            'sort-indent': col.sortable,
-            'fixed-left': col.fixed === FixedPosition.LEFT,
-            'fixed-right': col.fixed === FixedPosition.RIGHT
-          }">
+          <div *ngFor="let col of cols; let colIndex = index" class="body-cell" 
+            [style.width.px]="col.width"
+            [style.min-width.px]="col.minWidth"   
+            [ngStyle]="{
+              'text-align': col.textAlign
+            }" 
+            [ngClass]="{
+              'left': col.textAlign === 'left',
+              'right': col.textAlign === 'right',
+              'sort-indent': col.sortable,
+              'fixed-left': col.fixed === FixedPosition.LEFT,
+              'fixed-right': col.fixed === FixedPosition.RIGHT
+            }">
             <ng-container *ngIf="col.templateRefs[Template.BODY]">
-
               <ng-container *ngTemplateOutlet="
                             col.templateRefs[Template.BODY];
                               context: { $implicit: rowData, 'rowIndex': rowIndex, 'column': col, 'columnIndex': colIndex, 'columns': cols}
                             "></ng-container>
-
             </ng-container>
             <ng-container *ngIf="!col.templateRefs[Template.BODY]">
               <div class="cell-content-container">
@@ -90,18 +96,16 @@
           </div>
         </div>
       </div>
-      <ng-template class="no-result-container" #noResultContainer>
-        <td id="noResult">
-          <ng-container *ngIf="templateRefs[Template.NO_RESULT];else defaultNoResult">
+      <ng-template #noResultContainer>
+        <td id="noResult" class="no-result-container">
+          <ng-container   *ngIf="templateRefs[Template.NO_RESULT];else defaultNoResult">
             <ng-container *ngTemplateOutlet="
                                         templateRefs[Template.NO_RESULT];
                                         "></ng-container>
           </ng-container>
-          
         </td>
       </ng-template>
       <ng-template #defaultNoResult>
-          <div class="no-result-container">
             <div class="no-result">
               <div>
                 <div class="no-result-title">There is nothing here.</div>
@@ -110,12 +114,14 @@
                 </div>
               </div>
             </div>
-          </div>
       </ng-template>
     </div>
   </div>
   <div class="paging" *ngIf="pagedGridData?.length">
-    <app-paging [pageSize]="pageSize" [totalElements]="totalElements" (pageChange)="pageChanged($event)">
+    <app-paging 
+      [pageSize]="pageSize" 
+      [totalElements]="totalElements" 
+      (pageChange)="pageChanged($event)">
     </app-paging>
   </div>
 </div>
