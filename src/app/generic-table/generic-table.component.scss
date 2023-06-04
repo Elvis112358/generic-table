@@ -1,7 +1,9 @@
 @import 'src/colors.scss';
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-
+:root {
+--dynamic-height: 100px;
+}
 .table-outter-wrapper {
   display:block;
   overflow-x: scroll;
@@ -12,7 +14,6 @@
     width: 100%;
     display: table;
     table-layout: fixed;
-  
     font-size: 12px;
   
     .header {
@@ -130,6 +131,10 @@
   
       .row {
         display: table-row;
+        &:hover {
+          background-color: $table-cell-hover;
+          font-weight: 900;
+        }
   
         .body-cell {
           display: table-cell;
@@ -161,11 +166,6 @@
           &.right {
             padding-right: 5px;
           }
-  
-          &:hover {
-            background-color: $table-cell-hover;
-            font-weight: 900;
-          }
         }
       }
     }
@@ -175,18 +175,13 @@
 
 .paging {
   padding-bottom: 10px;
-
-  // for pager position to be fixed at the end of the page and handle view with pageSize
-  // position: fixed;
-  // bottom: 85px;
-  // right: 15px;
 }
 
 .no-result-container {
-  // margin: 20px 10px;
   width: 100%;
   box-sizing: border-box;
   border-bottom: 1px solid #e2e2e2;
+  height: calc(100vh - 100px - var(--dynamic-height));
 
   .no-result {
     flex-grow: 1;
@@ -196,9 +191,7 @@
     color: silver;
     text-align: center;
     height: 100%;
-    margin-top: 40px;
     margin-left: 10px;
-    margin-bottom: 40px;
 
     .no-result-title {
       font-family: 'Roboto';

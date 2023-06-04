@@ -1,8 +1,7 @@
 import {
   AfterContentInit,
-  AfterViewInit,
+  AfterViewChecked,
   Component,
-  ContentChild,
   ContentChildren,
   ElementRef,
   EventEmitter,
@@ -26,8 +25,8 @@ import {
   FixedPosition,
 } from './shared/utils';
 import { rotate } from './animations/rotate-animation';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { TemplateDirective } from './directives/template.directive';
+import { TableRowTemplateContext } from './directives/tableRowtemplate.directive';
 
 @Component({
   selector: 'app-generic-table',
@@ -36,47 +35,50 @@ import { TemplateDirective } from './directives/template.directive';
   styleUrls: ['./generic-table.component.scss'],
 })
 export class GenericTableComponent<Entity extends object>
-  implements OnInit, OnChanges, AfterContentInit
+  implements OnInit, OnChanges, AfterContentInit, AfterViewChecked
 {
   @Input() data: Array<Entity> = [];
-  @Input() templateRefs: { [key: number]: TemplateRef<ElementRef> } = {};
+  @Input() templateRefs: {
+    [key: number]: TemplateRef<TableRowTemplateContext<any>>;
+  } = {};
   @Input() totalElements: number = 0;
   @Input() pageSize: number = 10;
   @Input() pagingType!: PagingType;
-  @Input() fixedFirstCol: boolean = false;
+
+  // type: number - total height/width of other elements in the view, except generic-table component's in px
+  // type: string - define outtertable wrapper dimensions
+  // NOTE: in order that overflow works as expected (scrollbar in outter-table) give value in px
+  // to be calculated and provided in place of implementation
+  // OR NOT TO BE provided, but styles to be set with ng-deep in place of implementation
+  @Input() tableHeight?: number;
+  @Input() tableWidth?: number;
+
   @Output() pageChange = new EventEmitter<number>();
   @Output() sorting = new EventEmitter<Sorting>();
   @Output() filtering = new EventEmitter<Filter>();
 
   cols!: Array<ColumnComponent>;
   gridData?: Array<GridData<Entity>>;
-  // @ContentChild(TemplateRef) templates?: TemplateRef<ElementRef>;
+  pagedGridData: Array<GridData<Entity>> | undefined;
   @ContentChildren(TemplateDirective)
   templateList!: QueryList<TemplateDirective>;
   @ContentChildren(ColumnComponent) columnList!: QueryList<ColumnComponent>;
+
   currentSortField = '';
   currentSortDirection: SortingType | undefined;
   currentPage: number = 1;
-
-  pagedGridData: Array<GridData<Entity>> | undefined;
   page: number = 1;
   freshHoverForSortArrowCss: boolean = true;
-  myFormGroup!: FormGroup;
-  start = new Date();
-  end = new Date();
+
   // constants
   readonly Template = Template;
   readonly SortingTypes = SortingType;
   readonly FilterDataType = FilterDataType;
   readonly FixedPosition = FixedPosition;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit(): void {
-    this.myFormGroup = this.formBuilder.group({
-      start: [new Date()],
-      end: [new Date()],
-    });
     this.onInputDataChanges();
     this.applyPaging(this.page, this.pageSize);
   }
@@ -87,11 +89,39 @@ export class GenericTableComponent<Entity extends object>
       this.onInputDataChanges();
       this.applyPaging(this.page, this.pageSize);
     }
+    // works only when number value provided
+    if (changes?.['tableHeight']?.currentValue) {
+      document.documentElement.style.setProperty(
+        `--dynamic-height`,
+        this.tableHeight + 'px'
+      );
+    }
   }
 
   ngAfterContentInit() {
     this.initCols();
     this.collectTemplateRefs();
+  }
+
+  ngAfterViewChecked(): void {
+    var noResultContent: HTMLTableCellElement =
+      this.elementRef.nativeElement.querySelector('#noResult');
+    if (this.cols.length && noResultContent)
+      noResultContent.colSpan = this.cols.length;
+
+
+    if (document.getElementById('outterWrapper') && this.tableWidth) {
+      document.getElementById('outterWrapper')!.style.width =
+        typeof this.tableWidth === 'number'
+          ? `calc(100vw - ${this.tableWidth}px`
+          : this.tableWidth;
+    }
+    if (document.getElementById('outterWrapper') && this.tableHeight) {
+      document.getElementById('outterWrapper')!.style.maxHeight =
+        typeof this.tableHeight === 'number'
+          ? `calc(100vh - ${this.tableHeight}px`
+          : this.tableHeight;
+    }
   }
 
   initCols(): void {
@@ -172,6 +202,7 @@ export class GenericTableComponent<Entity extends object>
     this.freshHoverForSortArrowCss = true;
   }
 
+  // apply sorting by following circular order None -> ASC -> DESC -> None...
   private handleSortSelection(columnField: string) {
     if (columnField === this.currentSortField) {
       // choose next sorting option  None -> ASC -> DESC -> None...
@@ -213,13 +244,15 @@ export class GenericTableComponent<Entity extends object>
     this.applyPaging(this.currentPage, this.pageSize);
   }
 
+  // every column can be fixed to the left or right position in the table
+  // reposition fixed columns so its order number corresponds to its position in the view
+  // left colum zero positioned, right column - this.cols.length - 1 positioned, in this.cols array 
   private repositionFixedColumns() {
     const colToBeFixed = this.cols.filter(
       (col) =>
         col.fixed === FixedPosition.LEFT || col.fixed === FixedPosition.RIGHT
     );
     if (colToBeFixed.length) {
-      console.log('barem jedan sadzi FIXED');
       colToBeFixed.forEach((col) => {
         const index = this.cols.indexOf(col);
         if (index !== -1) {

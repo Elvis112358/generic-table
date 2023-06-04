@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, ContentChild, ContentChildren, ElementRef, Input, OnInit, QueryList, TemplateRef } from '@angular/core';
 import { TemplateDirective } from '../directives/template.directive';
 import { Template, FilterDataType, FixedPosition, SelectFilterOptions } from '../shared/utils';
+import { TableRowTemplateContext } from '../directives/tableRowtemplate.directive';
 
 @Component({
   selector: 'app-dg-column',
@@ -23,7 +24,7 @@ export class ColumnComponent implements AfterContentInit {
   //if property exists fix column to the left or right position depending on FixedPosition
   @Input() fixed?: FixedPosition
 
-  templateRefs: { [key:number]: TemplateRef<ElementRef> } = {};
+  templateRefs: { [key:number]: TemplateRef<TableRowTemplateContext<any>> } = {};
   @ContentChildren(TemplateDirective) templates!: QueryList<TemplateDirective>;
 
   ngAfterContentInit() {

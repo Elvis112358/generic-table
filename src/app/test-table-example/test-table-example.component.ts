@@ -26,7 +26,7 @@ export class TestTableExampleComponent implements OnInit {
   // SET SERVER OR CLIENT SIDE PAGINATION SORTING AND FILTERING
   pagingType: PagingType = PagingType.SERVER_SIDE;
   // SET PAGE SIZE FOR PAGINTAION
-  pageSize: number = 10;
+  pageSize: number = 15;
 
   readonly FilterDataType = FilterDataType;
   readonly FixedPosition = FixedPosition;
@@ -93,9 +93,9 @@ export class TestTableExampleComponent implements OnInit {
     this.queryOptionsData.setCurrentPage(1);
     if (filterData && Array.isArray(filterData.value)) {
       const tempArray = filterData.value.map((date) => {
-        if (date instanceof Date) {
+        if (date instanceof Date && !isNaN(date.getTime())) {
           return date.toISOString();
-        } else return date;
+        } else return date.toString();
       });
       filterData.value = tempArray;
     }

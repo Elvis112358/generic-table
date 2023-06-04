@@ -17,6 +17,10 @@ const routes: Routes = [
     path: 'paging',
     component: LayoutComponent,
   },
+  {
+    path: 'sorting',
+    component: LayoutComponent,
+  },
 ];
 
 @NgModule({

@@ -29,7 +29,7 @@ export class DateFilterComponent {
       'mat-date-range-input'
     );
     // width of picked dates to be shown fully in filter cell 
-    const minWidth = 136; 
+    const minWidth = 140; 
     if (element.offsetWidth < minWidth) {
       this.renderer.setStyle(element, 'visibility', 'hidden');
     } else {

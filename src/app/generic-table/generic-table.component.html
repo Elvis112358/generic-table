@@ -1,119 +1,125 @@
-<div>
-  <div class="table-outter-wrapper">
-    <div class="table-wrapper">
-      <div class="header">
-        <div *ngFor="let col of cols" class="header-cell" [style.width.px]="col.width"
-          [style.min-width.px]="col.minWidth" [ngClass]="{
-          'sort-right': col.textAlign === 'right',
-          'fixed-left': col.fixed === FixedPosition.LEFT,
-          'fixed-right': col.fixed === FixedPosition.RIGHT
+<div class="table-outter-wrapper" id ="outterWrapper">
+  <div class="table-wrapper">
+    <div class="header">
+      <div *ngFor="let col of cols" class="header-cell" 
+        [style.width.px]="col.width"
+        [style.min-width.px]="col.minWidth" 
+        [ngClass]="{
+        'sort-right': col.textAlign === 'right',
+        'fixed-left': col.fixed === FixedPosition.LEFT,
+        'fixed-right': col.fixed === FixedPosition.RIGHT
         }">
-          <div class="cell-content-container" (click)="sort(col)" (mouseenter)="mouseEnterFilterCell()" [ngClass]="{
+        <div class="cell-content-container" (click)="sort(col)" (mouseenter)="mouseEnterFilterCell()" 
+          [ngClass]="{
           'not-sortable': !col.sortable,
           'ghost-arrow': freshHoverForSortArrowCss && currentSortDirection === undefined || currentSortField !== col.field,
           'left': col.textAlign === 'left',
           'right': col.textAlign === 'right'
-        }" [ngStyle]="{
+          }" 
+          [ngStyle]="{
           'justify-content': col.textAlign === 'center' ? col.textAlign : 'flex-start',
           'flex-direction' : col.textAlign === 'right' ? 'row-reverse' : 'row'
-         }">
-            <span>
-              {{col?.header}}
-            </span>
-            <img src="../../assets/arrow-down.svg" alt="arrow-down" *ngIf="col.sortable" [ngClass]="{
-              hide: col.sortable && this.currentSortField !== col.field || this.currentSortDirection == undefined,
-              'sort-right': col.textAlign === 'right'
-            }" [@rotate]="currentSortDirection === SortingTypes.ASC ? 'UP' : 'DOWN'">
-
-          </div>
-        </div>
-
-      </div>
-      <div class="filter-section">
-        <div *ngFor="let col of cols" class="filter-cell" [ngClass]="{
-                  'underline-no-filter-cell': !col.filterOptOn,
-                  'fixed-left': col.fixed === FixedPosition.LEFT,
-                  'fixed-right': col.fixed === FixedPosition.RIGHT
-                }">
-          <div [ngSwitch]="col.dataType" *ngIf="col.filterOptOn">
-            <ng-container *ngSwitchCase="FilterDataType.DATE">
-              <ng-container *ngTemplateOutlet="dateRange"></ng-container>
-            </ng-container>
-            <ng-container *ngSwitchCase="FilterDataType.SELECT">
-              <ng-container *ngTemplateOutlet="selectFilter"></ng-container>
-            </ng-container>
-            <ng-container *ngSwitchDefault>
-              <ng-container *ngTemplateOutlet="searchFilter"></ng-container>
-            </ng-container>
-          </div>
-          <ng-template #searchFilter><app-search-filter [col]="col"
-              (filter)="handleFiltersEvent($event)"></app-search-filter></ng-template>
-          <ng-template #dateRange>
-            <app-date-filter [col]="col" (filter)="handleFiltersEvent($event)"></app-date-filter>
-          </ng-template>
-          <ng-template #selectFilter>
-            <app-select-filter [col]="col" [options]="col?.selectFilterOptions"
-              (filter)="handleFiltersEvent($event)"></app-select-filter>
-          </ng-template>
+          }">
+          <span>
+            {{col?.header}}
+          </span>
+          <img src="../../assets/arrow-down.svg" alt="arrow-down" *ngIf="col.sortable"    
+            [ngClass]="{
+            hide: col.sortable && this.currentSortField !== col.field || this.currentSortDirection == undefined,
+            'sort-right': col.textAlign === 'right'
+            }" 
+            [@rotate]="currentSortDirection === SortingTypes.ASC ? 'UP' : 'DOWN'">
         </div>
       </div>
-      <div class="body">
-        <div *ngFor="let rowData of pagedGridData;
-            let i = index;
-            let rowIndex = index;
-            let firstRow = first; let lastRow = last;" class="row">
-          <div *ngFor="let col of cols; let colIndex = index" class="body-cell" [style.width.px]="col.width"
-            [style.min-width.px]="col.minWidth" [ngStyle]="{
+    </div>
+    <div class="filter-section">
+      <div *ngFor="let col of cols" class="filter-cell" 
+        [ngClass]="{
+          'underline-no-filter-cell': !col.filterOptOn,
+          'fixed-left': col.fixed === FixedPosition.LEFT,
+          'fixed-right': col.fixed === FixedPosition.RIGHT
+        }">
+        <div [ngSwitch]="col.dataType" *ngIf="col.filterOptOn">
+          <ng-container *ngSwitchCase="FilterDataType.DATE">
+            <ng-container *ngTemplateOutlet="dateRange"></ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase="FilterDataType.SELECT">
+            <ng-container *ngTemplateOutlet="selectFilter"></ng-container>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <ng-container *ngTemplateOutlet="searchFilter"></ng-container>
+          </ng-container>
+        </div>
+        <ng-template #searchFilter><app-search-filter [col]="col"
+            (filter)="handleFiltersEvent($event)"></app-search-filter></ng-template>
+        <ng-template #dateRange>
+          <app-date-filter [col]="col" (filter)="handleFiltersEvent($event)"></app-date-filter>
+        </ng-template>
+        <ng-template #selectFilter>
+          <app-select-filter [col]="col" [options]="col?.selectFilterOptions"
+            (filter)="handleFiltersEvent($event)"></app-select-filter>
+        </ng-template>
+      </div>
+    </div>
+    <div class="body" *ngIf="pagedGridData?.length; else noResultContainer">
+      <div *ngFor="let rowData of pagedGridData;
+          let i = index;
+          let rowIndex = index;
+          let firstRow = first; let lastRow = last;" class="row">
+        <div *ngFor="let col of cols; let colIndex = index" class="body-cell" 
+          [style.width.px]="col.width"
+          [style.min-width.px]="col.minWidth"   
+          [ngStyle]="{
             'text-align': col.textAlign
-           }" [ngClass]="{
+          }" 
+          [ngClass]="{
             'left': col.textAlign === 'left',
             'right': col.textAlign === 'right',
             'sort-indent': col.sortable,
             'fixed-left': col.fixed === FixedPosition.LEFT,
             'fixed-right': col.fixed === FixedPosition.RIGHT
           }">
-            <ng-container *ngIf="col.templateRefs[Template.BODY]">
-
-              <ng-container *ngTemplateOutlet="
-                            col.templateRefs[Template.BODY];
-                              context: { $implicit: rowData, 'rowIndex': rowIndex, 'column': col, 'columnIndex': colIndex, 'columns': cols}
-                            "></ng-container>
-
-            </ng-container>
-            <ng-container *ngIf="!col.templateRefs[Template.BODY]">
-              <div class="cell-content-container">
-                <span>
-                  {{ $any(rowData)[(col.field)] }}
-                </span>
-              </div>
-            </ng-container>
-          </div>
+          <ng-container *ngIf="col.templateRefs[Template.BODY]">
+            <ng-container *ngTemplateOutlet="
+                          col.templateRefs[Template.BODY];
+                            context: { $implicit: rowData, 'rowIndex': rowIndex, 'column': col, 'columnIndex': colIndex, 'columns': cols}
+                          "></ng-container>
+          </ng-container>
+          <ng-container *ngIf="!col.templateRefs[Template.BODY]">
+            <div class="cell-content-container">
+              <span>
+                {{ $any(rowData)[(col.field)] }}
+              </span>
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>
-  </div>
-  <div class="paging" *ngIf="pagedGridData?.length">
-    <app-paging [pageSize]="pageSize" [totalElements]="totalElements" (pageChange)="pageChanged($event)">
-    </app-paging>
-  </div>
-
-
-
-  <div class="no-result-container" *ngIf="!pagedGridData?.length">
-    <ng-container *ngIf="templateRefs[Template.NO_RESULT];else noResult">
-      <ng-container *ngTemplateOutlet="
-                                  templateRefs[Template.NO_RESULT];
-                                  "></ng-container>
-    </ng-container>
-    <ng-template #noResult>
-      <div class="no-result">
-        <div>
-          <div class="no-result-title">There is nothing here.</div>
-          <div class="no-result-subtitle">
-            Try refreshing the page or changing your search.
+    <ng-template #noResultContainer>
+      <td id="noResult" class="no-result-container">
+        <ng-container   *ngIf="templateRefs[Template.NO_RESULT];else defaultNoResult">
+          <ng-container *ngTemplateOutlet="
+                                      templateRefs[Template.NO_RESULT];
+                                      "></ng-container>
+        </ng-container>
+      </td>
+    </ng-template>
+    <ng-template #defaultNoResult>
+          <div class="no-result">
+            <div>
+              <div class="no-result-title">There is nothing here.</div>
+              <div class="no-result-subtitle">
+                Try refreshing the page or changing your search.
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
     </ng-template>
   </div>
+</div>
+<div class="paging" *ngIf="pagedGridData?.length">
+  <app-paging 
+    [pageSize]="pageSize" 
+    [totalElements]="totalElements" 
+    (pageChange)="pageChanged($event)">
+  </app-paging>
 </div>
