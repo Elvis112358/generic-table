@@ -49,8 +49,9 @@ export class GenericTableComponent<Entity extends object>
   // type: string - define outtertable wrapper dimensions
   // NOTE: in order that overflow works as expected (scrollbar in outter-table) give value in px
   // to be calculated and provided in place of implementation
-  @Input() tableHeight: number | string = 210;
-  @Input() tableWidth: number | string = 200;
+  // OR NOT TO BE provided, but styles to be set with ng-deep in place of implementation
+  @Input() tableHeight?: number;
+  @Input() tableWidth?: number;
 
   @Output() pageChange = new EventEmitter<number>();
   @Output() sorting = new EventEmitter<Sorting>();
@@ -109,13 +110,13 @@ export class GenericTableComponent<Entity extends object>
       noResultContent.colSpan = this.cols.length;
 
 
-    if (document.getElementById('outterWrapper')) {
+    if (document.getElementById('outterWrapper') && this.tableWidth) {
       document.getElementById('outterWrapper')!.style.width =
         typeof this.tableWidth === 'number'
           ? `calc(100vw - ${this.tableWidth}px`
           : this.tableWidth;
     }
-    if (document.getElementById('outterWrapper')) {
+    if (document.getElementById('outterWrapper') && this.tableHeight) {
       document.getElementById('outterWrapper')!.style.maxHeight =
         typeof this.tableHeight === 'number'
           ? `calc(100vh - ${this.tableHeight}px`

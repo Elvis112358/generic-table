@@ -51,3 +51,24 @@ html, body {
     font-size: 24px;
   }
 }
+
+
+app-generic-table {
+  width: 100%;
+  ::ng-deep .table-outter-wrapper {
+    width: calc(100vw - 200px);
+    overflow-y: auto;
+    height: calc(100% - 80px);
+  }
+  ::ng-deep .table-wrapper {
+    margin-left: 0px;
+    margin-right: 0px;
+    
+    ::ng-deep .body {
+      height: 100%;
+    }
+  }
+  ::ng-deep .no-result-container {
+    height: calc(100vh - 285px);
+  }
+}
